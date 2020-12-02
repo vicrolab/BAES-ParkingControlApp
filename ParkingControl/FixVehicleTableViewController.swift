@@ -21,7 +21,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     fileprivate let pickerViewToolbar = ToolbarPickerView()
     fileprivate let vehiclePickerViewValues = ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
     fileprivate let modelPickerViewValues = ["Model 1", "Model 2", "Model 3", "Model 4", "Model 5"]
-    
+    var activePickerViewTag = 0
     
     @IBAction func fixVehicleAction(_ sender: Any) {
     }
@@ -77,7 +77,8 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         
         self.pickerViewToolbar.pickerFirst.reloadAllComponents()
         self.pickerViewToolbar.pickerTwo.reloadAllComponents()
-        
+        self.brandVehicleTF.delegate = self
+        self.modelVehicleTF.delegate = self
         
         
         
@@ -124,19 +125,22 @@ extension FixVehicleTableViewController: UIPickerViewDelegate, UIPickerViewDataS
         } else {
             self.modelVehicleTF.text = self.modelPickerViewValues[row]
         }
-        
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activePickerViewTag = textField.inputView!.tag
     }
 }
 
 extension FixVehicleTableViewController: ToolbarPickerViewDelegate {
 
     func didTapDone() {
-        if (pickerViewToolbar.pickerFirst.tag == 1) {
+        if activePickerViewTag == 1 {
             let row = self.pickerViewToolbar.pickerFirst.selectedRow(inComponent: 0)
             self.pickerViewToolbar.pickerFirst.selectRow(row, inComponent: 0, animated: false)
             self.brandVehicleTF.text = self.vehiclePickerViewValues[row]
             self.brandVehicleTF.resignFirstResponder()
-        } else if (pickerViewToolbar.pickerTwo.tag == 2) {
+        } else {
             let row = self.pickerViewToolbar.pickerTwo.selectedRow(inComponent: 0)
             self.pickerViewToolbar.pickerTwo.selectRow(row, inComponent: 0, animated: false)
             self.modelVehicleTF.text = self.modelPickerViewValues[row]
@@ -145,10 +149,10 @@ extension FixVehicleTableViewController: ToolbarPickerViewDelegate {
     }
     
     func didTapCancel() {
-        if (pickerViewToolbar.pickerFirst.tag == 1) {
+        if activePickerViewTag == 1 {
             self.brandVehicleTF.text = nil
             self.brandVehicleTF.resignFirstResponder()
-        } else if (pickerViewToolbar.pickerTwo.tag == 2) {
+        } else {
             self.modelVehicleTF.text = nil
             self.modelVehicleTF.resignFirstResponder()
         }
