@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B8B53F5825778879008FD4E3 /* CarsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5725778879008FD4E3 /* CarsModel.swift */; };
 		B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5DF257551590003B4D6 /* AppDelegate.swift */; };
 		B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */; };
-		B8DCD5E4257551590003B4D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5E3257551590003B4D6 /* ViewController.swift */; };
 		B8DCD5E7257551590003B4D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8DCD5E5257551590003B4D6 /* Main.storyboard */; };
 		B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5E8257551590003B4D6 /* ParkingControl.xcdatamodeld */; };
 		B8DCD5EC2575515B0003B4D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8DCD5EB2575515B0003B4D6 /* Assets.xcassets */; };
 		B8DCD5EF2575515B0003B4D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8DCD5ED2575515B0003B4D6 /* LaunchScreen.storyboard */; };
 		B8DCD5FA2575515C0003B4D6 /* ParkingControlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5F92575515C0003B4D6 /* ParkingControlTests.swift */; };
 		B8DCD6052575515C0003B4D6 /* ParkingControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD6042575515C0003B4D6 /* ParkingControlUITests.swift */; };
+		B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */; };
+		B8DCD626257582C80003B4D6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */; };
+		B8DCD62B257583C20003B4D6 /* ViewingRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,10 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B8B53F5725778879008FD4E3 /* CarsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarsModel.swift; sourceTree = "<group>"; };
 		B8DCD5DC257551590003B4D6 /* ParkingControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DCD5DF257551590003B4D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B8DCD5E3257551590003B4D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B8DCD5E6257551590003B4D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B8DCD5E9257551590003B4D6 /* ParkingControl.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ParkingControl.xcdatamodel; sourceTree = "<group>"; };
 		B8DCD5EB2575515B0003B4D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +54,9 @@
 		B8DCD6002575515C0003B4D6 /* ParkingControlUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkingControlUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DCD6042575515C0003B4D6 /* ParkingControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingControlUITests.swift; sourceTree = "<group>"; };
 		B8DCD6062575515C0003B4D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixVehicleTableViewController.swift; sourceTree = "<group>"; };
+		B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewingRequestsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +109,11 @@
 			children = (
 				B8DCD5DF257551590003B4D6 /* AppDelegate.swift */,
 				B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */,
-				B8DCD5E3257551590003B4D6 /* ViewController.swift */,
 				B8DCD5E5257551590003B4D6 /* Main.storyboard */,
+				B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */,
+				B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */,
+				B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */,
+				B8B53F5725778879008FD4E3 /* CarsModel.swift */,
 				B8DCD5EB2575515B0003B4D6 /* Assets.xcassets */,
 				B8DCD5ED2575515B0003B4D6 /* LaunchScreen.storyboard */,
 				B8DCD5F02575515B0003B4D6 /* Info.plist */,
@@ -261,8 +270,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8B53F5825778879008FD4E3 /* CarsModel.swift in Sources */,
+				B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */,
+				B8DCD626257582C80003B4D6 /* SettingsTableViewController.swift in Sources */,
+				B8DCD62B257583C20003B4D6 /* ViewingRequestsViewController.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
-				B8DCD5E4257551590003B4D6 /* ViewController.swift in Sources */,
 				B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */,
 				B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */,
 			);
