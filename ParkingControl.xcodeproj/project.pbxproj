@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B8B53F5825778879008FD4E3 /* CarsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5725778879008FD4E3 /* CarsModel.swift */; };
+		B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5C257795F9008FD4E3 /* PickerView.swift */; };
 		B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5DF257551590003B4D6 /* AppDelegate.swift */; };
 		B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */; };
 		B8DCD5E7257551590003B4D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8DCD5E5257551590003B4D6 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		B8B53F5725778879008FD4E3 /* CarsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarsModel.swift; sourceTree = "<group>"; };
+		B8B53F5C257795F9008FD4E3 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		B8DCD5DC257551590003B4D6 /* ParkingControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DCD5DF257551590003B4D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */,
 				B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */,
 				B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */,
+				B8B53F5C257795F9008FD4E3 /* PickerView.swift */,
 				B8B53F5725778879008FD4E3 /* CarsModel.swift */,
 				B8DCD5EB2575515B0003B4D6 /* Assets.xcassets */,
 				B8DCD5ED2575515B0003B4D6 /* LaunchScreen.storyboard */,
@@ -274,6 +277,7 @@
 				B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */,
 				B8DCD626257582C80003B4D6 /* SettingsTableViewController.swift in Sources */,
 				B8DCD62B257583C20003B4D6 /* ViewingRequestsViewController.swift in Sources */,
+				B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
 				B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */,
 				B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */,

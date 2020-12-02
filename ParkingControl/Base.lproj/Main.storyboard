@@ -39,7 +39,7 @@
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="190" id="crl-3u-5jz"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
+                                                    <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
