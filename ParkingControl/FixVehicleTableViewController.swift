@@ -19,6 +19,8 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate,
     @IBOutlet weak var placeOfInspection: MKMapView!
     var vehiclePickerView: UIPickerView!
     
+    // PPPPPPPP
+    
     @IBAction func fixVehicleAction(_ sender: Any) {
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
