@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var numberVehicleTF: UITextField!
@@ -17,9 +17,12 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate,
     @IBOutlet weak var brandVehicleTF: UITextField!
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var placeOfInspection: MKMapView!
+    
     var vehiclePickerView: UIPickerView!
     
-    // PPPPPPPP
+    fileprivate let pickerViewToolbar = ToolbarPickerView()
+    fileprivate let vehiclePickerViewValues = ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+    
     
     @IBAction func fixVehicleAction(_ sender: Any) {
     }
@@ -30,10 +33,6 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate,
     @IBAction func NVChangeState(_ sender: Any) {
         changeSwitchState(sender: numberVehicleSwitch)
     }
-    
-    
-    
-    
     
     private func changeSwitchState(sender: UISwitch) {
         if (sender.isOn) == false {
@@ -65,10 +64,17 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate,
         
         vehiclePickerView = UIPickerView()
         
-        vehiclePickerView.dataSource = self
-        vehiclePickerView.delegate = self
+        
         
         brandVehicleTF.inputView = vehiclePickerView
+        brandVehicleTF.inputAccessoryView = self.pickerViewToolbar.toolbar
+        
+        self.vehiclePickerView.dataSource = self
+        self.vehiclePickerView.delegate = self
+        self.pickerViewToolbar.toolbarDelegate = self
+        
+        self.pickerViewToolbar.reloadAllComponents()
+        
         brandVehicleTF.text = vehiclePickerViewValues [0]
     }
     
@@ -78,25 +84,42 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate,
         view.endEditing(true)
     }
     
-    // MARK: - pickerView
+   
     
-    let vehiclePickerViewValues = ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+    
+}
+
+extension FixVehicleTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return vehiclePickerViewValues.count
+        return self.vehiclePickerViewValues.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return vehiclePickerViewValues[row]
+        return self.vehiclePickerViewValues[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        brandVehicleTF.text = vehiclePickerViewValues[row]
-        self.view.endEditing(true)
+        brandVehicleTF.text = self.vehiclePickerViewValues[row]
+//        self.view.endEditing(true)
     }
 }
 
+extension FixVehicleTableViewController: ToolbarPickerViewDelegate {
+
+    func didTapDone() {
+        let row = self.pickerViewToolbar.selectedRow(inComponent: 0)
+        self.pickerViewToolbar.selectRow(row, inComponent: 0, animated: false)
+        self.brandVehicleTF.text = self.vehiclePickerViewValues[row]
+        self.brandVehicleTF.resignFirstResponder()
+    }
+    
+    func didTapCancel() {
+        self.brandVehicleTF.text = nil
+        self.brandVehicleTF.resignFirstResponder()
+    }
+}
