@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -171,13 +172,44 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Фотографии" id="Ph3-qi-K5T">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="170" id="41t-MQ-Zct">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="170" id="41t-MQ-Zct" customClass="TableViewCell" customModule="ParkingControl" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="540" width="414" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="41t-MQ-Zct" id="shn-q1-quu">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MBV-tE-X3S">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="170"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aDo-VC-Ti1">
+                                                        <size key="itemSize" width="128" height="128"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="fp1-du-OdW">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="NFh-BF-uOA">
+                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </collectionViewCellContentView>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                </collectionView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="MBV-tE-X3S" secondAttribute="trailing" id="8yS-3Q-5Vf"/>
+                                                <constraint firstItem="MBV-tE-X3S" firstAttribute="leading" secondItem="shn-q1-quu" secondAttribute="leading" id="Bg1-6M-9ed"/>
+                                                <constraint firstAttribute="bottom" secondItem="MBV-tE-X3S" secondAttribute="bottom" id="RTu-EI-J8g"/>
+                                                <constraint firstItem="MBV-tE-X3S" firstAttribute="top" secondItem="shn-q1-quu" secondAttribute="top" id="cPi-ZI-1MW"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="collectionView" destination="MBV-tE-X3S" id="qUd-UH-l9B"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -197,10 +229,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="brandVehicleTF" destination="u7F-bT-vrz" id="LWt-X3-U89"/>
+                        <outlet property="mapView" destination="zLU-Vc-opL" id="IUM-7O-oMg"/>
                         <outlet property="modelVehicleTF" destination="XgK-dI-QVf" id="3py-z9-Zsx"/>
                         <outlet property="numberVehicleSwitch" destination="Jgp-mC-QzO" id="Puz-Ez-V1C"/>
                         <outlet property="numberVehicleTF" destination="5eU-WZ-nxD" id="UQK-c1-Jmo"/>
-                        <outlet property="placeOfInspection" destination="zLU-Vc-opL" id="IUM-7O-oMg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wJO-Jo-Du0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -210,7 +242,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1931.8840579710147" y="114.50892857142857"/>
+            <point key="canvasLocation" x="1256.521739130435" y="878.57142857142856"/>
         </scene>
         <!--Просмотр запросов-->
         <scene sceneID="Mgf-UJ-bh1">
@@ -226,7 +258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j02-S9-fpD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2806" y="115"/>
+            <point key="canvasLocation" x="2077" y="879"/>
         </scene>
         <!--Настройки-->
         <scene sceneID="xiX-59-hYp">
@@ -255,7 +287,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yLW-Bs-WQE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3651" y="115"/>
+            <point key="canvasLocation" x="2919" y="879"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="tDZ-8E-dZT">
@@ -275,7 +307,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="etl-5y-Pas" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="114.50892857142857"/>
+            <point key="canvasLocation" x="412" y="160"/>
         </scene>
         <!--Фиксация-->
         <scene sceneID="58R-Gy-sIP">
@@ -294,7 +326,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cg9-TL-Icr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1021.7391304347827" y="114.50892857142857"/>
+            <point key="canvasLocation" x="413" y="879"/>
         </scene>
     </scenes>
     <resources>

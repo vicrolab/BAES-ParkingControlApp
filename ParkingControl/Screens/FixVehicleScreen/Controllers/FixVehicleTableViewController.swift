@@ -7,7 +7,8 @@
 
 import UIKit
 import MapKit
-import CoreData
+//import CoreData
+import CoreLocation
 
 class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate {
     
@@ -16,11 +17,25 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     @IBOutlet weak var numberVehicleSwitch: UISwitch!
     @IBOutlet weak var brandVehicleTF: UITextField!
     @IBOutlet weak var modelVehicleTF: UITextField!
-    @IBOutlet weak var placeOfInspection: MKMapView!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    let photoImages = [UIImage]()
+    
+    func addPhoto() {
+
+        var photos = photoImages
+        photos.append(UIImage(named: "image1")!)
+        photos.append(UIImage(named: "image2")!)
+        photos.append(UIImage(named: "image3")!)
+        print(photos.count)
+    }
+    
     
     fileprivate let pickerViewToolbar = ToolbarPickerView()
+    
     fileprivate let vehiclePickerViewValues = ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
     fileprivate let modelPickerViewValues = ["Model 1", "Model 2", "Model 3", "Model 4", "Model 5"]
+    
     var activePickerViewTag = 0
     
     @IBAction func fixVehicleAction(_ sender: Any) {
@@ -33,16 +48,25 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         changeSwitchState(sender: numberVehicleSwitch)
     }
     
-    private func changeSwitchState(sender: UISwitch) {
-        if (sender.isOn) == false {
-            numberVehicleTF.isEnabled = true
-        } else {
-            numberVehicleTF.isEnabled = false
-            numberVehicleTF.placeholder = "Номер отсутствует"
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNumberVehicleTextField()
+        pickerViews()
+
+        updateUserLocation()
+        
+        addPhoto()
+    
     }
     
-    private func setupTextFields() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // clear first responder after tap reognizer and dismiss keyboard
+        view.endEditing(true)
+    }
+    
+    // MARK: - number vehicle text field setup
+    private func setupNumberVehicleTextField() {
         let toolbar = UIToolbar()
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
@@ -57,10 +81,20 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         view.endEditing(true)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTextFields()
-        
+    private func changeSwitchState(sender: UISwitch) {
+        if (sender.isOn) == false {
+            numberVehicleTF.isEnabled = true
+            numberVehicleTF.placeholder = "1234 AA 7"
+        } else {
+            numberVehicleTF.isEnabled = false
+            numberVehicleTF.text = ""
+            numberVehicleTF.placeholder = "Номер отсутствует"
+        }
+    }
+    
+    
+    // MARK: - setup text fields  with model and brand vehicle, setup inputView (picker view)
+    private func pickerViews() {
         pickerViewToolbar.pickerFirst.tag = 1
         pickerViewToolbar.pickerTwo.tag = 2
         brandVehicleTF.inputView = self.pickerViewToolbar.pickerFirst
@@ -79,22 +113,42 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         self.pickerViewToolbar.pickerTwo.reloadAllComponents()
         self.brandVehicleTF.delegate = self
         self.modelVehicleTF.delegate = self
+    }
+ 
+    
+    // MARK: - setup mapview
+    
+    var locationManager = CLLocationManager()
+    
+    func updateUserLocation() {
+        self.locationManager.requestWhenInUseAuthorization()
         
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        } else {
+            print ("Enable location services for app")
+        }
         
+        mapView.delegate = self
+        mapView.mapType = .standard
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
         
-
+        if let coor = mapView.userLocation.location?.coordinate {
+            mapView.setCenter(coor, animated: true)
+        }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // clear first responder after tap reognizer and dismiss keyboard
-        view.endEditing(true)
-    }
+    // MARK: - collection view setup
     
-   
+    
+    
     
     
 }
+
 
 extension FixVehicleTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -158,3 +212,25 @@ extension FixVehicleTableViewController: ToolbarPickerViewDelegate {
         }
     }
 }
+
+extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue: CLLocationCoordinate2D = manager.location!.coordinate
+        mapView.mapType = MKMapType.standard
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion(center: locValue, span: span)
+        mapView.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = locValue
+        annotation.title = numberVehicleTF.text
+        annotation.subtitle = "current location"
+        mapView.addAnnotation(annotation)
+    }
+    
+}
+
+
+
+

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8432D9A25792FD8008E8518 /* TableViewCell.swift */; };
 		B8B53F5825778879008FD4E3 /* CarsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5725778879008FD4E3 /* CarsModel.swift */; };
 		B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5C257795F9008FD4E3 /* PickerView.swift */; };
 		B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5DF257551590003B4D6 /* AppDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B8432D9A25792FD8008E8518 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		B8B53F5725778879008FD4E3 /* CarsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarsModel.swift; sourceTree = "<group>"; };
 		B8B53F5C257795F9008FD4E3 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		B8DCD5DC257551590003B4D6 /* ParkingControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,18 +111,11 @@
 		B8DCD5DE257551590003B4D6 /* ParkingControl */ = {
 			isa = PBXGroup;
 			children = (
-				B8DCD5DF257551590003B4D6 /* AppDelegate.swift */,
-				B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */,
-				B8DCD5E5257551590003B4D6 /* Main.storyboard */,
-				B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */,
-				B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */,
-				B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */,
-				B8B53F5C257795F9008FD4E3 /* PickerView.swift */,
-				B8B53F5725778879008FD4E3 /* CarsModel.swift */,
-				B8DCD5EB2575515B0003B4D6 /* Assets.xcassets */,
-				B8DCD5ED2575515B0003B4D6 /* LaunchScreen.storyboard */,
-				B8DCD5F02575515B0003B4D6 /* Info.plist */,
-				B8DCD5E8257551590003B4D6 /* ParkingControl.xcdatamodeld */,
+				B8E0975A257A627500A380D9 /* Application */,
+				B8E09765257A63D000A380D9 /* Entities */,
+				B8E09764257A639100A380D9 /* Resources */,
+				B8E0975C257A632A00A380D9 /* Screens */,
+				B8E0975B257A628F00A380D9 /* Storyboards */,
 			);
 			path = ParkingControl;
 			sourceTree = "<group>";
@@ -141,6 +136,102 @@
 				B8DCD6062575515C0003B4D6 /* Info.plist */,
 			);
 			path = ParkingControlUITests;
+			sourceTree = "<group>";
+		};
+		B8E0975A257A627500A380D9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				B8DCD5DF257551590003B4D6 /* AppDelegate.swift */,
+				B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		B8E0975B257A628F00A380D9 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				B8DCD5ED2575515B0003B4D6 /* LaunchScreen.storyboard */,
+				B8DCD5E5257551590003B4D6 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		B8E0975C257A632A00A380D9 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */,
+				B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */,
+				B8E0975D257A633400A380D9 /* FixVehicleScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		B8E0975D257A633400A380D9 /* FixVehicleScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B8E09760257A637000A380D9 /* Cells */,
+				B8E0975E257A634700A380D9 /* Controllers */,
+				B8E0975F257A635300A380D9 /* Views */,
+			);
+			path = FixVehicleScreen;
+			sourceTree = "<group>";
+		};
+		B8E0975E257A634700A380D9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B8E0975F257A635300A380D9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B8B53F5C257795F9008FD4E3 /* PickerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B8E09760257A637000A380D9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B8432D9A25792FD8008E8518 /* TableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		B8E09764257A639100A380D9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B8DCD5EB2575515B0003B4D6 /* Assets.xcassets */,
+				B8DCD5F02575515B0003B4D6 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B8E09765257A63D000A380D9 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B8E09766257A63DB00A380D9 /* Models */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		B8E09766257A63DB00A380D9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B8E09767257A63E700A380D9 /* CoreData */,
+				B8B53F5725778879008FD4E3 /* CarsModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B8E09767257A63E700A380D9 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				B8DCD5E8257551590003B4D6 /* ParkingControl.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +369,7 @@
 				B8DCD626257582C80003B4D6 /* SettingsTableViewController.swift in Sources */,
 				B8DCD62B257583C20003B4D6 /* ViewingRequestsViewController.swift in Sources */,
 				B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */,
+				B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
 				B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */,
 				B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */,
@@ -458,7 +550,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5AD9J4WV4U;
-				INFOPLIST_FILE = ParkingControl/Info.plist;
+				INFOPLIST_FILE = ParkingControl/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -477,7 +569,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5AD9J4WV4U;
-				INFOPLIST_FILE = ParkingControl/Info.plist;
+				INFOPLIST_FILE = ParkingControl/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
