@@ -20,6 +20,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     @IBOutlet weak var mapView: MKMapView!
     
     let photoImages = [UIImage]()
+    let model: [[UIColor]] = generateRandomData()
     
     func addPhoto() {
 
@@ -63,6 +64,20 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         super.viewWillDisappear(animated)
         // clear first responder after tap reognizer and dismiss keyboard
         view.endEditing(true)
+    }
+    
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return model.count
+//    }
+//    
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+//        return cell
+//    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let tableViewCell = cell as? TableViewCell else { return }
+        tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
     }
     
     // MARK: - number vehicle text field setup
@@ -231,6 +246,18 @@ extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDel
     
 }
 
-
+extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return model[collectionView.tag].count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        cell.backgroundColor = model[collectionView.tag][indexPath.item]
+        return cell
+    }
+    
+    
+}
 
 
