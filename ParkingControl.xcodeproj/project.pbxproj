@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B82BF8BD2580E1D500E546E3 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82BF8BC2580E1D500E546E3 /* Helpers.swift */; };
+		B82BF8D22581189300E546E3 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82BF8D12581189300E546E3 /* PhotoCell.swift */; };
 		B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8432D9A25792FD8008E8518 /* TableViewCell.swift */; };
 		B8B53F5825778879008FD4E3 /* CarsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5725778879008FD4E3 /* CarsModel.swift */; };
 		B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5C257795F9008FD4E3 /* PickerView.swift */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		B82BF8BC2580E1D500E546E3 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B82BF8D12581189300E546E3 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		B8432D9A25792FD8008E8518 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		B8B53F5725778879008FD4E3 /* CarsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarsModel.swift; sourceTree = "<group>"; };
 		B8B53F5C257795F9008FD4E3 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				B8432D9A25792FD8008E8518 /* TableViewCell.swift */,
+				B82BF8D12581189300E546E3 /* PhotoCell.swift */,
 				B82BF8BC2580E1D500E546E3 /* Helpers.swift */,
 			);
 			path = Cells;
@@ -376,6 +379,7 @@
 				B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
 				B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */,
+				B82BF8D22581189300E546E3 /* PhotoCell.swift in Sources */,
 				B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

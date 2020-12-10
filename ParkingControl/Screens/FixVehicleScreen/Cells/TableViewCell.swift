@@ -9,7 +9,7 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
     
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -22,9 +22,13 @@ class TableViewCell: UITableViewCell {
     func setCollectionViewDataSourceDelegate(dataSourceDelegate: UICollectionViewDataSource & UICollectionViewDelegate, forRow row: Int) {
         collectionView.dataSource = dataSourceDelegate
         collectionView.delegate = dataSourceDelegate
-        collectionView.tag = row
         collectionView.reloadData()
     }
+    
+    func updateArray() {
+        collectionView.reloadData()
+    }
+
 }
 
 

@@ -19,18 +19,9 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
-    let photoImages = [UIImage]()
+//    var photoList = PhotoCell.photos
+    var photoList: [UIImage] = []
     let model: [[UIColor]] = generateRandomData()
-    
-    func addPhoto() {
-
-        var photos = photoImages
-        photos.append(UIImage(named: "image1")!)
-        photos.append(UIImage(named: "image2")!)
-        photos.append(UIImage(named: "image3")!)
-        print(photos.count)
-    }
-    
     
     fileprivate let pickerViewToolbar = ToolbarPickerView()
     
@@ -55,9 +46,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         pickerViews()
 
         updateUserLocation()
-        
-        addPhoto()
-    
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,15 +54,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         // clear first responder after tap reognizer and dismiss keyboard
         view.endEditing(true)
     }
-    
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return model.count
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//        return cell
-//    }
+
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let tableViewCell = cell as? TableViewCell else { return }
@@ -246,17 +227,51 @@ extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDel
     
 }
 
-extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model[collectionView.tag].count
+        return photoList.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = model[collectionView.tag][indexPath.item]
-        return cell
+        let identifier = "PhotoCell"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PhotoCell
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedCamera))
+        if indexPath.item == 0 {
+            cell.backgroundColor = UIColor.gray
+            cell.imageView.image = #imageLiteral(resourceName: "photo")
+            cell.addGestureRecognizer(tapGesture)
+            
+            return cell
+        }
+            let photo = photoList[indexPath.item - 1]
+            cell.imageView.image = photo
+            cell.layer.borderWidth = 0.5
+            cell.layer.borderColor = UIColor.lightGray.cgColor
+            
+            return cell
     }
     
+    
+    @objc func tappedCamera() {
+        let imagePicker = UIImagePickerController()
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+        } else {
+            imagePicker.sourceType = .photoLibrary
+        }
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        photoList.append(image)
+        picker.dismiss(animated: true, completion: nil)
+        print(photoList.count)
+        tableView.reloadData()
+    }
     
 }
 
