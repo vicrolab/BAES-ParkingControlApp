@@ -21,8 +21,11 @@
 		B8DCD5FA2575515C0003B4D6 /* ParkingControlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5F92575515C0003B4D6 /* ParkingControlTests.swift */; };
 		B8DCD6052575515C0003B4D6 /* ParkingControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD6042575515C0003B4D6 /* ParkingControlUITests.swift */; };
 		B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */; };
-		B8DCD626257582C80003B4D6 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */; };
 		B8DCD62B257583C20003B4D6 /* ViewingRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */; };
+		B8FAFCD52583A56D005480C8 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCD42583A56D005480C8 /* LoginVC.swift */; };
+		B8FAFCDA2583A62E005480C8 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCD92583A62E005480C8 /* Switcher.swift */; };
+		B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCEB2583ADC1005480C8 /* SettingsTableViewController.swift */; };
+		B8FAFCF12583B169005480C8 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCF02583B169005480C8 /* TabBarVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,8 +66,11 @@
 		B8DCD6042575515C0003B4D6 /* ParkingControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingControlUITests.swift; sourceTree = "<group>"; };
 		B8DCD6062575515C0003B4D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8DCD62025757FF50003B4D6 /* FixVehicleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixVehicleTableViewController.swift; sourceTree = "<group>"; };
-		B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewingRequestsViewController.swift; sourceTree = "<group>"; };
+		B8FAFCD42583A56D005480C8 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		B8FAFCD92583A62E005480C8 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
+		B8FAFCEB2583ADC1005480C8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		B8FAFCF02583B169005480C8 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,9 +169,11 @@
 		B8E0975C257A632A00A380D9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */,
-				B8DCD625257582C80003B4D6 /* SettingsTableViewController.swift */,
 				B8E0975D257A633400A380D9 /* FixVehicleScreen */,
+				B8FAFCD42583A56D005480C8 /* LoginVC.swift */,
+				B8FAFCE42583AC63005480C8 /* Settings */,
+				B8FAFCF02583B169005480C8 /* TabBarVC.swift */,
+				B8DCD62A257583C20003B4D6 /* ViewingRequestsViewController.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -218,6 +226,7 @@
 		B8E09765257A63D000A380D9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				B8FAFCD92583A62E005480C8 /* Switcher.swift */,
 				B8E09766257A63DB00A380D9 /* Models */,
 			);
 			path = Entities;
@@ -238,6 +247,14 @@
 				B8DCD5E8257551590003B4D6 /* ParkingControl.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		B8FAFCE42583AC63005480C8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B8FAFCEB2583ADC1005480C8 /* SettingsTableViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,14 +387,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8FAFCF12583B169005480C8 /* TabBarVC.swift in Sources */,
 				B8B53F5825778879008FD4E3 /* CarsModel.swift in Sources */,
+				B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */,
 				B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */,
-				B8DCD626257582C80003B4D6 /* SettingsTableViewController.swift in Sources */,
+				B8FAFCD52583A56D005480C8 /* LoginVC.swift in Sources */,
 				B82BF8BD2580E1D500E546E3 /* Helpers.swift in Sources */,
 				B8DCD62B257583C20003B4D6 /* ViewingRequestsViewController.swift in Sources */,
 				B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */,
 				B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
+				B8FAFCDA2583A62E005480C8 /* Switcher.swift in Sources */,
 				B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */,
 				B82BF8D22581189300E546E3 /* PhotoCell.swift in Sources */,
 				B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */,
