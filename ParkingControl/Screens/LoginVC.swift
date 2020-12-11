@@ -16,12 +16,16 @@ class LoginVC: UIViewController {
         
         if loginTF.text == "test" && passwordTF.text == "test" {
             UserDefaults.standard.setValue(true, forKey: "status")
+            Switcher.updateRootVC()
         } else {
             UserDefaults.standard.setValue(false, forKey: "status")
-            // alert controller
+            let alert = UIAlertController(title: "Ошибка авторизации", message: "Неверное имя или пароль", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "ОК", style: .default)
+            alert.addAction(OKAction)
+            self.present(alert, animated: true)
             print("Invalid credentials")
         }
-        Switcher.updateRootVC()
+        
     }
     
     override func viewDidLoad() {

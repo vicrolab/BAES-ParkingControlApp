@@ -48,7 +48,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         updateUserLocation()
 
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // clear first responder after tap reognizer and dismiss keyboard
@@ -87,6 +87,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
             numberVehicleTF.placeholder = "Номер отсутствует"
         }
     }
+    
     
     
     // MARK: - setup text fields  with model and brand vehicle, setup inputView (picker view)
@@ -138,8 +139,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     }
     
     // MARK: - collection view setup
-    
-    
+
     
     
     
@@ -238,7 +238,9 @@ extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectio
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedCamera))
         if indexPath.item == 0 {
             cell.backgroundColor = UIColor.gray
-            cell.imageView.image = #imageLiteral(resourceName: "photo")
+            cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
+            cell.imageView.tintColor = UIColor.white
+            cell.imageView.contentMode = .center
             cell.addGestureRecognizer(tapGesture)
             
             return cell
@@ -250,7 +252,6 @@ extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectio
             
             return cell
     }
-    
     
     @objc func tappedCamera() {
         let imagePicker = UIImagePickerController()
@@ -272,7 +273,7 @@ extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectio
         print(photoList.count)
         tableView.reloadData()
     }
-    
+
 }
 
 
