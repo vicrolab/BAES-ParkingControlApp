@@ -15,13 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let userLoggedIn = true // check from user defaults or web service
         
-        if (userLoggedIn) {
-            // show home page
-        } else {
-            // show login page
-        }
         return true
     }
 
