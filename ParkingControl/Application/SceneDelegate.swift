@@ -10,32 +10,16 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let carsStore = CarsStore()
-    let photoStore = PhotoStore()
-    
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
-        Switcher.updateRootVC()
-        
-        let status = UserDefaults.standard.bool(forKey: "status")
-        if status == true {
-            let tabBarController = window!.rootViewController as! UITabBarController
-            let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
-            
-            let navController2 = tabBarController.viewControllers?.first as! UINavigationController
-            let fixVehicleController = navController1.topViewController as! FixVehicleTableViewController
-            let viewingRequestsVC = navController2.topViewController as! ViewingRequestsTableViewController
-            
-            fixVehicleController.carsStore = carsStore
-            fixVehicleController.photoStore = photoStore
-            
-            viewingRequestsVC.carsStore = carsStore
-            viewingRequestsVC.photoStore = photoStore
+        guard let _ = (scene as? UIWindowScene) else {
+            return
         }
-            
+
+        Switcher.updateRootVC()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
