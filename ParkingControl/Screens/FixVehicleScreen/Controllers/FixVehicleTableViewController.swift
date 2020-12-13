@@ -11,8 +11,7 @@ import MapKit
 import CoreLocation
 
 class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate {
-    
-    
+
     @IBOutlet weak var numberVehicleTF: UITextField!
     @IBOutlet weak var numberVehicleSwitch: UISwitch!
     @IBOutlet weak var brandVehicleTF: UITextField!
@@ -21,7 +20,10 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     
 //    var photoList = PhotoCell.photos
     var photoList: [UIImage] = []
-    let model: [[UIColor]] = generateRandomData()
+    
+    var carsStore: CarsStore!
+    var photoStore: PhotoStore!
+    var vehicleCoordinates: CLLocationCoordinate2D?
     
     fileprivate let pickerViewToolbar = ToolbarPickerView()
     
@@ -30,7 +32,21 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     
     var activePickerViewTag = 0
     
-    @IBAction func fixVehicleAction(_ sender: Any) {
+    func addNewVehicleInArray() {
+        let numberVehicle = numberVehicleTF.text
+        let brandVehicle = brandVehicleTF.text
+        let modelVehicle = modelVehicleTF.text
+        let coordVehicle = vehicleCoordinates
+        let photoVehicle = photoList
+//        var fixingDate: Date
+//        var vehicleKey: String?
+        let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle)
+        carsStore.allCars.append(newCar)
+        print(carsStore.allCars.count)
+    }
+    
+    @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
+        addNewVehicleInArray()
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -136,6 +152,11 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         if let coor = mapView.userLocation.location?.coordinate {
             mapView.setCenter(coor, animated: true)
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        guard let locValue: CLLocationCoordinate2D = locationManager.location?.coordinate else { return }
+        vehicleCoordinates = locValue
     }
     
     // MARK: - collection view setup
