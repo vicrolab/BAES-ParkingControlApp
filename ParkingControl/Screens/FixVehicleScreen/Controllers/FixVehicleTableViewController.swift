@@ -38,9 +38,9 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         let modelVehicle = modelVehicleTF.text
         let coordVehicle = vehicleCoordinates
         let photoVehicle = photoList
-//        var fixingDate: Date
+        let fixingDate = Date()
 //        var vehicleKey: String?
-        let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle)
+        let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle, fixingDate: fixingDate)
         carsStore.allCars.append(newCar)
         print(carsStore.allCars.count)
     }

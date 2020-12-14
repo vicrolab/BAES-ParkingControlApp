@@ -15,23 +15,19 @@ class CarRequest: NSObject {
     var modelVehicle: String?
     var coordVehicle: CLLocationCoordinate2D?
     var photoVehicle: [UIImage]?
-//    var fixingDate: Date
+    var fixingDate: Date
 //    var vehicleKey: String?
 
-    init(numberVehicle: String?, brandVehicle: String?, modelVehicle: String?, coordVehicle: CLLocationCoordinate2D?, photoVehicle: [UIImage]?) {
+    init(numberVehicle: String?, brandVehicle: String?, modelVehicle: String?, coordVehicle: CLLocationCoordinate2D?, photoVehicle: [UIImage]?, fixingDate: Date) {
         self.numberVehicle = numberVehicle
         self.brandVehicle = brandVehicle
         self.modelVehicle = modelVehicle
         self.coordVehicle = coordVehicle
         self.photoVehicle = photoVehicle
-//        self.fixingDate = fixingDate
+        self.fixingDate = Date()
         
         super.init()
     }
-    
-    
-    
-    
 }
 
 

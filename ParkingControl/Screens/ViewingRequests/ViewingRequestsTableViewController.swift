@@ -34,8 +34,9 @@ class ViewingRequestsTableViewController: UITableViewController {
 //        let defaultBrand = "Марка не указана"
 //        let defaultModel = "Модель не указана"
 //        cell.vehicleInformation.text = "\(car.brandVehicle ?? defaultBrand)  \(car.modelVehicle ?? defaultModel)  \(car.numberVehicle ?? defaultNumber)"
-        cell.vehicleInformation.text = "\(car.brandVehicle!)  \(car.modelVehicle!)  \(car.numberVehicle!)"
+        cell.vehicleInformation.text = "\(car.brandVehicle)  \(car.modelVehicle)  \(car.numberVehicle)"
         cell.dateAndLocation.text = car.brandVehicle
+//        cell.selectionStyle = .none
         
 
         return cell
@@ -60,5 +61,7 @@ class ViewingRequestsTableViewController: UITableViewController {
             preconditionFailure("Fail")
         }
     }
+    
+    
     
 }

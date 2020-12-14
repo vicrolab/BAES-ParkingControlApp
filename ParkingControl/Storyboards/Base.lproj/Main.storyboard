@@ -291,34 +291,29 @@
                                             <color key="textColor" systemColor="systemGray2Color"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNP-nU-Zmg">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="aBB-yn-hji">
                                             <rect key="frame" x="374" y="21.5" width="20" height="22"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="20" id="ard-3o-LXq"/>
-                                                <constraint firstAttribute="height" constant="22" id="g45-tF-JZa"/>
-                                            </constraints>
                                             <color key="tintColor" systemColor="systemGray2Color"/>
-                                            <state key="normal" image="chevron.right.circle.fill" catalog="system"/>
-                                            <connections>
-                                                <action selector="viewDetail:" destination="PgX-g3-SDj" eventType="touchUpInside" id="N8F-Ic-Aac"/>
-                                                <segue destination="3X1-9a-kF3" kind="show" identifier="showDetail" id="eI6-cL-DEU"/>
-                                            </connections>
-                                        </button>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="23" id="HdC-gj-xO2"/>
+                                                <constraint firstAttribute="width" constant="20" id="bIY-Mf-baY"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="RYl-Fi-KLW" firstAttribute="bottom" secondItem="Eqw-Cf-npl" secondAttribute="bottomMargin" id="47E-cT-HkN"/>
-                                        <constraint firstItem="nNP-nU-Zmg" firstAttribute="centerY" secondItem="Eqw-Cf-npl" secondAttribute="centerY" id="Af2-h0-bVo"/>
+                                        <constraint firstItem="aBB-yn-hji" firstAttribute="centerY" secondItem="Eqw-Cf-npl" secondAttribute="centerY" id="78R-3w-eet"/>
+                                        <constraint firstItem="aBB-yn-hji" firstAttribute="trailing" secondItem="Eqw-Cf-npl" secondAttribute="trailingMargin" id="K74-ZU-w2D"/>
                                         <constraint firstItem="RYl-Fi-KLW" firstAttribute="trailing" secondItem="2R0-hp-bei" secondAttribute="trailing" id="MhY-d2-hzc"/>
                                         <constraint firstItem="2R0-hp-bei" firstAttribute="top" secondItem="Eqw-Cf-npl" secondAttribute="topMargin" id="aAf-Zb-Jq7"/>
-                                        <constraint firstItem="nNP-nU-Zmg" firstAttribute="trailing" secondItem="Eqw-Cf-npl" secondAttribute="trailingMargin" id="daF-an-Xdi"/>
                                         <constraint firstItem="RYl-Fi-KLW" firstAttribute="leading" secondItem="2R0-hp-bei" secondAttribute="leading" id="i9Z-fC-yIj"/>
                                         <constraint firstItem="2R0-hp-bei" firstAttribute="leading" secondItem="Eqw-Cf-npl" secondAttribute="leadingMargin" id="wzv-BL-JHA"/>
-                                        <constraint firstItem="nNP-nU-Zmg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2R0-hp-bei" secondAttribute="trailing" constant="8" symbolic="YES" id="znL-9k-Qqg"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dateAndLocation" destination="RYl-Fi-KLW" id="UF5-Tb-B4l"/>
                                     <outlet property="vehicleInformation" destination="2R0-hp-bei" id="uJw-c8-OZh"/>
+                                    <segue destination="3X1-9a-kF3" kind="show" identifier="showDetail" id="Dyg-mH-G0t"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -604,7 +599,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234AA7" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vP6-Af-DOA">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Гос номер не указан" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vP6-Af-DOA">
                                                     <rect key="frame" x="144" y="13" width="250" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="Cd5-1U-Pnt"/>
@@ -637,7 +632,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toyota" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rn6-AA-Tfg">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Марка не указана" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rn6-AA-Tfg">
                                                     <rect key="frame" x="144" y="13" width="250" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="Lb0-gT-b3H"/>
@@ -673,7 +668,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RAV4" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVD-Jj-zgP">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Модель не указана" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVD-Jj-zgP">
                                                     <rect key="frame" x="144" y="13" width="250" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="8jB-2f-zBw"/>
@@ -739,19 +734,6 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rle-mp-2f1" id="k6b-rj-7Zg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="2dp-44-jmn">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="200" id="CmP-Q9-Lgs"/>
-                                                        <constraint firstAttribute="width" constant="414" id="pmk-HL-NSq"/>
-                                                    </constraints>
-                                                </mapView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="2dp-44-jmn" firstAttribute="centerX" secondItem="k6b-rj-7Zg" secondAttribute="centerX" id="Bqh-Oo-gSf"/>
-                                                <constraint firstItem="2dp-44-jmn" firstAttribute="centerY" secondItem="k6b-rj-7Zg" secondAttribute="centerY" id="aun-Uw-AHF"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -821,15 +803,12 @@
                             <outletCollection property="gestureRecognizers" destination="7E5-fP-KwK" appends="YES" id="xx9-4O-aC9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="dql-rB-c3M">
-                        <barButtonItem key="rightBarButtonItem" image="plus.circle" catalog="system" id="ziJ-LO-0CC">
-                            <connections>
-                                <action selector="fixVehicleAction:" destination="3X1-9a-kF3" id="IFm-fP-oXl"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="dql-rB-c3M"/>
                     <connections>
-                        <outlet property="mapView" destination="2dp-44-jmn" id="Vyg-ef-l1F"/>
+                        <outlet property="fixingDate" destination="mlm-ac-qQW" id="k2S-iQ-ckz"/>
+                        <outlet property="vehicleBrand" destination="Rn6-AA-Tfg" id="15u-AD-FCp"/>
+                        <outlet property="vehicleModel" destination="pVD-Jj-zgP" id="UNi-H8-cMk"/>
+                        <outlet property="vehicleNumber" destination="vP6-Af-DOA" id="CHP-1x-KeK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hR-43-nu3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

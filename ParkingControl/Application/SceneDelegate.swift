@@ -20,19 +20,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         Switcher.updateRootVC()
         
-        let tabBarController = window!.rootViewController as! UITabBarController
-        let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
-
-        let navController2 = tabBarController.viewControllers?.first as! UINavigationController
-        let fixVehicleController = navController1.topViewController as! FixVehicleTableViewController
-        let viewingRequestsVC = navController2.topViewController as! ViewingRequestsTableViewController
-        
-        fixVehicleController.carsStore = carsStore
-        fixVehicleController.photoStore = photoStore
-        
-        viewingRequestsVC.carsStore = carsStore
-        viewingRequestsVC.photoStore = photoStore
-        
+        let status = UserDefaults.standard.bool(forKey: "status")
+        if status == true {
+            let tabBarController = window!.rootViewController as! UITabBarController
+            let navController1 = tabBarController.viewControllers?[1] as! UINavigationController
+            
+            let navController2 = tabBarController.viewControllers?.first as! UINavigationController
+            let fixVehicleController = navController1.topViewController as! FixVehicleTableViewController
+            let viewingRequestsVC = navController2.topViewController as! ViewingRequestsTableViewController
+            
+            fixVehicleController.carsStore = carsStore
+            fixVehicleController.photoStore = photoStore
+            
+            viewingRequestsVC.carsStore = carsStore
+            viewingRequestsVC.photoStore = photoStore
+        }
+            
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
