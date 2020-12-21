@@ -18,9 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else {
             return
         }
-
+        window?.overrideUserInterfaceStyle = .light
         Switcher.updateRootVC()
     }
+    
+    
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

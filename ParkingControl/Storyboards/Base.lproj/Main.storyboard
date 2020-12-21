@@ -475,7 +475,7 @@
                                                     <constraint firstAttribute="height" constant="34" id="gn5-Zg-tQh"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -575,7 +575,7 @@
         <scene sceneID="VLi-gD-3US">
             <objects>
                 <tableViewController id="3X1-9a-kF3" customClass="DetailRequestTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1Y5-JJ-ZsR">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1Y5-JJ-ZsR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -734,64 +734,76 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rle-mp-2f1" id="k6b-rj-7Zg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ncy-XH-Rjd">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                                                </mapView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="ncy-XH-Rjd" secondAttribute="bottom" id="9Ch-AY-MHc"/>
+                                                <constraint firstItem="ncy-XH-Rjd" firstAttribute="leading" secondItem="k6b-rj-7Zg" secondAttribute="leading" id="H4h-ml-OMj"/>
+                                                <constraint firstAttribute="trailing" secondItem="ncy-XH-Rjd" secondAttribute="trailing" id="f5i-Pa-0cS"/>
+                                                <constraint firstItem="ncy-XH-Rjd" firstAttribute="top" secondItem="k6b-rj-7Zg" secondAttribute="top" id="uim-kd-ki5"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Фотографии" id="Qbq-qM-qwG">
                                 <cells>
-                                    <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="170" id="OrX-iK-GXn" customClass="TableViewCell" customModule="ParkingControl" customModuleProvider="target">
+                                    <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="170" id="OrX-iK-GXn" customClass="DetailRequestTableViewCell" customModule="ParkingControl" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="540" width="414" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OrX-iK-GXn" id="g6f-PC-dND">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vyp-g8-xDZ">
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nYW-I6-f5q">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="170"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="faT-9U-zJi">
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Bl7-zT-OVP">
                                                         <size key="itemSize" width="128" height="128"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                        <inset key="sectionInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="sectionInset" minX="10" minY="10" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="wx1-ud-N6g" customClass="PhotoCell" customModule="ParkingControl" customModuleProvider="target">
-                                                            <rect key="frame" x="10" y="21" width="128" height="128"/>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="Ulo-le-ZgR" customClass="DetailRequestCollectionViewCell" customModule="ParkingControl" customModuleProvider="target">
+                                                            <rect key="frame" x="10" y="10" width="128" height="128"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="nch-ku-R4x">
+                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="abS-N5-gza">
                                                                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NZ7-15-xYp">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xZZ-co-sdH">
                                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="trailing" secondItem="NZ7-15-xYp" secondAttribute="trailing" id="9G4-mF-Uqr"/>
-                                                                    <constraint firstItem="NZ7-15-xYp" firstAttribute="leading" secondItem="nch-ku-R4x" secondAttribute="leading" id="GKn-95-RPK"/>
-                                                                    <constraint firstItem="NZ7-15-xYp" firstAttribute="top" secondItem="nch-ku-R4x" secondAttribute="top" id="Gg4-GH-lnE"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="NZ7-15-xYp" secondAttribute="bottom" id="g44-ff-6E8"/>
+                                                                    <constraint firstItem="xZZ-co-sdH" firstAttribute="top" secondItem="abS-N5-gza" secondAttribute="top" id="3kh-9E-UyV"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="xZZ-co-sdH" secondAttribute="bottom" id="6An-SZ-bPD"/>
+                                                                    <constraint firstItem="xZZ-co-sdH" firstAttribute="leading" secondItem="abS-N5-gza" secondAttribute="leading" id="NVe-mR-niQ"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="xZZ-co-sdH" secondAttribute="trailing" id="d79-Mn-zKf"/>
                                                                 </constraints>
                                                             </collectionViewCellContentView>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="backgroundColor" red="0.53241115809999995" green="0.80718940500000003" blue="0.65507251020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <size key="customSize" width="128" height="128"/>
                                                             <connections>
-                                                                <outlet property="imageView" destination="NZ7-15-xYp" id="9q9-hU-jPF"/>
+                                                                <outlet property="imageView" destination="xZZ-co-sdH" id="Zvx-V1-4kn"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
                                                 </collectionView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Vyp-g8-xDZ" firstAttribute="leading" secondItem="g6f-PC-dND" secondAttribute="leading" id="8Qz-qK-BQa"/>
-                                                <constraint firstAttribute="trailing" secondItem="Vyp-g8-xDZ" secondAttribute="trailing" id="KTI-0c-2ab"/>
-                                                <constraint firstAttribute="bottom" secondItem="Vyp-g8-xDZ" secondAttribute="bottom" id="NCO-UB-Ijn"/>
-                                                <constraint firstItem="Vyp-g8-xDZ" firstAttribute="top" secondItem="g6f-PC-dND" secondAttribute="top" id="ypD-xN-V4T"/>
-                                            </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="nYW-I6-f5q" secondAttribute="bottom" id="7Q0-tg-esm"/>
+                                            <constraint firstAttribute="trailing" secondItem="nYW-I6-f5q" secondAttribute="trailing" id="JzD-gt-Cd0"/>
+                                            <constraint firstItem="nYW-I6-f5q" firstAttribute="top" secondItem="OrX-iK-GXn" secondAttribute="top" id="LtI-Hq-Hiy"/>
+                                            <constraint firstItem="nYW-I6-f5q" firstAttribute="leading" secondItem="OrX-iK-GXn" secondAttribute="leading" id="qW0-vP-iu9"/>
+                                        </constraints>
                                         <connections>
-                                            <outlet property="collectionView" destination="Vyp-g8-xDZ" id="byy-X7-iaP"/>
+                                            <outlet property="collectionView" destination="nYW-I6-f5q" id="TTk-vA-EaN"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -800,23 +812,18 @@
                         <connections>
                             <outlet property="dataSource" destination="3X1-9a-kF3" id="ZPC-jV-cO0"/>
                             <outlet property="delegate" destination="3X1-9a-kF3" id="lLi-I9-YZw"/>
-                            <outletCollection property="gestureRecognizers" destination="7E5-fP-KwK" appends="YES" id="xx9-4O-aC9"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="dql-rB-c3M"/>
                     <connections>
                         <outlet property="fixingDate" destination="mlm-ac-qQW" id="k2S-iQ-ckz"/>
+                        <outlet property="mapView" destination="ncy-XH-Rjd" id="xkI-rx-Gsj"/>
                         <outlet property="vehicleBrand" destination="Rn6-AA-Tfg" id="15u-AD-FCp"/>
                         <outlet property="vehicleModel" destination="pVD-Jj-zgP" id="UNi-H8-cMk"/>
                         <outlet property="vehicleNumber" destination="vP6-Af-DOA" id="CHP-1x-KeK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hR-43-nu3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="7E5-fP-KwK">
-                    <connections>
-                        <action selector="backgroundTapped:" destination="3X1-9a-kF3" id="DBX-I6-5my"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3479.7101449275365" y="989.73214285714278"/>
         </scene>

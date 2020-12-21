@@ -10,14 +10,20 @@ import UIKit
 class ViewingRequestsTableViewController: UITableViewController {
     
     var carsStore = CarsStore()
-    var photoStore = PhotoStore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.rowHeight = 65
         
     }
+    
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter
+    }()
 
     // MARK: - Table view data source
 
@@ -30,12 +36,8 @@ class ViewingRequestsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ViewRequestCell
         let car = carsStore.allCars[indexPath.row]
-//        let defaultNumber = "Гос номер не указан"
-//        let defaultBrand = "Марка не указана"
-//        let defaultModel = "Модель не указана"
-//        cell.vehicleInformation.text = "\(car.brandVehicle ?? defaultBrand)  \(car.modelVehicle ?? defaultModel)  \(car.numberVehicle ?? defaultNumber)"
-        cell.vehicleInformation.text = "\(car.brandVehicle)  \(car.modelVehicle)  \(car.numberVehicle)"
-        cell.dateAndLocation.text = car.brandVehicle
+        cell.vehicleInformation.text = "\(car.numberVehicle!), \(car.brandVehicle!), \(car.modelVehicle!)"
+        cell.dateAndLocation.text = "\(dateFormatter.string(from: car.fixingDate))"
 //        cell.selectionStyle = .none
         
 
@@ -48,6 +50,7 @@ class ViewingRequestsTableViewController: UITableViewController {
     }
 
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "showDetail"?:
@@ -55,7 +58,6 @@ class ViewingRequestsTableViewController: UITableViewController {
                 let car = carsStore.allCars[row]
                 let detailVC = segue.destination as! DetailRequestTableViewController
                 detailVC.car = car
-                detailVC.photoStore = photoStore
             }
         default:
             preconditionFailure("Fail")

@@ -18,11 +18,10 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     
-//    var photoList = PhotoCell.photos
+
     var photoList: [UIImage] = []
     
-    var carsStore: CarsStore!
-    var photoStore: PhotoStore!
+    var carsStore: CarsStore?
     var vehicleCoordinates: CLLocationCoordinate2D?
     
     fileprivate let pickerViewToolbar = ToolbarPickerView()
@@ -32,17 +31,63 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     
     var activePickerViewTag = 0
     
+    func successAddAlert() {
+        let alert = UIAlertController(title: "Заявка зафиксировна", message: "", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "ОК", style: .default)
+        alert.addAction(OKAction)
+        self.present(alert, animated: true)
+    }
+    func clearFields() {
+        numberVehicleTF.text?.removeAll()
+        brandVehicleTF.text?.removeAll()
+        modelVehicleTF.text?.removeAll()
+        numberVehicleSwitch.isOn = false
+        changeSwitchState(sender: numberVehicleSwitch)
+        photoList.removeAll()
+        tableView.reloadData()
+        // remove photo from collection view
+    }
+    
     func addNewVehicleInArray() {
-        let numberVehicle = numberVehicleTF.text
-        let brandVehicle = brandVehicleTF.text
-        let modelVehicle = modelVehicleTF.text
-        let coordVehicle = vehicleCoordinates
-        let photoVehicle = photoList
-        let fixingDate = Date()
-//        var vehicleKey: String?
-        let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle, fixingDate: fixingDate)
-        carsStore.allCars.append(newCar)
-        print(carsStore.allCars.count)
+        if let carsStore = carsStore {
+            guard let numberVehicle = numberVehicleTF.text, !numberVehicle.isEmpty else {
+                let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "ОК", style: .default)
+                alert.addAction(OKAction)
+                self.present(alert, animated: true)
+                return
+            }
+            guard let brandVehicle = brandVehicleTF.text, !brandVehicle.isEmpty else {
+                let alert = UIAlertController(title: "Отсутствует марка ТС", message: "Выберите марку из списка", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "ОК", style: .default)
+                alert.addAction(OKAction)
+                self.present(alert, animated: true)
+                return
+            }
+            guard let modelVehicle = modelVehicleTF.text, !modelVehicle.isEmpty else {
+                let alert = UIAlertController(title: "Отсутствует модель ТС", message: "Выберите модель из списка", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "ОК", style: .default)
+                alert.addAction(OKAction)
+                self.present(alert, animated: true)
+                return
+            }
+            let coordVehicle = vehicleCoordinates
+            let photoVehicle = photoList
+            let fixingDate = Date()
+    //        var vehicleKey: String?
+            let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle, fixingDate: fixingDate)
+            carsStore.allCars.append(newCar)
+            
+            print(carsStore.allCars.count)
+            print("photos quantity in \(numberVehicle) is \(photoVehicle.count)")
+            
+            successAddAlert()
+            clearFields()
+            
+            
+            
+            
+        }
     }
     
     @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
@@ -99,7 +144,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
             numberVehicleTF.placeholder = "1234 AA 7"
         } else {
             numberVehicleTF.isEnabled = false
-            numberVehicleTF.text = ""
+            numberVehicleTF.text = "Номер не указан"
             numberVehicleTF.placeholder = "Номер отсутствует"
         }
     }
