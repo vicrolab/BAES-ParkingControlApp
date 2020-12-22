@@ -11,26 +11,18 @@ import MapKit
 import CoreLocation
 
 class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate {
-    
-    
+
     @IBOutlet weak var numberVehicleTF: UITextField!
     @IBOutlet weak var numberVehicleSwitch: UISwitch!
     @IBOutlet weak var brandVehicleTF: UITextField!
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
+  
     
-    let photoImages = [UIImage]()
-    let model: [[UIColor]] = generateRandomData()
+    var photoList: [UIImage] = []
     
-    func addPhoto() {
-
-        var photos = photoImages
-        photos.append(UIImage(named: "image1")!)
-        photos.append(UIImage(named: "image2")!)
-        photos.append(UIImage(named: "image3")!)
-        print(photos.count)
-    }
-    
+    var carsStore: CarsStore?
+    var vehicleCoordinates: CLLocationCoordinate2D?
     
     fileprivate let pickerViewToolbar = ToolbarPickerView()
     
@@ -39,7 +31,66 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     
     var activePickerViewTag = 0
     
-    @IBAction func fixVehicleAction(_ sender: Any) {
+    func successAddAlert() {
+        let alert = UIAlertController(title: "Заявка зафиксировна", message: "", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "ОК", style: .default)
+        alert.addAction(OKAction)
+        self.present(alert, animated: true)
+    }
+    
+    func clearFields() {
+        numberVehicleTF.text?.removeAll()
+        brandVehicleTF.text?.removeAll()
+        modelVehicleTF.text?.removeAll()
+        numberVehicleSwitch.isOn = false
+        changeSwitchState(sender: numberVehicleSwitch)
+        photoList.removeAll()
+        tableView.reloadData()
+        // remove photo from collection view
+    }
+    
+    func addNewVehicleInArray() {
+        updateUserLocation()
+        
+        if let carsStore = carsStore {
+            guard let numberVehicle = numberVehicleTF.text, !numberVehicle.isEmpty else {
+                let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "ОК", style: .default)
+                alert.addAction(OKAction)
+                self.present(alert, animated: true)
+                return
+            }
+            guard let brandVehicle = brandVehicleTF.text, !brandVehicle.isEmpty else {
+                let alert = UIAlertController(title: "Отсутствует марка ТС", message: "Выберите марку из списка", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "ОК", style: .default)
+                alert.addAction(OKAction)
+                self.present(alert, animated: true)
+                return
+            }
+            guard let modelVehicle = modelVehicleTF.text, !modelVehicle.isEmpty else {
+                let alert = UIAlertController(title: "Отсутствует модель ТС", message: "Выберите модель из списка", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "ОК", style: .default)
+                alert.addAction(OKAction)
+                self.present(alert, animated: true)
+                return
+            }
+            let coordVehicle = vehicleCoordinates
+            let photoVehicle = photoList
+            let fixingDate = Date()
+    //        var vehicleKey: String?
+            let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle, fixingDate: fixingDate)
+            carsStore.allCars.append(newCar)
+            
+            print(carsStore.allCars.count)
+            print("photos quantity in \(numberVehicle) is \(photoVehicle.count)")
+            
+            successAddAlert()
+            clearFields()
+        }
+    }
+    
+    @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
+        addNewVehicleInArray()
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -53,27 +104,17 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         super.viewDidLoad()
         setupNumberVehicleTextField()
         pickerViews()
-
         updateUserLocation()
         
-        addPhoto()
-    
     }
     
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // clear first responder after tap reognizer and dismiss keyboard
         view.endEditing(true)
     }
-    
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return model.count
-//    }
-//    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//        return cell
-//    }
+
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let tableViewCell = cell as? TableViewCell else { return }
@@ -100,12 +141,16 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         if (sender.isOn) == false {
             numberVehicleTF.isEnabled = true
             numberVehicleTF.placeholder = "1234 AA 7"
+            numberVehicleTF.text = .none
+            addAnnotation()
         } else {
             numberVehicleTF.isEnabled = false
-            numberVehicleTF.text = ""
+            numberVehicleTF.text = "Номер не указан"
             numberVehicleTF.placeholder = "Номер отсутствует"
+            addAnnotation()
         }
     }
+    
     
     
     // MARK: - setup text fields  with model and brand vehicle, setup inputView (picker view)
@@ -151,14 +196,10 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         
-        if let coor = mapView.userLocation.location?.coordinate {
-            mapView.setCenter(coor, animated: true)
-        }
     }
-    
+
     // MARK: - collection view setup
-    
-    
+
     
     
     
@@ -236,28 +277,70 @@ extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDel
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: locValue, span: span)
         mapView.setRegion(region, animated: true)
-        
+        addAnnotation()
+    }
+    
+    func addAnnotation() {
         let annotation = MKPointAnnotation()
+        let manager = CLLocationManager()
+        let locValue: CLLocationCoordinate2D = manager.location!.coordinate
         annotation.coordinate = locValue
-        annotation.title = numberVehicleTF.text
+//        annotation.title = numberVehicleTF.text
         annotation.subtitle = "current location"
         mapView.addAnnotation(annotation)
+        vehicleCoordinates = locValue
     }
     
 }
 
-extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model[collectionView.tag].count
+        return photoList.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = model[collectionView.tag][indexPath.item]
-        return cell
+        let identifier = "PhotoCell"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PhotoCell
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedCamera))
+        if indexPath.item == 0 {
+            cell.backgroundColor = UIColor.gray
+            cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
+            cell.imageView.tintColor = UIColor.white
+            cell.imageView.contentMode = .center
+            cell.addGestureRecognizer(tapGesture)
+            
+            return cell
+        }
+            let photo = photoList[indexPath.item - 1]
+            cell.imageView.image = photo
+        cell.imageView.contentMode = .scaleToFill
+            cell.layer.borderWidth = 0.5
+            cell.layer.borderColor = UIColor.lightGray.cgColor
+            
+            return cell
     }
     
+    @objc func tappedCamera() {
+        let imagePicker = UIImagePickerController()
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+        } else {
+            imagePicker.sourceType = .photoLibrary
+        }
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
+        
+    }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        photoList.append(image)
+        picker.dismiss(animated: true, completion: nil)
+        print(photoList.count)
+        tableView.reloadData()
+    }
+
 }
 
 

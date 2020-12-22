@@ -1,13 +1,13 @@
 //
-//  ViewingRequestsViewController.swift
+//  TabBarVC.swift
 //  ParkingControl
 //
-//  Created by Mikalaj Shuhno on 30.11.20.
+//  Created by Mikalaj Shuhno on 11.12.20.
 //
 
 import UIKit
 
-class ViewingRequestsViewController: UIViewController {
+class TabBarVC: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
