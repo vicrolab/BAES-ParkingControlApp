@@ -25,5 +25,6 @@ class PhotoCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.backgroundColor = .clear
+        self.imageView.image = .remove
     }
 }

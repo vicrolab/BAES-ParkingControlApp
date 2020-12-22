@@ -17,8 +17,8 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     @IBOutlet weak var brandVehicleTF: UITextField!
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
+  
     
-
     var photoList: [UIImage] = []
     
     var carsStore: CarsStore?
@@ -37,6 +37,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         alert.addAction(OKAction)
         self.present(alert, animated: true)
     }
+    
     func clearFields() {
         numberVehicleTF.text?.removeAll()
         brandVehicleTF.text?.removeAll()
@@ -49,6 +50,8 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     }
     
     func addNewVehicleInArray() {
+        updateUserLocation()
+        
         if let carsStore = carsStore {
             guard let numberVehicle = numberVehicleTF.text, !numberVehicle.isEmpty else {
                 let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
@@ -83,10 +86,6 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
             
             successAddAlert()
             clearFields()
-            
-            
-            
-            
         }
     }
     
@@ -105,10 +104,10 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         super.viewDidLoad()
         setupNumberVehicleTextField()
         pickerViews()
-
         updateUserLocation()
-
+        
     }
+    
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -142,10 +141,13 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         if (sender.isOn) == false {
             numberVehicleTF.isEnabled = true
             numberVehicleTF.placeholder = "1234 AA 7"
+            numberVehicleTF.text = .none
+            addAnnotation()
         } else {
             numberVehicleTF.isEnabled = false
             numberVehicleTF.text = "Номер не указан"
             numberVehicleTF.placeholder = "Номер отсутствует"
+            addAnnotation()
         }
     }
     
@@ -194,16 +196,8 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         
-        if let coor = mapView.userLocation.location?.coordinate {
-            mapView.setCenter(coor, animated: true)
-        }
     }
-    
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        guard let locValue: CLLocationCoordinate2D = locationManager.location?.coordinate else { return }
-        vehicleCoordinates = locValue
-    }
-    
+
     // MARK: - collection view setup
 
     
@@ -283,12 +277,18 @@ extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDel
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let region = MKCoordinateRegion(center: locValue, span: span)
         mapView.setRegion(region, animated: true)
-        
+        addAnnotation()
+    }
+    
+    func addAnnotation() {
         let annotation = MKPointAnnotation()
+        let manager = CLLocationManager()
+        let locValue: CLLocationCoordinate2D = manager.location!.coordinate
         annotation.coordinate = locValue
-        annotation.title = numberVehicleTF.text
+//        annotation.title = numberVehicleTF.text
         annotation.subtitle = "current location"
         mapView.addAnnotation(annotation)
+        vehicleCoordinates = locValue
     }
     
 }
@@ -313,6 +313,7 @@ extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectio
         }
             let photo = photoList[indexPath.item - 1]
             cell.imageView.image = photo
+        cell.imageView.contentMode = .scaleToFill
             cell.layer.borderWidth = 0.5
             cell.layer.borderColor = UIColor.lightGray.cgColor
             

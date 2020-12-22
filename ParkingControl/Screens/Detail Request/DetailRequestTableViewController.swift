@@ -24,7 +24,9 @@ class DetailRequestTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        tableView.allowsSelection = false
+        mapView.delegate = self
+        showFixVehicleLocation()
+        changePosition()
         
     }
     
@@ -53,30 +55,62 @@ class DetailRequestTableViewController: UITableViewController {
     
 // MARK: - setup mapview
     
-    var locationManager = CLLocationManager()
-
+    func showFixVehicleLocation() {
+//        let locationManager = CLLocationManager()
+        let fixVehicleAnnotation = MKPointAnnotation()
+        fixVehicleAnnotation.title = vehicleNumber.text
+        if let coordVehicle = car.coordVehicle {
+            fixVehicleAnnotation.coordinate = coordVehicle
+            mapView.addAnnotation(fixVehicleAnnotation)
+        }
+    }
+    func changePosition() {
+        if let coordVehicle = car.coordVehicle {
+            let center: CLLocationCoordinate2D = coordVehicle
+            mapView.setCenter(center, animated: true)
+            let radius = 1000.00
+            let region = MKCoordinateRegion(center: coordVehicle, latitudinalMeters: radius, longitudinalMeters: radius)
+            mapView.setRegion(region, animated: true)
+        }
+        
+    }
+    
 }
 
 extension DetailRequestTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let photos = car.photoVehicle else { return 0 }
-//        return photos.count
-        return 5
+        guard let photos = car.photoVehicle else { return 0 }
+        return photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = "PhotoCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! DetailRequestCollectionViewCell
-//        guard let photos = car.photoVehicle else {
-//            return cell
-//        }
-//        cell.imageView.image = photos[indexPath.item]
-//        cell.layer.borderWidth = 0.5
-//        cell.layer.borderColor = UIColor.lightGray.cgColor
-        cell.backgroundColor = .black
-        cell.imageView.backgroundColor = .black
+        guard let photos = car.photoVehicle else {
+            return cell
+        }
+        cell.imageView.image = photos[indexPath.item]
+        cell.layer.borderWidth = 0.5
+        cell.layer.borderColor = UIColor.lightGray.cgColor
         return cell
+    }
+}
+
+extension DetailRequestTableViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+        return annotationView
     }
     
     
