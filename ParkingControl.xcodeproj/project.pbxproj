@@ -16,9 +16,11 @@
 		B84C8027258CF7DC009AA1E8 /* DetailRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84C8026258CF7DC009AA1E8 /* DetailRequestTableViewCell.swift */; };
 		B84C803A258CF8B5009AA1E8 /* DetailRequestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84C8039258CF8B5009AA1E8 /* DetailRequestCollectionViewCell.swift */; };
 		B84C8045258D03BC009AA1E8 /* DetailRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84C8044258D03BC009AA1E8 /* DetailRequestTableViewController.swift */; };
-		B851112125923B47006C4506 /* DataBaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851112025923B47006C4506 /* DataBaseHelper.swift */; };
+		B851112125923B47006C4506 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851112025923B47006C4506 /* CoreDataManager.swift */; };
 		B8B53F5825778879008FD4E3 /* CarRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5725778879008FD4E3 /* CarRequest.swift */; };
 		B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5C257795F9008FD4E3 /* PickerView.swift */; };
+		B8C076702593680F00C8E9EF /* Cars+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0766E2593680F00C8E9EF /* Cars+CoreDataClass.swift */; };
+		B8C076712593680F00C8E9EF /* Cars+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0766F2593680F00C8E9EF /* Cars+CoreDataProperties.swift */; };
 		B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5DF257551590003B4D6 /* AppDelegate.swift */; };
 		B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */; };
 		B8DCD5E7257551590003B4D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8DCD5E5257551590003B4D6 /* Main.storyboard */; };
@@ -62,9 +64,11 @@
 		B84C8026258CF7DC009AA1E8 /* DetailRequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRequestTableViewCell.swift; sourceTree = "<group>"; };
 		B84C8039258CF8B5009AA1E8 /* DetailRequestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRequestCollectionViewCell.swift; sourceTree = "<group>"; };
 		B84C8044258D03BC009AA1E8 /* DetailRequestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailRequestTableViewController.swift; sourceTree = "<group>"; };
-		B851112025923B47006C4506 /* DataBaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseHelper.swift; sourceTree = "<group>"; };
+		B851112025923B47006C4506 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B8B53F5725778879008FD4E3 /* CarRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRequest.swift; sourceTree = "<group>"; };
 		B8B53F5C257795F9008FD4E3 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		B8C0766E2593680F00C8E9EF /* Cars+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cars+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B8C0766F2593680F00C8E9EF /* Cars+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cars+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B8DCD5DC257551590003B4D6 /* ParkingControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DCD5DF257551590003B4D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +138,8 @@
 		B8DCD5D3257551590003B4D6 = {
 			isa = PBXGroup;
 			children = (
+				B8C0766E2593680F00C8E9EF /* Cars+CoreDataClass.swift */,
+				B8C0766F2593680F00C8E9EF /* Cars+CoreDataProperties.swift */,
 				B8DCD5DE257551590003B4D6 /* ParkingControl */,
 				B8DCD5F82575515C0003B4D6 /* ParkingControlTests */,
 				B8DCD6032575515C0003B4D6 /* ParkingControlUITests */,
@@ -281,7 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				B8DCD5E8257551590003B4D6 /* ParkingControl.xcdatamodeld */,
-				B851112025923B47006C4506 /* DataBaseHelper.swift */,
+				B851112025923B47006C4506 /* CoreDataManager.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -428,16 +434,18 @@
 				B8B53F5825778879008FD4E3 /* CarRequest.swift in Sources */,
 				B80A27ED25862A0400F11206 /* PhotoStore.swift in Sources */,
 				B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */,
+				B8C076702593680F00C8E9EF /* Cars+CoreDataClass.swift in Sources */,
 				B84C8045258D03BC009AA1E8 /* DetailRequestTableViewController.swift in Sources */,
 				B84C8027258CF7DC009AA1E8 /* DetailRequestTableViewCell.swift in Sources */,
 				B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */,
-				B851112125923B47006C4506 /* DataBaseHelper.swift in Sources */,
+				B851112125923B47006C4506 /* CoreDataManager.swift in Sources */,
 				B8FAFCD52583A56D005480C8 /* LoginVC.swift in Sources */,
 				B82BF8BD2580E1D500E546E3 /* Helpers.swift in Sources */,
 				B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */,
 				B8FAFD1125853309005480C8 /* CarsStore.swift in Sources */,
 				B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */,
 				B84C803A258CF8B5009AA1E8 /* DetailRequestCollectionViewCell.swift in Sources */,
+				B8C076712593680F00C8E9EF /* Cars+CoreDataProperties.swift in Sources */,
 				B80A27FB2586344600F11206 /* ViewRequestCell.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
 				B8FAFCDA2583A62E005480C8 /* Switcher.swift in Sources */,

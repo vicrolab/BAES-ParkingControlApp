@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-//import CoreData
+import CoreData
 import CoreLocation
 
 class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate {
@@ -20,6 +20,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
   
     
     var photoList: [UIImage] = []
+    var cars: [NSManagedObject] = []
     
     var carsStore: CarsStore?
     var vehicleCoordinates: CLLocationCoordinate2D?
@@ -74,24 +75,72 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
                 self.present(alert, animated: true)
                 return
             }
+            
             let coordVehicle = vehicleCoordinates
             let photoVehicle = photoList
             let fixingDate = Date()
-    //        var vehicleKey: String?
             let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle, fixingDate: fixingDate)
             carsStore.allCars.append(newCar)
             
-            print(carsStore.allCars.count)
-            print("photos quantity in \(numberVehicle) is \(photoVehicle.count)")
             
             successAddAlert()
             clearFields()
         }
     }
     
-    @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
-        addNewVehicleInArray()
+    
+    
+    func addNewVehicleInCoreData(brandVehicle: String, dateTaken: Date, modelVehicle: String, numberVehicle: String) {
+        
+        updateUserLocation()
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let entityName = "Cars"
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: entityName, in: managedContext)!
+        let cars = NSManagedObject(entity: entity, insertInto: managedContext)
+        cars.setValue(brandVehicle, forKey: "brandVehicle")
+        cars.setValue(dateTaken, forKey: "dateTaken")
+        cars.setValue(modelVehicle, forKey: "modelVehicle")
+        cars.setValue(numberVehicle, forKey: "numberVehicle")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
+    
+    @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
+//        addNewVehicleInArray()
+        guard let numberVehicle = numberVehicleTF.text, !numberVehicle.isEmpty else {
+            let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "ОК", style: .default)
+            alert.addAction(OKAction)
+            self.present(alert, animated: true)
+            return
+        }
+        guard let brandVehicle = brandVehicleTF.text, !brandVehicle.isEmpty else {
+            let alert = UIAlertController(title: "Отсутствует марка ТС", message: "Выберите марку из списка", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "ОК", style: .default)
+            alert.addAction(OKAction)
+            self.present(alert, animated: true)
+            return
+        }
+        guard let modelVehicle = modelVehicleTF.text, !modelVehicle.isEmpty else {
+            let alert = UIAlertController(title: "Отсутствует модель ТС", message: "Выберите модель из списка", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "ОК", style: .default)
+            alert.addAction(OKAction)
+            self.present(alert, animated: true)
+            return
+        }
+        let dateTaken = Date()
+        addNewVehicleInCoreData(brandVehicle: brandVehicle, dateTaken: dateTaken, modelVehicle: modelVehicle, numberVehicle: numberVehicle)
+        successAddAlert()
+        clearFields()
+    }
+    
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -105,7 +154,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         setupNumberVehicleTextField()
         pickerViews()
         updateUserLocation()
-        
+    
     }
     
 
@@ -197,11 +246,6 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         mapView.isScrollEnabled = true
         
     }
-
-    // MARK: - collection view setup
-
-    
-    
     
 }
 

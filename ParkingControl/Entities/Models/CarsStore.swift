@@ -10,13 +10,4 @@ import MapKit
 
 class CarsStore {
     var allCars = [CarRequest]()
-    
-//    let carsArchiveURL: URL = {
-//        let documentsDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        var documentDirectory = documentsDirectories.first!
-//        return documentDirectory.appendingPathComponent("cars.archive")
-//    }()
-    
-    
-    
 }
