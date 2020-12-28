@@ -156,11 +156,16 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: entityName, in: managedContext)!
         
-        let cars = NSManagedObject(entity: entity, insertInto: managedContext)
-        cars.setValue(brandVehicle, forKey: "brandVehicle")
-        cars.setValue(dateTaken, forKey: "dateTaken")
-        cars.setValue(modelVehicle, forKey: "modelVehicle")
-        cars.setValue(numberVehicle, forKey: "numberVehicle")
+        let car = NSManagedObject(entity: entity, insertInto: managedContext) as! Cars
+        car.brandVehicle = brandVehicle
+        car.dateTaken = dateTaken
+        car.modelVehicle = modelVehicle
+        car.numberVehicle = numberVehicle
+        
+        car.setValue(brandVehicle, forKey: "brandVehicle")
+        car.setValue(dateTaken, forKey: "dateTaken")
+        car.setValue(modelVehicle, forKey: "modelVehicle")
+        car.setValue(numberVehicle, forKey: "numberVehicle")
 
         do {
             try managedContext.save()
