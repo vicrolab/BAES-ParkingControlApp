@@ -12,7 +12,7 @@
         <!--Фиксация ТС-->
         <scene sceneID="VKr-B1-nly">
             <objects>
-                <tableViewController storyboardIdentifier="mainvc" id="LiF-sa-f3O" customClass="FixVehicleTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FixVehicleTableViewController" id="LiF-sa-f3O" customClass="FixVehicleTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="HAM-aD-Ump">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -313,7 +313,6 @@
                                 <connections>
                                     <outlet property="dateAndLocation" destination="RYl-Fi-KLW" id="UF5-Tb-B4l"/>
                                     <outlet property="vehicleInformation" destination="2R0-hp-bei" id="uJw-c8-OZh"/>
-                                    <segue destination="3X1-9a-kF3" kind="show" identifier="showDetail" id="Dyg-mH-G0t"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -326,7 +325,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcg-gL-KBL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2794.202898550725" y="989.73214285714278"/>
+            <point key="canvasLocation" x="2871" y="990"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="xiX-59-hYp">
@@ -574,7 +573,7 @@
         <!--Detail Request Table View Controller-->
         <scene sceneID="VLi-gD-3US">
             <objects>
-                <tableViewController id="3X1-9a-kF3" customClass="DetailRequestTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DetailRequestTableViewController" id="3X1-9a-kF3" customClass="DetailRequestTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1Y5-JJ-ZsR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -825,7 +824,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4hR-43-nu3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3479.7101449275365" y="989.73214285714278"/>
+            <point key="canvasLocation" x="3606" y="990"/>
         </scene>
     </scenes>
     <resources>

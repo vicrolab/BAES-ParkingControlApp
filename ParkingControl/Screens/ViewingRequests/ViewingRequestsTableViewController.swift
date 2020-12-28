@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 
+// TODO: RequestsListViewController
 class ViewingRequestsTableViewController: UITableViewController {
     
     var carsStore = CarsStore()
@@ -66,27 +67,21 @@ class ViewingRequestsTableViewController: UITableViewController {
         return cell
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "showDetail"?:
-            if let row = tableView.indexPathForSelectedRow?.row {
-                let selectedCar = cars[row]
-                let detailVC = segue.destination as! DetailRequestTableViewController
-                detailVC.selectedCar = selectedCar
-            }
-        default:
-            preconditionFailure("Fail")
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCar = cars[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let controller = storyboard.instantiateViewController(withIdentifier: "DetailRequestTableViewController") as! DetailRequestTableViewController
+        controller.selectedCar = selectedCar
+//        controller.screenMode = .view
+        
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+     
         loadFromCoreData()
         tableView.reloadData()
     }
-
-    
-    
-   
-    
 }
