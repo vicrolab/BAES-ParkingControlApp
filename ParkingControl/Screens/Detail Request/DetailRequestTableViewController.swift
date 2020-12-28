@@ -23,6 +23,8 @@ class DetailRequestTableViewController: UITableViewController {
         }
     }
     
+    var photoList: [UIImage]?
+    
 //    var car: [CarRequest!] {
 //        didSet {
 //            navigationItem.title = car.numberVehicle
@@ -34,8 +36,6 @@ class DetailRequestTableViewController: UITableViewController {
 //        mapView.delegate = self
         showFixVehicleLocation()
         changePosition()
-        
-        
     }
     
     let dateFormatter: DateFormatter = {
@@ -46,6 +46,22 @@ class DetailRequestTableViewController: UITableViewController {
         return formatter
     }()
     
+    func imagesFromCoreData(object: Data?) -> [UIImage]? {
+        var photoList = [UIImage]()
+        guard let object = object else { return nil }
+        if let dataArray = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: object) {
+            for data in dataArray {
+                if let data = data as? Data, let image = UIImage(data: data) {
+                    photoList.append(image)
+                }
+            }
+        }
+        print(photoList.count)
+        print(photoList.count)
+        return photoList
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         guard let selectedCar = selectedCar else {
             return
@@ -54,6 +70,9 @@ class DetailRequestTableViewController: UITableViewController {
         vehicleBrand.text = selectedCar.value(forKey: "brandVehicle") as? String
         vehicleModel.text = selectedCar.value(forKey: "modelVehicle") as? String
         fixingDate.text = dateFormatter.string(from: selectedCar.value(forKey: "dateTaken") as! Date)
+        let imageArray = selectedCar.value(forKey: "photoVehicle") as? Data
+        imagesFromCoreData(object: imageArray)
+        print(photoList?.count as Any)
     }
     
 //    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

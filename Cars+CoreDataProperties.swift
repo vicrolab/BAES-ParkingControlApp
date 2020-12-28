@@ -2,7 +2,7 @@
 //  Cars+CoreDataProperties.swift
 //  ParkingControl
 //
-//  Created by Mikalaj Shuhno on 23.12.20.
+//  Created by Mikalaj Shuhno on 27.12.20.
 //
 //
 
@@ -22,6 +22,7 @@ extension Cars {
     @NSManaged public var numberVehicle: String?
     @NSManaged public var photoVehicle: Data?
     @NSManaged public var placeOfInspection: NSObject?
+    @NSManaged public var relationship: Images?
 
 }
 

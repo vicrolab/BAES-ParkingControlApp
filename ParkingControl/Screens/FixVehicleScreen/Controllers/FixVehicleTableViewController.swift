@@ -20,6 +20,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
   
     
     var photoList: [UIImage] = []
+    var coreDataPhotos = Data()
     var cars: [NSManagedObject] = []
     
     var carsStore: CarsStore?
@@ -50,49 +51,20 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         // remove photo from collection view
     }
     
-    func addNewVehicleInArray() {
-        updateUserLocation()
-        
-        if let carsStore = carsStore {
-            guard let numberVehicle = numberVehicleTF.text, !numberVehicle.isEmpty else {
-                let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
-                let OKAction = UIAlertAction(title: "ОК", style: .default)
-                alert.addAction(OKAction)
-                self.present(alert, animated: true)
-                return
-            }
-            guard let brandVehicle = brandVehicleTF.text, !brandVehicle.isEmpty else {
-                let alert = UIAlertController(title: "Отсутствует марка ТС", message: "Выберите марку из списка", preferredStyle: .alert)
-                let OKAction = UIAlertAction(title: "ОК", style: .default)
-                alert.addAction(OKAction)
-                self.present(alert, animated: true)
-                return
-            }
-            guard let modelVehicle = modelVehicleTF.text, !modelVehicle.isEmpty else {
-                let alert = UIAlertController(title: "Отсутствует модель ТС", message: "Выберите модель из списка", preferredStyle: .alert)
-                let OKAction = UIAlertAction(title: "ОК", style: .default)
-                alert.addAction(OKAction)
-                self.present(alert, animated: true)
-                return
-            }
-            
-            let coordVehicle = vehicleCoordinates
-            let photoVehicle = photoList
-            let fixingDate = Date()
-            let newCar = CarRequest.init(numberVehicle: numberVehicle, brandVehicle: brandVehicle, modelVehicle: modelVehicle, coordVehicle: coordVehicle, photoVehicle: photoVehicle, fixingDate: fixingDate)
-            carsStore.allCars.append(newCar)
-            
-            
-            successAddAlert()
-            clearFields()
-        }
-    }
+//    func coreDataObjectFromImage(images: [UIImage]) -> Data? {
+//        for image in images {
+//            if let data = image.pngData() {
+//                coreDataPhotos.append(data)
+//            }
+//        }
+//        return try? NSKeyedArchiver.archivedData(withRootObject: coreDataPhotos, requiringSecureCoding: true)
+//    }
     
     
-    
-    func addNewVehicleInCoreData(brandVehicle: String, dateTaken: Date, modelVehicle: String, numberVehicle: String) {
+    func addNewVehicleInCoreData(brandVehicle: String, dateTaken: Date, modelVehicle: String, numberVehicle: String, photoVehicle: Data) {
         
         updateUserLocation()
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -105,15 +77,19 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         cars.setValue(modelVehicle, forKey: "modelVehicle")
         cars.setValue(numberVehicle, forKey: "numberVehicle")
         
+        
+        
         do {
             try managedContext.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+        
+        print(coreDataPhotos.count)
     }
     
     @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
-//        addNewVehicleInArray()
+
         guard let numberVehicle = numberVehicleTF.text, !numberVehicle.isEmpty else {
             let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
             let OKAction = UIAlertAction(title: "ОК", style: .default)
@@ -135,8 +111,9 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
             self.present(alert, animated: true)
             return
         }
+        
         let dateTaken = Date()
-        addNewVehicleInCoreData(brandVehicle: brandVehicle, dateTaken: dateTaken, modelVehicle: modelVehicle, numberVehicle: numberVehicle)
+        addNewVehicleInCoreData(brandVehicle: brandVehicle, dateTaken: dateTaken, modelVehicle: modelVehicle, numberVehicle: numberVehicle, photoVehicle: coreDataPhotos)
         successAddAlert()
         clearFields()
     }

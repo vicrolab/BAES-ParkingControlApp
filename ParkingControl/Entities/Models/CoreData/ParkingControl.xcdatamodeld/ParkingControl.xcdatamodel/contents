@@ -7,8 +7,14 @@
         <attribute name="numberVehicle" optional="YES" attributeType="String"/>
         <attribute name="photoVehicle" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="placeOfInspection" optional="YES" attributeType="Transformable"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Images" inverseName="relationship" inverseEntity="Images"/>
+    </entity>
+    <entity name="Images" representedClassName="Images" syncable="YES">
+        <attribute name="imageView" optional="YES" attributeType="Binary"/>
+        <relationship name="relationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cars" inverseName="relationship" inverseEntity="Cars"/>
     </entity>
     <elements>
-        <element name="Cars" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="Cars" positionX="206.8040161132812" positionY="-230.1716918945312" width="128" height="148"/>
+        <element name="Images" positionX="-63" positionY="27" width="128" height="73"/>
     </elements>
 </model>

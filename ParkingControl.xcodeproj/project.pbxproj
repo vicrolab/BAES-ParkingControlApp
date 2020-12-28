@@ -19,8 +19,10 @@
 		B851112125923B47006C4506 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851112025923B47006C4506 /* CoreDataManager.swift */; };
 		B8B53F5825778879008FD4E3 /* CarRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5725778879008FD4E3 /* CarRequest.swift */; };
 		B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5C257795F9008FD4E3 /* PickerView.swift */; };
-		B8C076702593680F00C8E9EF /* Cars+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0766E2593680F00C8E9EF /* Cars+CoreDataClass.swift */; };
-		B8C076712593680F00C8E9EF /* Cars+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0766F2593680F00C8E9EF /* Cars+CoreDataProperties.swift */; };
+		B8DA491B2599043D00C0D1BF /* Images+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DA49172599043D00C0D1BF /* Images+CoreDataClass.swift */; };
+		B8DA491C2599043D00C0D1BF /* Images+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DA49182599043D00C0D1BF /* Images+CoreDataProperties.swift */; };
+		B8DA491D2599043D00C0D1BF /* Cars+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DA49192599043D00C0D1BF /* Cars+CoreDataClass.swift */; };
+		B8DA491E2599043D00C0D1BF /* Cars+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DA491A2599043D00C0D1BF /* Cars+CoreDataProperties.swift */; };
 		B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5DF257551590003B4D6 /* AppDelegate.swift */; };
 		B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */; };
 		B8DCD5E7257551590003B4D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8DCD5E5257551590003B4D6 /* Main.storyboard */; };
@@ -67,8 +69,10 @@
 		B851112025923B47006C4506 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B8B53F5725778879008FD4E3 /* CarRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarRequest.swift; sourceTree = "<group>"; };
 		B8B53F5C257795F9008FD4E3 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
-		B8C0766E2593680F00C8E9EF /* Cars+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cars+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B8C0766F2593680F00C8E9EF /* Cars+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cars+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B8DA49172599043D00C0D1BF /* Images+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B8DA49182599043D00C0D1BF /* Images+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B8DA49192599043D00C0D1BF /* Cars+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cars+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B8DA491A2599043D00C0D1BF /* Cars+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cars+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B8DCD5DC257551590003B4D6 /* ParkingControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DCD5DF257551590003B4D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8DCD5E1257551590003B4D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -138,8 +142,10 @@
 		B8DCD5D3257551590003B4D6 = {
 			isa = PBXGroup;
 			children = (
-				B8C0766E2593680F00C8E9EF /* Cars+CoreDataClass.swift */,
-				B8C0766F2593680F00C8E9EF /* Cars+CoreDataProperties.swift */,
+				B8DA49172599043D00C0D1BF /* Images+CoreDataClass.swift */,
+				B8DA49182599043D00C0D1BF /* Images+CoreDataProperties.swift */,
+				B8DA49192599043D00C0D1BF /* Cars+CoreDataClass.swift */,
+				B8DA491A2599043D00C0D1BF /* Cars+CoreDataProperties.swift */,
 				B8DCD5DE257551590003B4D6 /* ParkingControl */,
 				B8DCD5F82575515C0003B4D6 /* ParkingControlTests */,
 				B8DCD6032575515C0003B4D6 /* ParkingControlUITests */,
@@ -430,11 +436,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8DA491D2599043D00C0D1BF /* Cars+CoreDataClass.swift in Sources */,
 				B8FAFCF12583B169005480C8 /* TabBarVC.swift in Sources */,
 				B8B53F5825778879008FD4E3 /* CarRequest.swift in Sources */,
 				B80A27ED25862A0400F11206 /* PhotoStore.swift in Sources */,
+				B8DA491B2599043D00C0D1BF /* Images+CoreDataClass.swift in Sources */,
 				B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */,
-				B8C076702593680F00C8E9EF /* Cars+CoreDataClass.swift in Sources */,
 				B84C8045258D03BC009AA1E8 /* DetailRequestTableViewController.swift in Sources */,
 				B84C8027258CF7DC009AA1E8 /* DetailRequestTableViewCell.swift in Sources */,
 				B8DCD62125757FF50003B4D6 /* FixVehicleTableViewController.swift in Sources */,
@@ -445,11 +452,12 @@
 				B8FAFD1125853309005480C8 /* CarsStore.swift in Sources */,
 				B8432D9B25792FD8008E8518 /* TableViewCell.swift in Sources */,
 				B84C803A258CF8B5009AA1E8 /* DetailRequestCollectionViewCell.swift in Sources */,
-				B8C076712593680F00C8E9EF /* Cars+CoreDataProperties.swift in Sources */,
 				B80A27FB2586344600F11206 /* ViewRequestCell.swift in Sources */,
 				B8DCD5EA257551590003B4D6 /* ParkingControl.xcdatamodeld in Sources */,
+				B8DA491E2599043D00C0D1BF /* Cars+CoreDataProperties.swift in Sources */,
 				B8FAFCDA2583A62E005480C8 /* Switcher.swift in Sources */,
 				B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */,
+				B8DA491C2599043D00C0D1BF /* Images+CoreDataProperties.swift in Sources */,
 				B82BF8D22581189300E546E3 /* PhotoCell.swift in Sources */,
 				B8DCD5E2257551590003B4D6 /* SceneDelegate.swift in Sources */,
 				B80A27F225862D8C00F11206 /* ViewingRequestsTableViewController.swift in Sources */,

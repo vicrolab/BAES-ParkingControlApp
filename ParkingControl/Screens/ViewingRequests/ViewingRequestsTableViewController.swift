@@ -35,7 +35,7 @@ class ViewingRequestsTableViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-    
+
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -45,7 +45,7 @@ class ViewingRequestsTableViewController: UITableViewController {
     }()
 
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cars.count
     }
@@ -62,6 +62,7 @@ class ViewingRequestsTableViewController: UITableViewController {
         cell.vehicleInformation.text = "\(numberVehicle!)', \(brandVehicle!), \(modelVehicle!)"
         cell.dateAndLocation.text = "\(dateFormatter.string(from: fixingDate!))"
 //        cell.selectionStyle = .none
+        
         return cell
     }
     
