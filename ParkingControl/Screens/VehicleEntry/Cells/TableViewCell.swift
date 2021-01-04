@@ -7,9 +7,10 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
     
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +29,7 @@ class TableViewCell: UITableViewCell {
     func updateArray() {
         collectionView.reloadData()
     }
+    
 
 }
 

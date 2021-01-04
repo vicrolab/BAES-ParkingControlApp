@@ -12,7 +12,7 @@
         <!--Фиксация ТС-->
         <scene sceneID="VKr-B1-nly">
             <objects>
-                <tableViewController storyboardIdentifier="FixVehicleTableViewController" id="LiF-sa-f3O" customClass="FixVehicleTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="VehicleEntryViewController" id="LiF-sa-f3O" customClass="VehicleEntryViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="HAM-aD-Ump">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -52,7 +52,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Cm1-C5-egF">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="numberSwitch" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Cm1-C5-egF">
                                         <rect key="frame" x="0.0" y="78" width="414" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cm1-C5-egF" id="nu0-Vp-jmS">
@@ -172,7 +172,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Фотографии" id="Ph3-qi-K5T">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="170" id="41t-MQ-Zct" customClass="TableViewCell" customModule="ParkingControl" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="170" id="41t-MQ-Zct" customClass="TableViewCell" customModule="ParkingControl" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="540" width="414" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="41t-MQ-Zct" id="shn-q1-quu">
@@ -196,7 +196,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="me0-vd-a5j">
+                                                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="me0-vd-a5j">
                                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                     </imageView>
                                                                 </subviews>
@@ -236,7 +236,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Фиксация ТС" id="Qq9-ky-Ybp">
-                        <barButtonItem key="rightBarButtonItem" image="plus.circle" catalog="system" id="uDC-Ko-uAy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="uDC-Ko-uAy">
                             <connections>
                                 <action selector="fixVehicleAction:" destination="LiF-sa-f3O" id="IFv-6W-Nzm"/>
                             </connections>
@@ -244,6 +244,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="brandVehicleTF" destination="u7F-bT-vrz" id="LWt-X3-U89"/>
+                        <outlet property="fixVehicleOutlet" destination="uDC-Ko-uAy" id="Rjc-dU-K5t"/>
                         <outlet property="mapView" destination="zLU-Vc-opL" id="IUM-7O-oMg"/>
                         <outlet property="modelVehicleTF" destination="XgK-dI-QVf" id="3py-z9-Zsx"/>
                         <outlet property="numberVehicleSwitch" destination="Jgp-mC-QzO" id="Puz-Ez-V1C"/>
@@ -262,7 +263,7 @@
         <!--Просмотр запросов-->
         <scene sceneID="lRu-Zk-PkB">
             <objects>
-                <tableViewController id="8ZX-A5-zeb" customClass="ViewingRequestsTableViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="8ZX-A5-zeb" customClass="RequestsListViewController" customModule="ParkingControl" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1tQ-l8-AYc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -831,7 +832,6 @@
         <image name="archivebox.fill" catalog="system" width="128" height="106"/>
         <image name="chevron.right.circle.fill" catalog="system" width="128" height="121"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
-        <image name="plus.circle" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

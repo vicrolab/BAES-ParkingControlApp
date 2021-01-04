@@ -15,14 +15,15 @@ import CoreLocation
 //
 //present(controller, animated: true, completion: nil)
 
-// TODO: VehicleEntryViewController
-class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate {
+class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     // MARK: Outlets
-    @IBOutlet weak var numberVehicleTF: UITextField!
+    @IBOutlet var numberVehicleTF: UITextField!
     @IBOutlet weak var numberVehicleSwitch: UISwitch!
     @IBOutlet weak var brandVehicleTF: UITextField!
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet var fixVehicleOutlet: UIBarButtonItem!
+    
     
     // MARK: Actions
     @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
@@ -30,12 +31,9 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
             let numberVehicle = numberVehicleTF.text,
             !numberVehicle.isEmpty
         else {
-            let okAction = UIAlertAction(title: "ОК", style: .default)
-            let alert = UIAlertController(title: "Отсутствует гос номер ТС", message: "Введите гос номер или установите без номера", preferredStyle: .alert)
-            alert.addAction(okAction)
-            
-            self.present(alert, animated: true)
-            
+            displayAlert(
+                title: "Отсутствует гос номер ТС",
+                message: "Введите гос номер или установите без номера")
             return
         }
 
@@ -43,26 +41,32 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
             let brandVehicle = brandVehicleTF.text,
             !brandVehicle.isEmpty
         else {
-            let okAction = UIAlertAction(title: "ОК", style: .default)
-            let alert = UIAlertController(title: "Отсутствует марка ТС", message: "Выберите марку из списка", preferredStyle: .alert)
-            alert.addAction(okAction)
-            
-            self.present(alert, animated: true)
-            
+            displayAlert(
+                title: "Отсутствует марка ТС",
+                message: "Выберите марку из списка")
             return
         }
 
-        // TODO: Отформатировать
-        guard let modelVehicle = modelVehicleTF.text, !modelVehicle.isEmpty else {
-            let alert = UIAlertController(title: "Отсутствует модель ТС", message: "Выберите модель из списка", preferredStyle: .alert)
-            let OKAction = UIAlertAction(title: "ОК", style: .default)
-            alert.addAction(OKAction)
-            self.present(alert, animated: true)
+        guard
+            let modelVehicle = modelVehicleTF.text,
+            !modelVehicle.isEmpty
+        else {
+            displayAlert(
+                title: "Отсутствует модель ТС",
+                message: "Выберите модель из списка")
             return
         }
+
+        setupMapView()
+
+        persistentStore.createVehicleEntry(
+            brandVehicle: brandVehicle,
+            dateCreated: Date(),
+            modelVehicle: modelVehicle,
+            numberVehicle: numberVehicle,
+            photoList: photoList
+        )
         
-        let dateTaken = Date()
-        addNewVehicleInCoreData(brandVehicle: brandVehicle, dateTaken: dateTaken, modelVehicle: modelVehicle, numberVehicle: numberVehicle, photoVehicle: coreDataPhotos)
         successAddAlert()
         clearFields()
     }
@@ -80,6 +84,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         case view, edit
     }
     
+    private let persistentStore = PersistentStore()
     private let pickerViewToolbar = ToolbarPickerView()
     private let vehiclePickerViewValues = ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
     private let modelPickerViewValues = ["Model 1", "Model 2", "Model 3", "Model 4", "Model 5"]
@@ -92,6 +97,8 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
     var vehicleCoordinates: CLLocationCoordinate2D?
     var activePickerViewTag = 0
     var locationManager = CLLocationManager()
+    var selectedCar: NSManagedObject?
+    
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -100,8 +107,16 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         setupUI()
         setupNumberVehicleTextField()
         setupPickerViews()
-        
         setupMapView()
+        
+        if screenMode == .view {
+            let numberVehicle = selectedCar?.value(forKey: "number") as? String
+            navigationItem.title = numberVehicle
+            numberVehicleTF.text = numberVehicle
+            brandVehicleTF.text = selectedCar!.value(forKey: "brand") as? String
+            modelVehicleTF.text = selectedCar!.value(forKey: "model") as? String
+            
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -120,15 +135,14 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         tableViewCell.setCollectionViewDataSourceDelegate(
             dataSourceDelegate: self,
             forRow: indexPath.row
-        )
+        )        
     }
     
     // MARK: Setup
     func successAddAlert() {
-        let alert = UIAlertController(title: "Заявка зафиксировна", message: "", preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "ОК", style: .default)
-        alert.addAction(OKAction)
-        self.present(alert, animated: true)
+        displayAlert(
+            title: "Заявка зафиксировна",
+            message: "")
     }
     
     func clearFields() {
@@ -143,39 +157,7 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
         photoList.removeAll()
         tableView.reloadData()
     }
-
-    func addNewVehicleInCoreData(brandVehicle: String, dateTaken: Date, modelVehicle: String, numberVehicle: String, photoVehicle: Data) {
         
-        setupMapView()
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let entityName = "Cars"
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: managedContext)!
-        
-        let car = NSManagedObject(entity: entity, insertInto: managedContext) as! Cars
-        car.brandVehicle = brandVehicle
-        car.dateTaken = dateTaken
-        car.modelVehicle = modelVehicle
-        car.numberVehicle = numberVehicle
-        
-        car.setValue(brandVehicle, forKey: "brandVehicle")
-        car.setValue(dateTaken, forKey: "dateTaken")
-        car.setValue(modelVehicle, forKey: "modelVehicle")
-        car.setValue(numberVehicle, forKey: "numberVehicle")
-
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-        
-        print(coreDataPhotos.count)
-    }
-    
     @objc func doneButtonTapped() {
         view.endEditing(true)
     }
@@ -196,11 +178,29 @@ class FixVehicleTableViewController: UITableViewController, UITextFieldDelegate 
 }
 
 // MARK: - Setup
-extension FixVehicleTableViewController {
+extension VehicleEntryViewController {
     private func setupUI() {
         switch screenMode {
-        case .edit: ()
+        case .edit: (
+        
+        )
         case .view: ()
+            navigationItem.setRightBarButton(nil, animated: true)
+            let font = UIFont(name: "Apple SD Gothic Neo SemiBold", size: 22.0)
+            numberVehicleTF.borderStyle = .none
+            numberVehicleTF.placeholder = nil
+            numberVehicleTF.font = font
+            numberVehicleTF.textAlignment = .right
+            
+            brandVehicleTF.borderStyle = .none
+            brandVehicleTF.placeholder = nil
+            brandVehicleTF.font = font
+            brandVehicleTF.textAlignment = .right
+            
+            modelVehicleTF.borderStyle = .none
+            modelVehicleTF.placeholder = nil
+            modelVehicleTF.font = font
+            modelVehicleTF.textAlignment = .right
         }
     }
     
@@ -254,17 +254,17 @@ extension FixVehicleTableViewController {
 }
 
 // MARK: - Public interface
-extension FixVehicleTableViewController {
+extension VehicleEntryViewController {
     
 }
 
 // MARK: - Private interface
-extension FixVehicleTableViewController {
+extension VehicleEntryViewController {
     
 }
 
 // MARK: - UIPickerViewDelegate
-extension FixVehicleTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension VehicleEntryViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -300,7 +300,7 @@ extension FixVehicleTableViewController: UIPickerViewDelegate, UIPickerViewDataS
 }
 
 // MARK: - ToolbarPickerViewDelegate
-extension FixVehicleTableViewController: ToolbarPickerViewDelegate {
+extension VehicleEntryViewController: ToolbarPickerViewDelegate {
     func didTapDone() {
         if activePickerViewTag == 1 {
             let row = self.pickerViewToolbar.pickerFirst.selectedRow(inComponent: 0)
@@ -327,7 +327,7 @@ extension FixVehicleTableViewController: ToolbarPickerViewDelegate {
 }
 
 // MARK: - MKMapViewDelegate
-extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDelegate {
+extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue: CLLocationCoordinate2D = manager.location!.coordinate
         mapView.mapType = MKMapType.standard
@@ -356,38 +356,65 @@ extension FixVehicleTableViewController: MKMapViewDelegate, CLLocationManagerDel
 }
 
 // MARK: - UICollectionViewDataSource
-extension FixVehicleTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoList.count + 1
+        if screenMode == .view {
+            return photoList.count
+        } else {
+            return photoList.count + 1
+        }
     }
     
-    // TODO: переделать с didSelectItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = "PhotoCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PhotoCell
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedCamera))
         
-        if indexPath.item == 0 {
-            cell.backgroundColor = UIColor.gray
-            cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
-            cell.imageView.tintColor = UIColor.white
-            cell.imageView.contentMode = .center
-            cell.addGestureRecognizer(tapGesture)
-            
+        if screenMode == .view {
+            let photo = photoList[indexPath.item]
+            cell.imageView.image = photo
+            cell.imageView.contentMode = .scaleToFill
+        
             return cell
-        }
+        } else {
+            if indexPath.item == 0 {
+                cell.backgroundColor = UIColor.gray
+                cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
+                cell.imageView.tintColor = UIColor.white
+                cell.imageView.contentMode = .center
+//                let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamera))
+//                cell.addGestureRecognizer(tap)
+        
+                return cell
+            }
             let photo = photoList[indexPath.item - 1]
             cell.imageView.image = photo
-        cell.imageView.contentMode = .scaleToFill
+            cell.imageView.contentMode = .scaleToFill
             cell.layer.borderWidth = 0.5
             cell.layer.borderColor = UIColor.lightGray.cgColor
             
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
+        cell.isSelected = true
+        print("pressed")
+        
+        
+//        if screenMode == .edit {
+//            if indexPath.item == 0 {
+//                print("tapped camera")
+//            }
+//        } else {
+//            print("tapped camera plus")
+//        }
     }
 }
 
 // MARK: - UIImagePickerControllerDelegate
-extension FixVehicleTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension VehicleEntryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @objc func tappedCamera() {
         let imagePicker = UIImagePickerController()
         

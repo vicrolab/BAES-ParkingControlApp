@@ -71,7 +71,6 @@ class DetailRequestTableViewController: UITableViewController {
         vehicleModel.text = selectedCar.value(forKey: "modelVehicle") as? String
         fixingDate.text = dateFormatter.string(from: selectedCar.value(forKey: "dateTaken") as! Date)
         let imageArray = selectedCar.value(forKey: "photoVehicle") as? Data
-        imagesFromCoreData(object: imageArray)
         print(photoList?.count as Any)
     }
     
