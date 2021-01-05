@@ -81,6 +81,8 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
         
         let selectedCarImageSet = cars[indexPath.row].image
         let selectedCarImageArray = selectedCarImageSet?.allObjects
+        
+        // TOOD: Make ordered fetch from core data
         for entityData in selectedCarImageArray! {
             guard let entityDataObject = entityData as? NSManagedObject
             else {
@@ -90,18 +92,18 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
             else {
                 return
             }
-            guard let entityPosition = entityDataObject.value(forKey: "position") as? Int16
-            else {
-                return
-            }
+//            guard let entityPosition = entityDataObject.value(forKey: "position") as? Int16
+//            else {
+//                return
+//            }
             guard let image = UIImage(data: entityImage)
             else {
                 return
             }
             let orientedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .up)
-            let imageIndexInInt = Int(entityPosition)
-//            photoList.append(orientedImage)
-            photoList.insert(orientedImage, at: imageIndexInInt)
+//            let imageIndexInInt = Int(entityPosition)
+            photoList.append(orientedImage)
+//            photoList.insert(orientedImage, at: imageIndexInInt)
         }
         controller.photoList = photoList
     }
@@ -121,6 +123,7 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
             }
         }
     }
+    
     
     
 }

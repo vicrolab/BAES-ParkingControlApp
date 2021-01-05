@@ -209,12 +209,10 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
             numberVehicleTF.isEnabled = true
             numberVehicleTF.placeholder = "1234 AA 7"
             numberVehicleTF.text = .none
-            addCurrentLocationAnnotation()
         } else {
             numberVehicleTF.isEnabled = false
             numberVehicleTF.text = "Номер не указан"
             numberVehicleTF.placeholder = "Номер отсутствует"
-            addCurrentLocationAnnotation()
         }
     }
 }
@@ -404,10 +402,11 @@ extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelega
         if screenMode == .edit {
             let locationValue: CLLocationCoordinate2D = manager.location!.coordinate
             mapView.mapType = MKMapType.standard
+            mapView.isZoomEnabled = true
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: locationValue, span: span)
             mapView.setRegion(region, animated: true)
-            addCurrentLocationAnnotation()
+            mapView.showsUserLocation = true
         } else if screenMode == .view {
             mapView.mapType = MKMapType.standard
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -416,16 +415,6 @@ extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelega
             addVehicleLocationAnnotation()
         }
         
-    }
-    
-    func addCurrentLocationAnnotation() {
-        guard let coordinate = locationManager.location?.coordinate else {
-            return
-        }
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.subtitle = "current location"
-        mapView.addAnnotation(annotation)
     }
     
     func addVehicleLocationAnnotation() {
