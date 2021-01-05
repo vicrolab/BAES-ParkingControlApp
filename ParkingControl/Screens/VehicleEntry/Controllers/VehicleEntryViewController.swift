@@ -64,7 +64,9 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
             dateCreated: Date(),
             modelVehicle: modelVehicle,
             numberVehicle: numberVehicle,
-            photoList: photoList
+            photoList: photoList,
+            longitude: vehicleLongitude!,
+            latitude: vehicleLatitude!
         )
         
         successAddAlert()
@@ -91,12 +93,14 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
   
     var screenMode: ScreenMode = .edit
     var photoList: [UIImage] = []
-    var coreDataPhotos = Data()
+//    var coreDataPhotos = Data()
     var cars: [NSManagedObject] = []
     var carsStore: CarsStore?
     var vehicleCoordinates: CLLocationCoordinate2D?
     var activePickerViewTag = 0
     var locationManager = CLLocationManager()
+    var vehicleLatitude: Double?
+    var vehicleLongitude: Double?
     var selectedCar: NSManagedObject?
     
     
@@ -115,7 +119,8 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
             numberVehicleTF.text = numberVehicle
             brandVehicleTF.text = selectedCar!.value(forKey: "brand") as? String
             modelVehicleTF.text = selectedCar!.value(forKey: "model") as? String
-            
+            vehicleCoordinates = CLLocationCoordinate2D(latitude: (selectedCar!.value(forKey: "latitude") as? Double)!,
+                                                        longitude: (selectedCar!.value(forKey: "longitude") as? Double)!)
         }
     }
     
@@ -135,8 +140,45 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         tableViewCell.setCollectionViewDataSourceDelegate(
             dataSourceDelegate: self,
             forRow: indexPath.row
-        )        
+        )
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if screenMode == .view {
+            if indexPath.section == 0 && indexPath.row == 0 {
+                return 50.00
+            }
+            if indexPath.section == 0 && indexPath.row == 1 {
+                return 0.01
+            }
+            if indexPath.section == 0 && indexPath.row == 2 {
+                return 50.00
+            }
+            if indexPath.section == 0 && indexPath.row == 3 {
+                return 50.00
+            }
+            if indexPath.section == 1 {
+                return 200.00
+            }
+            if indexPath.section == 2 {
+                return 200.00
+            }
+        }
+        else if screenMode == .edit {
+            if indexPath.section == 0 {
+                return 50.00
+            }
+            if indexPath.section == 1 {
+                return 200.00
+            }
+            if indexPath.section == 2 {
+                return 200.00
+            }
+        }
+        
+        return 50.00
+    }
+    
     
     // MARK: Setup
     func successAddAlert() {
@@ -167,12 +209,12 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
             numberVehicleTF.isEnabled = true
             numberVehicleTF.placeholder = "1234 AA 7"
             numberVehicleTF.text = .none
-            addAnnotation()
+            addCurrentLocationAnnotation()
         } else {
             numberVehicleTF.isEnabled = false
             numberVehicleTF.text = "Номер не указан"
             numberVehicleTF.placeholder = "Номер отсутствует"
-            addAnnotation()
+            addCurrentLocationAnnotation()
         }
     }
 }
@@ -226,20 +268,50 @@ extension VehicleEntryViewController {
     }
     
     private func setupMapView() {
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-        } else {
-            print ("Enable location services for app")
+        if screenMode == .edit {
+            self.locationManager.requestWhenInUseAuthorization()
+            
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.startUpdatingLocation()
+                guard let currentLocation = locationManager.location
+                else {
+                    return
+                }
+                vehicleLongitude = Double(currentLocation.coordinate.longitude)
+                vehicleLatitude = Double(currentLocation.coordinate.latitude)
+            } else {
+                print ("Enable location services for app")
+            }
+            
+            mapView.delegate = self
+            mapView.mapType = .standard
+            mapView.isZoomEnabled = true
+            mapView.isScrollEnabled = true
         }
-        
-        mapView.delegate = self
-        mapView.mapType = .standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
+        if screenMode == .view {
+            self.locationManager.requestWhenInUseAuthorization()
+            
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.startUpdatingLocation()
+                guard let currentLocation = locationManager.location
+                else {
+                    return
+                }
+                vehicleLongitude = Double(currentLocation.coordinate.longitude)
+                vehicleLatitude = Double(currentLocation.coordinate.latitude)
+            } else {
+                print ("Enable location services for app")
+            }
+            
+            mapView.delegate = self
+            mapView.mapType = .standard
+            mapView.isZoomEnabled = true
+            mapView.isScrollEnabled = true
+        }
     }
     
     private func setupNumberVehicleTextField() {
@@ -329,29 +401,41 @@ extension VehicleEntryViewController: ToolbarPickerViewDelegate {
 // MARK: - MKMapViewDelegate
 extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let locValue: CLLocationCoordinate2D = manager.location!.coordinate
-        mapView.mapType = MKMapType.standard
-        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        let region = MKCoordinateRegion(center: locValue, span: span)
-        mapView.setRegion(region, animated: true)
-        addAnnotation()
-    }
-    
-    func addAnnotation() {
-        let manager = CLLocationManager()
-        
-        guard let coordinate = manager.location?.coordinate else {
-            return
+        if screenMode == .edit {
+            let locationValue: CLLocationCoordinate2D = manager.location!.coordinate
+            mapView.mapType = MKMapType.standard
+            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            let region = MKCoordinateRegion(center: locationValue, span: span)
+            mapView.setRegion(region, animated: true)
+            addCurrentLocationAnnotation()
+        } else if screenMode == .view {
+            mapView.mapType = MKMapType.standard
+            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            let region = MKCoordinateRegion(center: vehicleCoordinates!, span: span)
+            mapView.setRegion(region, animated: true)
+            addVehicleLocationAnnotation()
         }
         
+    }
+    
+    func addCurrentLocationAnnotation() {
+        guard let coordinate = locationManager.location?.coordinate else {
+            return
+        }
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
-        //        annotation.title = numberVehicleTF.text
         annotation.subtitle = "current location"
-        
         mapView.addAnnotation(annotation)
-        
-        vehicleCoordinates = coordinate
+    }
+    
+    func addVehicleLocationAnnotation() {
+        guard let coordinate = vehicleCoordinates else {
+            return
+        }
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.subtitle = numberVehicleTF.text
+        mapView.addAnnotation(annotation)
     }
 }
 
@@ -360,8 +444,11 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if screenMode == .view {
             return photoList.count
-        } else {
+        }
+        if screenMode == .edit {
             return photoList.count + 1
+        } else {
+            return 0
         }
     }
     
@@ -373,7 +460,7 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
             let photo = photoList[indexPath.item]
             cell.imageView.image = photo
             cell.imageView.contentMode = .scaleToFill
-        
+            
             return cell
         } else {
             if indexPath.item == 0 {
@@ -381,9 +468,7 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
                 cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
                 cell.imageView.tintColor = UIColor.white
                 cell.imageView.contentMode = .center
-//                let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamera))
-//                cell.addGestureRecognizer(tap)
-        
+                
                 return cell
             }
             let photo = photoList[indexPath.item - 1]
@@ -397,19 +482,13 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
-        cell.isSelected = true
-        print("pressed")
-        
-        
-//        if screenMode == .edit {
-//            if indexPath.item == 0 {
-//                print("tapped camera")
-//            }
-//        } else {
-//            print("tapped camera plus")
-//        }
+        if screenMode == .edit {
+            let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+            cell.isSelected = true
+            tappedCamera()
+            
+            print("pressed")
+        }
     }
 }
 

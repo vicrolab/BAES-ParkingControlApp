@@ -52,7 +52,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="numberSwitch" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Cm1-C5-egF">
+                                    <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" restorationIdentifier="number" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Cm1-C5-egF">
                                         <rect key="frame" x="0.0" y="78" width="414" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cm1-C5-egF" id="nu0-Vp-jmS">
@@ -172,7 +172,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Фотографии" id="Ph3-qi-K5T">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="170" id="41t-MQ-Zct" customClass="TableViewCell" customModule="ParkingControl" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="170" id="41t-MQ-Zct" customClass="TableViewCell" customModule="ParkingControl" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="540" width="414" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="41t-MQ-Zct" id="shn-q1-quu">
@@ -252,7 +252,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wJO-Jo-Du0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="F0P-z7-vca">
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="F0P-z7-vca">
                     <connections>
                         <action selector="backgroundTapped:" destination="LiF-sa-f3O" id="WIu-qj-Idi"/>
                     </connections>

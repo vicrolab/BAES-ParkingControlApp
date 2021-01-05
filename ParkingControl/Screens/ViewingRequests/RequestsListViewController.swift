@@ -13,11 +13,11 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
     var cars: [VehicleEntry] = []
     var images: Any?
 //    var photoList: [UIImage]?
-    var photos: VehicleEntryImage! {
-        didSet {
-            photo = photos.value(forKeyPath: "VehicleEntry.VehicleEntryImage") as? Data
-        }
-    }
+//    var photos: VehicleEntryImage! {
+//        didSet {
+//            photo = photos.value(forKeyPath: "VehicleEntry.VehicleEntryImage") as? Data
+//        }
+//    }
     var selectedCar: NSManagedObject?
     var photo: Data?
     
@@ -77,11 +77,10 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
         
         controller.selectedCar = selectedCar
         controller.screenMode = .view
-        
+        var photoList: [UIImage] = []
         
         let selectedCarImageSet = cars[indexPath.row].image
         let selectedCarImageArray = selectedCarImageSet?.allObjects
-        
         for entityData in selectedCarImageArray! {
             guard let entityDataObject = entityData as? NSManagedObject
             else {
@@ -91,15 +90,20 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
             else {
                 return
             }
+            guard let entityPosition = entityDataObject.value(forKey: "position") as? Int16
+            else {
+                return
+            }
             guard let image = UIImage(data: entityImage)
             else {
                 return
             }
-            var photoList: [UIImage] = []
-            photoList.append(image)
-            controller.photoList = photoList
-            
+            let orientedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .up)
+            let imageIndexInInt = Int(entityPosition)
+//            photoList.append(orientedImage)
+            photoList.insert(orientedImage, at: imageIndexInInt)
         }
+        controller.photoList = photoList
     }
         
     

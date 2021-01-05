@@ -37,7 +37,7 @@ class PersistentStore {
         case failure(Error)
     }
     
-    func createVehicleEntry(brandVehicle: String, dateCreated: Date, modelVehicle: String, numberVehicle: String, photoList: [UIImage]) {
+    func createVehicleEntry(brandVehicle: String, dateCreated: Date, modelVehicle: String, numberVehicle: String, photoList: [UIImage], longitude: Double, latitude: Double) {
         let managedContext = PersistentContainer.shared.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "VehicleEntry", in: managedContext)!
         
@@ -46,12 +46,19 @@ class PersistentStore {
         vehicle.dateCreated = dateCreated
         vehicle.model = modelVehicle
         vehicle.number = numberVehicle
+        vehicle.longitude = longitude
+        vehicle.latitude = latitude
         
         for photo in photoList {
             let entity = NSEntityDescription.entity(forEntityName: "VehicleEntryImage", in: managedContext)!
             let image = NSManagedObject(entity: entity, insertInto: managedContext) as! VehicleEntryImage
             image.data = photo.pngData()
-
+            guard let imageIndex = photoList.firstIndex(of: photo)
+            else {
+                return
+            }
+            let imageIndexInInt = Int16(imageIndex)
+            image.position = imageIndexInInt
             vehicle.addToImage(image)
         }
         

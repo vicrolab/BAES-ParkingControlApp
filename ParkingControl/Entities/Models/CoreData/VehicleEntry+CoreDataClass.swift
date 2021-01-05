@@ -2,7 +2,7 @@
 //  VehicleEntry+CoreDataClass.swift
 //  ParkingControl
 //
-//  Created by Mikalaj Shuhno on 28.12.20.
+//  Created by Mikalaj Shuhno on 5.01.21.
 //
 //
 

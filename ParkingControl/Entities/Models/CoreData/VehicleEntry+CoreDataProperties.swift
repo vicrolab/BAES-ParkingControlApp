@@ -2,7 +2,7 @@
 //  VehicleEntry+CoreDataProperties.swift
 //  ParkingControl
 //
-//  Created by Mikalaj Shuhno on 28.12.20.
+//  Created by Mikalaj Shuhno on 5.01.21.
 //
 //
 
@@ -21,6 +21,8 @@ extension VehicleEntry {
     @NSManaged public var location: NSObject?
     @NSManaged public var model: String?
     @NSManaged public var number: String?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
     @NSManaged public var image: NSSet?
 
 }
