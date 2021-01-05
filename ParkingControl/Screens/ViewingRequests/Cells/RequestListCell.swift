@@ -7,14 +7,12 @@
 
 import UIKit
 
-class ViewRequestCell: UITableViewCell {
+class RequestListCell: UITableViewCell {
 
     @IBOutlet weak var vehicleInformation: UILabel!
     @IBOutlet weak var dateAndLocation: UILabel!
     @IBAction func viewDetail(_ sender: UIButton) {
     }
-    
-    var carsStore = CarsStore()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,9 +20,5 @@ class ViewRequestCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    
-
 }

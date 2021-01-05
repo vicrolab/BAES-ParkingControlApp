@@ -17,7 +17,6 @@ class PersistentContainer {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
-        
         return container
     }()
 

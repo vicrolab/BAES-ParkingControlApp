@@ -1,5 +1,5 @@
 //
-//  PhotoCell.swift
+//  VehicleEntryCollectionViewCell.swift
 //  ParkingControl
 //
 //  Created by Mikalaj Shuhno on 9.12.20.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class PhotoCell: UICollectionViewCell {
+class VehicleEntryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
     override func awakeFromNib() {
             super.awakeFromNib()
-        }
-    
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()

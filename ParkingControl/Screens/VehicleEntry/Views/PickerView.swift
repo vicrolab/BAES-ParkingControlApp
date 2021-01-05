@@ -17,17 +17,6 @@ protocol ToolbarPickerViewDelegate: class {
 class ToolbarPickerView: UIPickerView {
     let pickerFirst = UIPickerView()
     let pickerTwo = UIPickerView()
-//    func createPicker1() {
-//        let pickerViewFirst = UIPickerView()
-//        pickerViewFirst.tag = 1
-//    }
-//    
-//    func createPicker2() {
-//        let pickerViewSecond = UIPickerView()
-//        pickerViewSecond.tag = 2
-//    }
-    
-    
     
     public private(set) var toolbar: UIToolbar?
     public weak var toolbarDelegate: ToolbarPickerViewDelegate?
@@ -53,6 +42,7 @@ class ToolbarPickerView: UIPickerView {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancelTapped))
         
         toolbar.setItems([cancelButton, flexibleSpace, doneButton], animated: false)
+        toolbar.isUserInteractionEnabled = true
         self.toolbar = toolbar
     }
     

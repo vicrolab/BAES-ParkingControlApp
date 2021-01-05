@@ -10,11 +10,6 @@ import MapKit
 import CoreData
 import CoreLocation
 
-//let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//let controller = storyboard.instantiateViewController(withIdentifier: "FixVehicleTableViewController") as! FixVehicleTableViewController
-//
-//present(controller, animated: true, completion: nil)
-
 class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     // MARK: Outlets
     @IBOutlet var numberVehicleTF: UITextField!
@@ -23,7 +18,6 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var modelVehicleTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var fixVehicleOutlet: UIBarButtonItem!
-    
     
     // MARK: Actions
     @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
@@ -78,7 +72,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     }
     
     @IBAction func NVChangeState(_ sender: Any) {
-        changeSwitchState(sender: numberVehicleSwitch)
+        setupSwitchState(sender: numberVehicleSwitch)
     }
     
     // MARK: Properties
@@ -93,9 +87,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
   
     var screenMode: ScreenMode = .edit
     var photoList: [UIImage] = []
-//    var coreDataPhotos = Data()
     var cars: [NSManagedObject] = []
-    var carsStore: CarsStore?
     var vehicleCoordinates: CLLocationCoordinate2D?
     var activePickerViewTag = 0
     var locationManager = CLLocationManager()
@@ -132,7 +124,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: TableView
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let tableViewCell = cell as? TableViewCell
+        guard let tableViewCell = cell as? VehicleEntryTableViewCell
         else {
             return
         }
@@ -175,49 +167,24 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
                 return 200.00
             }
         }
-        
         return 50.00
     }
     
     
     // MARK: Setup
-    func successAddAlert() {
-        displayAlert(
-            title: "Заявка зафиксировна",
-            message: "")
-    }
-    
-    func clearFields() {
-        numberVehicleTF.text?.removeAll()
-        brandVehicleTF.text?.removeAll()
-        modelVehicleTF.text?.removeAll()
-        
-        numberVehicleSwitch.isOn = false
-        
-        changeSwitchState(sender: numberVehicleSwitch)
-        
-        photoList.removeAll()
-        tableView.reloadData()
-    }
-        
     @objc func doneButtonTapped() {
         view.endEditing(true)
     }
     
-    private func changeSwitchState(sender: UISwitch) {
-        if (sender.isOn) == false {
-            numberVehicleTF.isEnabled = true
-            numberVehicleTF.placeholder = "1234 AA 7"
-            numberVehicleTF.text = .none
-        } else {
-            numberVehicleTF.isEnabled = false
-            numberVehicleTF.text = "Номер не указан"
-            numberVehicleTF.placeholder = "Номер отсутствует"
-        }
-    }
+    
 }
 
-// MARK: - Setup
+// MARK: - Public interface
+extension VehicleEntryViewController {
+    
+}
+
+// MARK: - Private interface
 extension VehicleEntryViewController {
     private func setupUI() {
         switch screenMode {
@@ -245,20 +212,21 @@ extension VehicleEntryViewController {
     }
     
     private func setupPickerViews() {
+        
         pickerViewToolbar.pickerFirst.tag = 1
         pickerViewToolbar.pickerTwo.tag = 2
         brandVehicleTF.inputView = self.pickerViewToolbar.pickerFirst
         brandVehicleTF.inputAccessoryView = self.pickerViewToolbar.toolbar
-        
+
         modelVehicleTF.inputView = self.pickerViewToolbar.pickerTwo
         modelVehicleTF.inputAccessoryView = self.pickerViewToolbar.toolbar
-        
+
         self.pickerViewToolbar.pickerFirst.dataSource = self
         self.pickerViewToolbar.pickerTwo.dataSource = self
         self.pickerViewToolbar.pickerFirst.delegate = self
         self.pickerViewToolbar.pickerTwo.delegate = self
         self.pickerViewToolbar.toolbarDelegate = self
-        
+
         self.pickerViewToolbar.pickerFirst.reloadAllComponents()
         self.pickerViewToolbar.pickerTwo.reloadAllComponents()
         self.brandVehicleTF.delegate = self
@@ -321,16 +289,37 @@ extension VehicleEntryViewController {
         
         numberVehicleTF.inputAccessoryView = toolbar
     }
-}
-
-// MARK: - Public interface
-extension VehicleEntryViewController {
     
-}
-
-// MARK: - Private interface
-extension VehicleEntryViewController {
+    private func setupSwitchState(sender: UISwitch) {
+        if (sender.isOn) == false {
+            numberVehicleTF.isEnabled = true
+            numberVehicleTF.placeholder = "1234 AA 7"
+            numberVehicleTF.text = .none
+        } else {
+            numberVehicleTF.isEnabled = false
+            numberVehicleTF.text = "Номер не указан"
+            numberVehicleTF.placeholder = "Номер отсутствует"
+        }
+    }
     
+    private func clearFields() {
+        numberVehicleTF.text?.removeAll()
+        brandVehicleTF.text?.removeAll()
+        modelVehicleTF.text?.removeAll()
+        
+        numberVehicleSwitch.isOn = false
+        
+        setupSwitchState(sender: numberVehicleSwitch)
+        
+        photoList.removeAll()
+        tableView.reloadData()
+    }
+    
+    private func successAddAlert() {
+        displayAlert(
+            title: "Заявка зафиксировна",
+            message: "")
+    }
 }
 
 // MARK: - UIPickerViewDelegate
@@ -443,7 +432,7 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = "PhotoCell"
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PhotoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! VehicleEntryCollectionViewCell
         
         if screenMode == .view {
             let photo = photoList[indexPath.item]
@@ -472,7 +461,7 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if screenMode == .edit {
-            let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+            let cell = collectionView.cellForItem(at: indexPath) as! VehicleEntryCollectionViewCell
             cell.isSelected = true
             tappedCamera()
             
