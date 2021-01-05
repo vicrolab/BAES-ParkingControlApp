@@ -25,10 +25,6 @@ class VehicleEntryTableViewCell: UITableViewCell, UICollectionViewDelegate {
         collectionView.delegate = dataSourceDelegate
         collectionView.reloadData()
     }
-    
-    func updateArray() {
-        collectionView.reloadData()
-    }
 }
 
 

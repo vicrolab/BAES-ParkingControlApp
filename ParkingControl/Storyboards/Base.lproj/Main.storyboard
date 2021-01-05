@@ -68,7 +68,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Jgp-mC-QzO">
                                                     <rect key="frame" x="345" y="9.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="NVChangeState:" destination="LiF-sa-f3O" eventType="valueChanged" id="8kK-eT-jho"/>
+                                                        <action selector="numberVehicleSwitchAction:" destination="LiF-sa-f3O" eventType="valueChanged" id="8kK-eT-jho"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -238,17 +238,17 @@
                     <navigationItem key="navigationItem" title="Фиксация ТС" id="Qq9-ky-Ybp">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="uDC-Ko-uAy">
                             <connections>
-                                <action selector="fixVehicleAction:" destination="LiF-sa-f3O" id="IFv-6W-Nzm"/>
+                                <action selector="createRequestAction:" destination="LiF-sa-f3O" id="IFv-6W-Nzm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="brandVehicleTF" destination="u7F-bT-vrz" id="LWt-X3-U89"/>
-                        <outlet property="fixVehicleOutlet" destination="uDC-Ko-uAy" id="Rjc-dU-K5t"/>
+                        <outlet property="brandVehicleTextField" destination="u7F-bT-vrz" id="LWt-X3-U89"/>
+                        <outlet property="createRequestOutlet" destination="uDC-Ko-uAy" id="Rjc-dU-K5t"/>
                         <outlet property="mapView" destination="zLU-Vc-opL" id="IUM-7O-oMg"/>
-                        <outlet property="modelVehicleTF" destination="XgK-dI-QVf" id="3py-z9-Zsx"/>
-                        <outlet property="numberVehicleSwitch" destination="Jgp-mC-QzO" id="Puz-Ez-V1C"/>
-                        <outlet property="numberVehicleTF" destination="5eU-WZ-nxD" id="UQK-c1-Jmo"/>
+                        <outlet property="modelVehicleTextField" destination="XgK-dI-QVf" id="3py-z9-Zsx"/>
+                        <outlet property="numberVehicleTextField" destination="5eU-WZ-nxD" id="UQK-c1-Jmo"/>
+                        <outlet property="vehicleNumberIsAvailible" destination="Jgp-mC-QzO" id="Puz-Ez-V1C"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wJO-Jo-Du0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -354,7 +354,7 @@
                                                     </constraints>
                                                     <state key="normal" title="Log out"/>
                                                     <connections>
-                                                        <action selector="buttonLogOut:" destination="G2n-k9-FJq" eventType="touchUpInside" id="j70-fA-2Ie"/>
+                                                        <action selector="logOutAction:" destination="G2n-k9-FJq" eventType="touchUpInside" id="j70-fA-2Ie"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG8-jN-4Ve">
@@ -490,7 +490,7 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="Войти"/>
                                 <connections>
-                                    <action selector="buttonLogIn:" destination="zXB-e4-YvX" eventType="touchUpInside" id="QhH-fL-fQT"/>
+                                    <action selector="logInAction:" destination="zXB-e4-YvX" eventType="touchUpInside" id="QhH-fL-fQT"/>
                                 </connections>
                             </button>
                         </subviews>

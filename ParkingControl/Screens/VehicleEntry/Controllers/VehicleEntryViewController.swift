@@ -12,17 +12,17 @@ import CoreLocation
 
 class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     // MARK: Outlets
-    @IBOutlet var numberVehicleTF: UITextField!
-    @IBOutlet weak var numberVehicleSwitch: UISwitch!
-    @IBOutlet weak var brandVehicleTF: UITextField!
-    @IBOutlet weak var modelVehicleTF: UITextField!
+    @IBOutlet var numberVehicleTextField: UITextField!
+    @IBOutlet weak var vehicleNumberIsAvailible: UISwitch!
+    @IBOutlet weak var brandVehicleTextField: UITextField!
+    @IBOutlet weak var modelVehicleTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet var fixVehicleOutlet: UIBarButtonItem!
+    @IBOutlet var createRequestOutlet: UIBarButtonItem!
     
     // MARK: Actions
-    @IBAction func fixVehicleAction(_ sender: UIBarButtonItem) {
+    @IBAction func createRequestAction(_ sender: UIBarButtonItem) {
         guard
-            let numberVehicle = numberVehicleTF.text,
+            let numberVehicle = numberVehicleTextField.text,
             !numberVehicle.isEmpty
         else {
             displayAlert(
@@ -32,7 +32,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         }
 
         guard
-            let brandVehicle = brandVehicleTF.text,
+            let brandVehicle = brandVehicleTextField.text,
             !brandVehicle.isEmpty
         else {
             displayAlert(
@@ -42,7 +42,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         }
 
         guard
-            let modelVehicle = modelVehicleTF.text,
+            let modelVehicle = modelVehicleTextField.text,
             !modelVehicle.isEmpty
         else {
             displayAlert(
@@ -58,21 +58,21 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
             dateCreated: Date(),
             modelVehicle: modelVehicle,
             numberVehicle: numberVehicle,
-            photoList: photoList,
-            longitude: vehicleLongitude!,
-            latitude: vehicleLatitude!
+            photoList: vehiclePhotoList,
+            longitude: vehicleCoordinateLongitude!,
+            latitude: vehicleCoordinateLatitude!
         )
         
-        successAddAlert()
-        clearFields()
+        successCreateRequestAlert()
+        clearInputFields()
     }
     
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
-    @IBAction func NVChangeState(_ sender: Any) {
-        setupSwitchState(sender: numberVehicleSwitch)
+    @IBAction func numberVehicleSwitchAction(_ sender: Any) {
+        setupNumberVehicleSwitch(sender: vehicleNumberIsAvailible)
     }
     
     // MARK: Properties
@@ -86,14 +86,13 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     private let modelPickerViewValues = ["Model 1", "Model 2", "Model 3", "Model 4", "Model 5"]
   
     var screenMode: ScreenMode = .edit
-    var photoList: [UIImage] = []
-    var cars: [NSManagedObject] = []
+    var vehiclePhotoList: [UIImage] = []
     var vehicleCoordinates: CLLocationCoordinate2D?
     var activePickerViewTag = 0
     var locationManager = CLLocationManager()
-    var vehicleLatitude: Double?
-    var vehicleLongitude: Double?
-    var selectedCar: NSManagedObject?
+    var vehicleCoordinateLatitude: Double?
+    var vehicleCoordinateLongitude: Double?
+    var selectedVehicle: NSManagedObject?
     
     
     // MARK: Lifecycle
@@ -106,13 +105,13 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         setupMapView()
         
         if screenMode == .view {
-            let numberVehicle = selectedCar?.value(forKey: "number") as? String
+            let numberVehicle = selectedVehicle?.value(forKey: "number") as? String
             navigationItem.title = numberVehicle
-            numberVehicleTF.text = numberVehicle
-            brandVehicleTF.text = selectedCar!.value(forKey: "brand") as? String
-            modelVehicleTF.text = selectedCar!.value(forKey: "model") as? String
-            vehicleCoordinates = CLLocationCoordinate2D(latitude: (selectedCar!.value(forKey: "latitude") as? Double)!,
-                                                        longitude: (selectedCar!.value(forKey: "longitude") as? Double)!)
+            numberVehicleTextField.text = numberVehicle
+            brandVehicleTextField.text = selectedVehicle!.value(forKey: "brand") as? String
+            modelVehicleTextField.text = selectedVehicle!.value(forKey: "model") as? String
+            vehicleCoordinates = CLLocationCoordinate2D(latitude: (selectedVehicle!.value(forKey: "latitude") as? Double)!,
+                                                        longitude: (selectedVehicle!.value(forKey: "longitude") as? Double)!)
         }
     }
     
@@ -194,20 +193,20 @@ extension VehicleEntryViewController {
         case .view: ()
             navigationItem.setRightBarButton(nil, animated: true)
             let font = UIFont(name: "Apple SD Gothic Neo SemiBold", size: 22.0)
-            numberVehicleTF.borderStyle = .none
-            numberVehicleTF.placeholder = nil
-            numberVehicleTF.font = font
-            numberVehicleTF.textAlignment = .right
+            numberVehicleTextField.borderStyle = .none
+            numberVehicleTextField.placeholder = nil
+            numberVehicleTextField.font = font
+            numberVehicleTextField.textAlignment = .right
             
-            brandVehicleTF.borderStyle = .none
-            brandVehicleTF.placeholder = nil
-            brandVehicleTF.font = font
-            brandVehicleTF.textAlignment = .right
+            brandVehicleTextField.borderStyle = .none
+            brandVehicleTextField.placeholder = nil
+            brandVehicleTextField.font = font
+            brandVehicleTextField.textAlignment = .right
             
-            modelVehicleTF.borderStyle = .none
-            modelVehicleTF.placeholder = nil
-            modelVehicleTF.font = font
-            modelVehicleTF.textAlignment = .right
+            modelVehicleTextField.borderStyle = .none
+            modelVehicleTextField.placeholder = nil
+            modelVehicleTextField.font = font
+            modelVehicleTextField.textAlignment = .right
         }
     }
     
@@ -215,11 +214,11 @@ extension VehicleEntryViewController {
         
         pickerViewToolbar.pickerFirst.tag = 1
         pickerViewToolbar.pickerTwo.tag = 2
-        brandVehicleTF.inputView = self.pickerViewToolbar.pickerFirst
-        brandVehicleTF.inputAccessoryView = self.pickerViewToolbar.toolbar
+        brandVehicleTextField.inputView = self.pickerViewToolbar.pickerFirst
+        brandVehicleTextField.inputAccessoryView = self.pickerViewToolbar.toolbar
 
-        modelVehicleTF.inputView = self.pickerViewToolbar.pickerTwo
-        modelVehicleTF.inputAccessoryView = self.pickerViewToolbar.toolbar
+        modelVehicleTextField.inputView = self.pickerViewToolbar.pickerTwo
+        modelVehicleTextField.inputAccessoryView = self.pickerViewToolbar.toolbar
 
         self.pickerViewToolbar.pickerFirst.dataSource = self
         self.pickerViewToolbar.pickerTwo.dataSource = self
@@ -229,8 +228,8 @@ extension VehicleEntryViewController {
 
         self.pickerViewToolbar.pickerFirst.reloadAllComponents()
         self.pickerViewToolbar.pickerTwo.reloadAllComponents()
-        self.brandVehicleTF.delegate = self
-        self.modelVehicleTF.delegate = self
+        self.brandVehicleTextField.delegate = self
+        self.modelVehicleTextField.delegate = self
     }
     
     private func setupMapView() {
@@ -245,8 +244,8 @@ extension VehicleEntryViewController {
                 else {
                     return
                 }
-                vehicleLongitude = Double(currentLocation.coordinate.longitude)
-                vehicleLatitude = Double(currentLocation.coordinate.latitude)
+                vehicleCoordinateLongitude = Double(currentLocation.coordinate.longitude)
+                vehicleCoordinateLatitude = Double(currentLocation.coordinate.latitude)
             } else {
                 print ("Enable location services for app")
             }
@@ -267,8 +266,8 @@ extension VehicleEntryViewController {
                 else {
                     return
                 }
-                vehicleLongitude = Double(currentLocation.coordinate.longitude)
-                vehicleLatitude = Double(currentLocation.coordinate.latitude)
+                vehicleCoordinateLongitude = Double(currentLocation.coordinate.longitude)
+                vehicleCoordinateLatitude = Double(currentLocation.coordinate.latitude)
             } else {
                 print ("Enable location services for app")
             }
@@ -287,35 +286,35 @@ extension VehicleEntryViewController {
         toolbar.setItems([flexSpace, doneButton], animated: true)
         toolbar.sizeToFit()
         
-        numberVehicleTF.inputAccessoryView = toolbar
+        numberVehicleTextField.inputAccessoryView = toolbar
     }
     
-    private func setupSwitchState(sender: UISwitch) {
+    private func setupNumberVehicleSwitch(sender: UISwitch) {
         if (sender.isOn) == false {
-            numberVehicleTF.isEnabled = true
-            numberVehicleTF.placeholder = "1234 AA 7"
-            numberVehicleTF.text = .none
+            numberVehicleTextField.isEnabled = true
+            numberVehicleTextField.placeholder = "1234 AA 7"
+            numberVehicleTextField.text = .none
         } else {
-            numberVehicleTF.isEnabled = false
-            numberVehicleTF.text = "Номер не указан"
-            numberVehicleTF.placeholder = "Номер отсутствует"
+            numberVehicleTextField.isEnabled = false
+            numberVehicleTextField.text = "Номер не указан"
+            numberVehicleTextField.placeholder = "Номер отсутствует"
         }
     }
     
-    private func clearFields() {
-        numberVehicleTF.text?.removeAll()
-        brandVehicleTF.text?.removeAll()
-        modelVehicleTF.text?.removeAll()
+    private func clearInputFields() {
+        numberVehicleTextField.text?.removeAll()
+        brandVehicleTextField.text?.removeAll()
+        modelVehicleTextField.text?.removeAll()
         
-        numberVehicleSwitch.isOn = false
+        vehicleNumberIsAvailible.isOn = false
         
-        setupSwitchState(sender: numberVehicleSwitch)
+        setupNumberVehicleSwitch(sender: vehicleNumberIsAvailible)
         
-        photoList.removeAll()
+        vehiclePhotoList.removeAll()
         tableView.reloadData()
     }
     
-    private func successAddAlert() {
+    private func successCreateRequestAlert() {
         displayAlert(
             title: "Заявка зафиксировна",
             message: "")
@@ -347,9 +346,9 @@ extension VehicleEntryViewController: UIPickerViewDelegate, UIPickerViewDataSour
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if (pickerView.tag == 1) {
-            self.brandVehicleTF.text = self.vehiclePickerViewValues[row]
+            self.brandVehicleTextField.text = self.vehiclePickerViewValues[row]
         } else {
-            self.modelVehicleTF.text = self.modelPickerViewValues[row]
+            self.modelVehicleTextField.text = self.modelPickerViewValues[row]
         }
     }
     
@@ -364,23 +363,23 @@ extension VehicleEntryViewController: ToolbarPickerViewDelegate {
         if activePickerViewTag == 1 {
             let row = self.pickerViewToolbar.pickerFirst.selectedRow(inComponent: 0)
             self.pickerViewToolbar.pickerFirst.selectRow(row, inComponent: 0, animated: false)
-            self.brandVehicleTF.text = self.vehiclePickerViewValues[row]
-            self.brandVehicleTF.resignFirstResponder()
+            self.brandVehicleTextField.text = self.vehiclePickerViewValues[row]
+            self.brandVehicleTextField.resignFirstResponder()
         } else {
             let row = self.pickerViewToolbar.pickerTwo.selectedRow(inComponent: 0)
             self.pickerViewToolbar.pickerTwo.selectRow(row, inComponent: 0, animated: false)
-            self.modelVehicleTF.text = self.modelPickerViewValues[row]
-            self.modelVehicleTF.resignFirstResponder()
+            self.modelVehicleTextField.text = self.modelPickerViewValues[row]
+            self.modelVehicleTextField.resignFirstResponder()
         }
     }
     
     func didTapCancel() {
         if activePickerViewTag == 1 {
-            self.brandVehicleTF.text = nil
-            self.brandVehicleTF.resignFirstResponder()
+            self.brandVehicleTextField.text = nil
+            self.brandVehicleTextField.resignFirstResponder()
         } else {
-            self.modelVehicleTF.text = nil
-            self.modelVehicleTF.resignFirstResponder()
+            self.modelVehicleTextField.text = nil
+            self.modelVehicleTextField.resignFirstResponder()
         }
     }
 }
@@ -401,18 +400,18 @@ extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelega
             let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             let region = MKCoordinateRegion(center: vehicleCoordinates!, span: span)
             mapView.setRegion(region, animated: true)
-            addVehicleLocationAnnotation()
+            createVehicleLocationAnnotation()
         }
         
     }
     
-    func addVehicleLocationAnnotation() {
+    func createVehicleLocationAnnotation() {
         guard let coordinate = vehicleCoordinates else {
             return
         }
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
-        annotation.subtitle = numberVehicleTF.text
+        annotation.subtitle = numberVehicleTextField.text
         mapView.addAnnotation(annotation)
     }
 }
@@ -421,10 +420,10 @@ extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelega
 extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if screenMode == .view {
-            return photoList.count
+            return vehiclePhotoList.count
         }
         if screenMode == .edit {
-            return photoList.count + 1
+            return vehiclePhotoList.count + 1
         } else {
             return 0
         }
@@ -435,7 +434,7 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! VehicleEntryCollectionViewCell
         
         if screenMode == .view {
-            let photo = photoList[indexPath.item]
+            let photo = vehiclePhotoList[indexPath.item]
             cell.imageView.image = photo
             cell.imageView.contentMode = .scaleToFill
             
@@ -449,7 +448,7 @@ extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionVi
                 
                 return cell
             }
-            let photo = photoList[indexPath.item - 1]
+            let photo = vehiclePhotoList[indexPath.item - 1]
             cell.imageView.image = photo
             cell.imageView.contentMode = .scaleToFill
             cell.layer.borderWidth = 0.5
@@ -489,10 +488,10 @@ extension VehicleEntryViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
-        photoList.append(image)
+        vehiclePhotoList.append(image)
         picker.dismiss(animated: true, completion: nil)
         tableView.reloadData()
         
-        print(photoList.count)
+        print(vehiclePhotoList.count)
     }
 }

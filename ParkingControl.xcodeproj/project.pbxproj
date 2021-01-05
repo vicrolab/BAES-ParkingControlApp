@@ -165,13 +165,13 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		B80A27F92586341000F11206 /* ViewingRequests */ = {
+		B80A27F92586341000F11206 /* RequestList */ = {
 			isa = PBXGroup;
 			children = (
 				B807AEBB25A4AC1400C035D5 /* Cells */,
 				B807AEBC25A4AC1E00C035D5 /* Controllers */,
 			);
-			path = ViewingRequests;
+			path = RequestList;
 			sourceTree = "<group>";
 		};
 		B8996975259A457D009108A6 /* Extensions */ = {
@@ -257,7 +257,7 @@
 				20AEE9972599D4EA0053041C /* Base */,
 				B8E0975D257A633400A380D9 /* VehicleEntry */,
 				B8FAFCE42583AC63005480C8 /* Settings */,
-				B80A27F92586341000F11206 /* ViewingRequests */,
+				B80A27F92586341000F11206 /* RequestList */,
 			);
 			path = Screens;
 			sourceTree = "<group>";

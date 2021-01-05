@@ -9,9 +9,9 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBAction func buttonLogOut(_ sender: UIButton) {
+    @IBAction func logOutAction(_ sender: UIButton) {
         UserDefaults.standard.setValue(false, forKey: "status")
-        Switcher.updateRootVC()
+        Switcher.updateRootViewController()
     }
     
     override func viewDidLoad() {

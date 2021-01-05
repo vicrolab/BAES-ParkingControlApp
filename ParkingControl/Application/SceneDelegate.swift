@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         window?.overrideUserInterfaceStyle = .light
-        Switcher.updateRootVC()
+        Switcher.updateRootViewController()
     }
     
     

@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 
 class Switcher {
-    static func updateRootVC() {
+    static func updateRootViewController() {
 
         let status = UserDefaults.standard.bool(forKey: "status")
-        let rootVC: UIViewController?
+        let rootViewController: UIViewController?
         let appWindow = UIApplication.shared.windows.first
         
         print(status)
@@ -22,15 +22,15 @@ class Switcher {
         }
         
         if (status == true) {
-            rootVC = UIStoryboard(name: "Main",
+            rootViewController = UIStoryboard(name: "Main",
                                   bundle: nil).instantiateViewController(withIdentifier: "tabbarvc") as! TabBarViewController
-            window.rootViewController = rootVC
+            window.rootViewController = rootViewController
             window.makeKeyAndVisible()
             
         } else {
-            rootVC = UIStoryboard(name: "Main",
+            rootViewController = UIStoryboard(name: "Main",
                                   bundle: nil).instantiateViewController(withIdentifier: "loginvc") as! LoginViewController
-            window.rootViewController = rootVC
+            window.rootViewController = rootViewController
             window.makeKeyAndVisible()
         }
     }

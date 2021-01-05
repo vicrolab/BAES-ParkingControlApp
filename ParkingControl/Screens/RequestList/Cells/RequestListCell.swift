@@ -11,7 +11,7 @@ class RequestListCell: UITableViewCell {
 
     @IBOutlet weak var vehicleInformation: UILabel!
     @IBOutlet weak var dateAndLocation: UILabel!
-    @IBAction func viewDetail(_ sender: UIButton) {
+    @IBAction func viewDetailAction(_ sender: UIButton) {
     }
     
     override func awakeFromNib() {
