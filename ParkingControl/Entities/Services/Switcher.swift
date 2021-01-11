@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class Switcher {
+    
     static func updateRootViewController() {
 
         let status = UserDefaults.standard.bool(forKey: "status")

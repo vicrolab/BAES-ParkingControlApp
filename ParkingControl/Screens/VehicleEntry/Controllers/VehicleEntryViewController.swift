@@ -10,7 +10,7 @@ import MapKit
 import CoreData
 import CoreLocation
 
-class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
+class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, VehicleEntryViewControllerDelegate {
     // MARK: Outlets
     @IBOutlet var numberVehicleTextField: UITextField!
     @IBOutlet weak var vehicleNumberIsAvailible: UISwitch!
@@ -75,7 +75,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         setupNumberVehicleSwitch(sender: vehicleNumberIsAvailible)
     }
     
-    // MARK: Properties
+//     MARK: Properties
     enum ScreenMode {
         case view, edit
     }
@@ -84,7 +84,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     private let pickerViewToolbar = ToolbarPickerView()
     private let vehiclePickerViewValues = ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
     private let modelPickerViewValues = ["Model 1", "Model 2", "Model 3", "Model 4", "Model 5"]
-  
+    
     var screenMode: ScreenMode = .edit
     var vehiclePhotoList: [UIImage] = []
     var vehicleCoordinates: CLLocationCoordinate2D?
@@ -121,17 +121,16 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    // MARK: TableView
+//     MARK: TableView
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let tableViewCell = cell as? VehicleEntryTableViewCell
         else {
             return
         }
-
-        tableViewCell.setCollectionViewDataSourceDelegate(
-            dataSourceDelegate: self,
-            forRow: indexPath.row
-        )
+        tableViewCell.vehiclePhotoList = vehiclePhotoList
+        tableViewCell.screenMode = screenMode
+        tableViewCell.selectedVehicle = selectedVehicle
+        tableViewCell.delegate = self
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -188,7 +187,6 @@ extension VehicleEntryViewController {
     private func setupUI() {
         switch screenMode {
         case .edit: (
-        
         )
         case .view: ()
             navigationItem.setRightBarButton(nil, animated: true)
@@ -415,83 +413,34 @@ extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelega
         mapView.addAnnotation(annotation)
     }
 }
-
-// MARK: - UICollectionViewDataSource
-extension VehicleEntryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if screenMode == .view {
-            return vehiclePhotoList.count
-        }
-        if screenMode == .edit {
-            return vehiclePhotoList.count + 1
-        } else {
-            return 0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let identifier = "PhotoCell"
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! VehicleEntryCollectionViewCell
-        
-        if screenMode == .view {
-            let photo = vehiclePhotoList[indexPath.item]
-            cell.imageView.image = photo
-            cell.imageView.contentMode = .scaleToFill
-            
-            return cell
-        } else {
-            if indexPath.item == 0 {
-                cell.backgroundColor = UIColor.gray
-                cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
-                cell.imageView.tintColor = UIColor.white
-                cell.imageView.contentMode = .center
-                
-                return cell
-            }
-            let photo = vehiclePhotoList[indexPath.item - 1]
-            cell.imageView.image = photo
-            cell.imageView.contentMode = .scaleToFill
-            cell.layer.borderWidth = 0.5
-            cell.layer.borderColor = UIColor.lightGray.cgColor
-            
-            return cell
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if screenMode == .edit {
-            let cell = collectionView.cellForItem(at: indexPath) as! VehicleEntryCollectionViewCell
-            cell.isSelected = true
-            tappedCamera()
-            
-            print("pressed")
-        }
-    }
-}
-
 // MARK: - UIImagePickerControllerDelegate
 extension VehicleEntryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    @objc func tappedCamera() {
+    func tappedCamera() {
         let imagePicker = UIImagePickerController()
-        
+        imagePicker.delegate = self
+
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             imagePicker.sourceType = .camera
         } else {
             imagePicker.sourceType = .photoLibrary
         }
         
-        imagePicker.delegate = self
-        
-        present(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        
+
         vehiclePhotoList.append(image)
         picker.dismiss(animated: true, completion: nil)
+        let myCell = VehicleEntryTableViewCell()
+        myCell.vehiclePhotoList = vehiclePhotoList
         tableView.reloadData()
-        
         print(vehiclePhotoList.count)
+        print(myCell.vehiclePhotoList?.count ?? "not update photoList in vehicleEntryTableViewCell")
     }
+}
+
+protocol VehicleEntryViewControllerDelegate {
+    func tappedCamera()
 }
