@@ -1,5 +1,5 @@
 //
-//  VehicleEntryTableViewCell.swift
+//  VehicleEntryPhotoViewTableViewCell.swift
 //  ParkingControl
 //
 //  Created by Mikalaj Shuhno on 3.12.20.
@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class VehicleEntryTableViewCell: UITableViewCell {
+class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -22,13 +22,13 @@ class VehicleEntryTableViewCell: UITableViewCell {
     var selectedVehicle: NSManagedObject?
     var delegate: VehicleEntryViewControllerDelegate?
     
-    
     // MARK: Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         screenMode = .edit
         collectionView.delegate = self
         collectionView.dataSource = self
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -36,19 +36,16 @@ class VehicleEntryTableViewCell: UITableViewCell {
     }
     
     // MARK: Setup
-    
-    
     // MARK: - Public interface
     func tappedCamera() {
         delegate?.tappedCamera()
     }
-    
     // MARK: - Private interface
 }
 
 
 // MARK: - UICollectionViewDataSourceDelegate
-extension VehicleEntryTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if screenMode == .view {
             guard let vehiclePhotoList = vehiclePhotoList

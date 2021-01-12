@@ -4,7 +4,6 @@
         <attribute name="brand" optional="YES" attributeType="String"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="location" optional="YES" attributeType="Transformable"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="model" optional="YES" attributeType="String"/>
         <attribute name="number" optional="YES" attributeType="String"/>
@@ -16,7 +15,7 @@
         <relationship name="vehicleEntry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="VehicleEntry" inverseName="image" inverseEntity="VehicleEntry"/>
     </entity>
     <elements>
-        <element name="VehicleEntry" positionX="206.8040161132812" positionY="-230.1716918945312" width="128" height="149"/>
+        <element name="VehicleEntry" positionX="206.8040161132812" positionY="-230.1716918945312" width="128" height="134"/>
         <element name="VehicleEntryImage" positionX="-63" positionY="27" width="128" height="74"/>
     </elements>
 </model>

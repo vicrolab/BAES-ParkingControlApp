@@ -96,9 +96,7 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
             let orientedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
             vehiclePhotoList.append(orientedImage)
         }
-//        cell.selectedVehicle = selectedVehicle
-//        cell.vehiclePhotoList = vehiclePhotoList
-//        cell.screenMode = .edit
+        
         controller.selectedVehicle = selectedVehicle
         controller.screenMode = .view
         controller.vehiclePhotoList = vehiclePhotoList

@@ -16,8 +16,8 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
     @IBOutlet weak var vehicleNumberIsAvailible: UISwitch!
     @IBOutlet weak var brandVehicleTextField: UITextField!
     @IBOutlet weak var modelVehicleTextField: UITextField!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var createRequestOutlet: UIBarButtonItem!
+    
     
     // MARK: Actions
     @IBAction func createRequestAction(_ sender: UIBarButtonItem) {
@@ -30,7 +30,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
                 message: "Введите гос номер или установите без номера")
             return
         }
-
+        
         guard
             let brandVehicle = brandVehicleTextField.text,
             !brandVehicle.isEmpty
@@ -40,7 +40,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
                 message: "Выберите марку из списка")
             return
         }
-
+        
         guard
             let modelVehicle = modelVehicleTextField.text,
             !modelVehicle.isEmpty
@@ -50,19 +50,22 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
                 message: "Выберите модель из списка")
             return
         }
-
-        setupMapView()
-
+        createVehicleLocationEntry()
+        guard let vehicleCoordinateLongitude = vehicleCoordinateLongitude, let vehicleCoordinateLatitude = vehicleCoordinateLatitude
+        else {
+            print("Doesn't create location vehicle entry")
+            displayAlert(title: "Trouble with location services", message: "Check you location settings")
+            return
+        }
         persistentStore.createVehicleEntry(
             brandVehicle: brandVehicle,
             dateCreated: Date(),
             modelVehicle: modelVehicle,
             numberVehicle: numberVehicle,
             photoList: vehiclePhotoList,
-            longitude: vehicleCoordinateLongitude!,
-            latitude: vehicleCoordinateLatitude!
+            longitude: vehicleCoordinateLongitude,
+            latitude: vehicleCoordinateLatitude
         )
-        
         successCreateRequestAlert()
         clearInputFields()
     }
@@ -75,7 +78,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
         setupNumberVehicleSwitch(sender: vehicleNumberIsAvailible)
     }
     
-//     MARK: Properties
+    //     MARK: Properties
     enum ScreenMode {
         case view, edit
     }
@@ -89,11 +92,9 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
     var vehiclePhotoList: [UIImage] = []
     var vehicleCoordinates: CLLocationCoordinate2D?
     var activePickerViewTag = 0
-    var locationManager = CLLocationManager()
     var vehicleCoordinateLatitude: Double?
     var vehicleCoordinateLongitude: Double?
     var selectedVehicle: NSManagedObject?
-    
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -102,7 +103,6 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
         setupUI()
         setupNumberVehicleTextField()
         setupPickerViews()
-        setupMapView()
         
         if screenMode == .view {
             let numberVehicle = selectedVehicle?.value(forKey: "number") as? String
@@ -110,27 +110,29 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
             numberVehicleTextField.text = numberVehicle
             brandVehicleTextField.text = selectedVehicle!.value(forKey: "brand") as? String
             modelVehicleTextField.text = selectedVehicle!.value(forKey: "model") as? String
-            vehicleCoordinates = CLLocationCoordinate2D(latitude: (selectedVehicle!.value(forKey: "latitude") as? Double)!,
-                                                        longitude: (selectedVehicle!.value(forKey: "longitude") as? Double)!)
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         view.endEditing(true)
     }
     
-//     MARK: TableView
+    //     MARK: TableView
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let tableViewCell = cell as? VehicleEntryTableViewCell
-        else {
-            return
+        if let photoTableViewCell = cell as? VehicleEntryPhotoViewTableViewCell {
+            photoTableViewCell.vehiclePhotoList = vehiclePhotoList
+            photoTableViewCell.screenMode = screenMode
+            photoTableViewCell.selectedVehicle = selectedVehicle
+            photoTableViewCell.delegate = self
         }
-        tableViewCell.vehiclePhotoList = vehiclePhotoList
-        tableViewCell.screenMode = screenMode
-        tableViewCell.selectedVehicle = selectedVehicle
-        tableViewCell.delegate = self
+        
+        if let mapViewCell = cell as? VehicleEntryMapViewTableViewCell {
+            mapViewCell.delegate = self
+            mapViewCell.screenMode = screenMode
+            mapViewCell.selectedVehicle = selectedVehicle
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -168,23 +170,17 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate, Ve
         return 50.00
     }
     
-    
     // MARK: Setup
     @objc func doneButtonTapped() {
         view.endEditing(true)
     }
-    
-    
 }
 
 // MARK: - Public interface
-extension VehicleEntryViewController {
-    
-}
-
 // MARK: - Private interface
 extension VehicleEntryViewController {
     private func setupUI() {
+        tableView.allowsSelection = false
         switch screenMode {
         case .edit: (
         )
@@ -195,96 +191,61 @@ extension VehicleEntryViewController {
             numberVehicleTextField.placeholder = nil
             numberVehicleTextField.font = font
             numberVehicleTextField.textAlignment = .right
+            numberVehicleTextField.isUserInteractionEnabled = false
             
             brandVehicleTextField.borderStyle = .none
             brandVehicleTextField.placeholder = nil
             brandVehicleTextField.font = font
             brandVehicleTextField.textAlignment = .right
+            brandVehicleTextField.isUserInteractionEnabled = false
             
             modelVehicleTextField.borderStyle = .none
             modelVehicleTextField.placeholder = nil
             modelVehicleTextField.font = font
             modelVehicleTextField.textAlignment = .right
+            modelVehicleTextField.isUserInteractionEnabled = false
         }
     }
     
     private func setupPickerViews() {
-        
-        pickerViewToolbar.pickerFirst.tag = 1
-        pickerViewToolbar.pickerTwo.tag = 2
-        brandVehicleTextField.inputView = self.pickerViewToolbar.pickerFirst
-        brandVehicleTextField.inputAccessoryView = self.pickerViewToolbar.toolbar
-
-        modelVehicleTextField.inputView = self.pickerViewToolbar.pickerTwo
-        modelVehicleTextField.inputAccessoryView = self.pickerViewToolbar.toolbar
-
-        self.pickerViewToolbar.pickerFirst.dataSource = self
-        self.pickerViewToolbar.pickerTwo.dataSource = self
-        self.pickerViewToolbar.pickerFirst.delegate = self
-        self.pickerViewToolbar.pickerTwo.delegate = self
-        self.pickerViewToolbar.toolbarDelegate = self
-
-        self.pickerViewToolbar.pickerFirst.reloadAllComponents()
-        self.pickerViewToolbar.pickerTwo.reloadAllComponents()
-        self.brandVehicleTextField.delegate = self
-        self.modelVehicleTextField.delegate = self
-    }
-    
-    private func setupMapView() {
-        if screenMode == .edit {
-            self.locationManager.requestWhenInUseAuthorization()
+        switch screenMode {
+        case .edit:
+            pickerViewToolbar.pickerFirst.tag = 1
+            pickerViewToolbar.pickerTwo.tag = 2
+            brandVehicleTextField.inputView = self.pickerViewToolbar.pickerFirst
+            brandVehicleTextField.inputAccessoryView = self.pickerViewToolbar.toolbar
             
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.delegate = self
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.startUpdatingLocation()
-                guard let currentLocation = locationManager.location
-                else {
-                    return
-                }
-                vehicleCoordinateLongitude = Double(currentLocation.coordinate.longitude)
-                vehicleCoordinateLatitude = Double(currentLocation.coordinate.latitude)
-            } else {
-                print ("Enable location services for app")
-            }
+            modelVehicleTextField.inputView = self.pickerViewToolbar.pickerTwo
+            modelVehicleTextField.inputAccessoryView = self.pickerViewToolbar.toolbar
             
-            mapView.delegate = self
-            mapView.mapType = .standard
-            mapView.isZoomEnabled = true
-            mapView.isScrollEnabled = true
-        }
-        if screenMode == .view {
-            self.locationManager.requestWhenInUseAuthorization()
+            self.pickerViewToolbar.pickerFirst.dataSource = self
+            self.pickerViewToolbar.pickerTwo.dataSource = self
+            self.pickerViewToolbar.pickerFirst.delegate = self
+            self.pickerViewToolbar.pickerTwo.delegate = self
+            self.pickerViewToolbar.toolbarDelegate = self
             
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.delegate = self
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.startUpdatingLocation()
-                guard let currentLocation = locationManager.location
-                else {
-                    return
-                }
-                vehicleCoordinateLongitude = Double(currentLocation.coordinate.longitude)
-                vehicleCoordinateLatitude = Double(currentLocation.coordinate.latitude)
-            } else {
-                print ("Enable location services for app")
-            }
-            
-            mapView.delegate = self
-            mapView.mapType = .standard
-            mapView.isZoomEnabled = true
-            mapView.isScrollEnabled = true
+            self.pickerViewToolbar.pickerFirst.reloadAllComponents()
+            self.pickerViewToolbar.pickerTwo.reloadAllComponents()
+            self.brandVehicleTextField.delegate = self
+            self.modelVehicleTextField.delegate = self
+        case .view: (
+        )
         }
     }
-    
+
     private func setupNumberVehicleTextField() {
-        let toolbar = UIToolbar()
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
-        toolbar.setItems([flexSpace, doneButton], animated: true)
-        toolbar.sizeToFit()
-        
-        numberVehicleTextField.inputAccessoryView = toolbar
+        switch screenMode {
+        case .edit:
+            let toolbar = UIToolbar()
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+            toolbar.setItems([flexSpace, doneButton], animated: true)
+            toolbar.sizeToFit()
+            
+            numberVehicleTextField.inputAccessoryView = toolbar
+        case .view: (
+        )
+        }
     }
     
     private func setupNumberVehicleSwitch(sender: UISwitch) {
@@ -331,7 +292,6 @@ extension VehicleEntryViewController: UIPickerViewDelegate, UIPickerViewDataSour
         } else {
             return self.modelPickerViewValues.count
         }
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -384,33 +344,23 @@ extension VehicleEntryViewController: ToolbarPickerViewDelegate {
 
 // MARK: - MKMapViewDelegate
 extension VehicleEntryViewController: MKMapViewDelegate, CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func createVehicleLocationEntry() {
         if screenMode == .edit {
-            let locationValue: CLLocationCoordinate2D = manager.location!.coordinate
-            mapView.mapType = MKMapType.standard
-            mapView.isZoomEnabled = true
-            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            let region = MKCoordinateRegion(center: locationValue, span: span)
-            mapView.setRegion(region, animated: true)
-            mapView.showsUserLocation = true
-        } else if screenMode == .view {
-            mapView.mapType = MKMapType.standard
-            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            let region = MKCoordinateRegion(center: vehicleCoordinates!, span: span)
-            mapView.setRegion(region, animated: true)
-            createVehicleLocationAnnotation()
+            let manager = CLLocationManager()
+            manager.requestWhenInUseAuthorization()
+            if CLLocationManager.locationServicesEnabled() {
+                manager.delegate = self
+                manager.desiredAccuracy = kCLLocationAccuracyBest
+                manager.startUpdatingLocation()
+                guard let currentLocation = manager.location
+                else {
+                    return
+                }
+                vehicleCoordinateLongitude = Double(currentLocation.coordinate.longitude)
+                vehicleCoordinateLatitude = Double(currentLocation.coordinate.latitude)
+                print("Success write entry of vehicle location at latitude \(String(describing: vehicleCoordinateLatitude)), longitude \(String(describing: vehicleCoordinateLongitude))")
+            }
         }
-        
-    }
-    
-    func createVehicleLocationAnnotation() {
-        guard let coordinate = vehicleCoordinates else {
-            return
-        }
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.subtitle = numberVehicleTextField.text
-        mapView.addAnnotation(annotation)
     }
 }
 // MARK: - UIImagePickerControllerDelegate
@@ -418,7 +368,7 @@ extension VehicleEntryViewController: UIImagePickerControllerDelegate, UINavigat
     func tappedCamera() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-
+        
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             imagePicker.sourceType = .camera
         } else {
@@ -427,13 +377,13 @@ extension VehicleEntryViewController: UIImagePickerControllerDelegate, UINavigat
         
         self.present(imagePicker, animated: true, completion: nil)
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-
+        
         vehiclePhotoList.append(image)
         picker.dismiss(animated: true, completion: nil)
-        let myCell = VehicleEntryTableViewCell()
+        let myCell = VehicleEntryPhotoViewTableViewCell()
         myCell.vehiclePhotoList = vehiclePhotoList
         tableView.reloadData()
         print(vehiclePhotoList.count)
