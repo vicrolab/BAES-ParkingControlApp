@@ -28,7 +28,6 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
         screenMode = .edit
         collectionView.delegate = self
         collectionView.dataSource = self
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,10 +36,10 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
     
     // MARK: Setup
     // MARK: - Public interface
-    func tappedCamera() {
+    // MARK: - Private interface
+    private func tappedCamera() {
         delegate?.tappedCamera()
     }
-    // MARK: - Private interface
 }
 
 
@@ -67,7 +66,8 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = "PhotoCell"
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! VehicleEntryCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
+                                                      for: indexPath) as! VehicleEntryCollectionViewCell
         guard let vehiclePhotoList = vehiclePhotoList
         else {
             return cell
@@ -82,7 +82,8 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
         } else {
             if indexPath.item == 0 {
                 cell.backgroundColor = UIColor.gray
-                cell.imageView.image = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
+                cell.imageView.image = UIImage(systemName: "plus.circle",
+                                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 50))
                 cell.imageView.tintColor = UIColor.white
                 cell.imageView.contentMode = .center
                 

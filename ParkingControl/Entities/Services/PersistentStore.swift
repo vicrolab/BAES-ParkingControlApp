@@ -36,7 +36,13 @@ class PersistentStore {
         case failure(Error)
     }
     
-    func createVehicleEntry(brandVehicle: String, dateCreated: Date, modelVehicle: String, numberVehicle: String, photoList: [UIImage], longitude: Double, latitude: Double) {
+    func createVehicleEntry(brandVehicle: String,
+                            dateCreated: Date,
+                            modelVehicle: String,
+                            numberVehicle: String,
+                            photoList: [UIImage],
+                            longitude: Double,
+                            latitude: Double) {
         let managedContext = PersistentContainer.shared.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "VehicleEntry", in: managedContext)!
         

@@ -15,8 +15,7 @@ protocol ToolbarPickerViewDelegate: class {
 }
 
 class ToolbarPickerView: UIPickerView {
-    let pickerFirst = UIPickerView()
-    let pickerTwo = UIPickerView()
+    let pickerView = UIPickerView()
     
     public private(set) var toolbar: UIToolbar?
     public weak var toolbarDelegate: ToolbarPickerViewDelegate?
@@ -37,9 +36,17 @@ class ToolbarPickerView: UIPickerView {
         toolbar.tintColor = .black
         toolbar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneTapped))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancelTapped))
+        let doneButton = UIBarButtonItem(title: "Done",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(self.doneTapped))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(self.cancelTapped))
         
         toolbar.setItems([cancelButton, flexibleSpace, doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
