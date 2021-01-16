@@ -59,10 +59,7 @@ extension VehicleEntryMapViewTableViewCell: MKMapViewDelegate, CLLocationManager
                 setupMapViewRegion(location: locationManager.location!.coordinate,
                                    mapView: mapView,
                                    showUserLocation: true)
-            } else {
-                print ("Enable location services for app")
             }
-            
             if screenMode == .view {
                 guard let selectedVehicle = selectedVehicle,
                       let latitude = selectedVehicle.value(forKey: "latitude") as? Double,
@@ -73,8 +70,6 @@ extension VehicleEntryMapViewTableViewCell: MKMapViewDelegate, CLLocationManager
                 let vehicleCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                 setupMapViewRegion(location: vehicleCoordinates, mapView: mapView, showUserLocation: false)
                 createVehicleLocationAnnotation()
-            } else {
-                print ("Enable location services for app")
             }
         }
     }
@@ -100,18 +95,37 @@ extension VehicleEntryMapViewTableViewCell: MKMapViewDelegate, CLLocationManager
         case .authorizedAlways:
             break
         case .denied:
-            displayAlert(title: "Check location services",
-                         message: "The user denied the use of location services for the app or they are disabled globally in Settings",
-                         controller: VehicleEntryViewController())
+            let controller = VehicleEntryViewController()
+            controller.displayAlert(title: "Check location services",
+                                    message: "The user denied the use of location services for the app or they are disabled globally in Settings")
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
             mapView.showsUserLocation = true
         case .restricted:
-            displayAlert(title: "Check location services",
-                         message: "The app is not authorized to use location services",
-                         controller: VehicleEntryViewController())
+            let controller = VehicleEntryViewController()
+            controller.displayAlert(title: "Check location services",
+                                    message: "The app is not authorized to use location services")
         default:
             break
         }
+    }
+}
+
+extension VehicleEntryMapViewTableViewCell {
+    func setupMapViewRegion(location: CLLocationCoordinate2D, mapView: MKMapView, showUserLocation: Bool) {
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion(center: location, span: span)
+        
+        mapView.mapType = MKMapType.standard
+        mapView.isZoomEnabled = true
+        mapView.setRegion(region, animated: true)
+        mapView.showsUserLocation = showUserLocation
+    }
+    
+    func displayAlert(title: String, message: String, controller: UIViewController) {
+        let okAction = UIAlertAction(title: "ОК", style: .default)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(okAction)
+        controller.present(alert, animated: true)
     }
 }

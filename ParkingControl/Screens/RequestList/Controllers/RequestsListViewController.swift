@@ -13,23 +13,15 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
     // MARK: Properties
     let persistentStore = PersistentStore()
     
-    var vehicleEntities: [VehicleEntry] = []
+    var vehicleEntities: [VehicleEntry]?
     var selectedVehicle: NSManagedObject?
     
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.rowHeight = 65
-        persistentStore.fetchVehicleEntries { (result) in
-            switch result {
-            case let .success(vehicleEntries):
-                self.vehicleEntities = vehicleEntries
-                self.tableView.reloadData()
-            case let .failure(error):
-                print("Error occured: \(error.localizedDescription)")
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,58 +40,72 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vehicleEntities.count
+        guard let vehicleEntries = vehicleEntities
+        else {
+            return 0
+        }
+        return vehicleEntries.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RequestListCell
-        let vehicle = vehicleEntities[indexPath.row]
+        guard let vehicle = vehicleEntities?[indexPath.row]
+        else {
+            return cell
+        }
+        let numberVehicle = vehicle.number
+        let brandVehicle = vehicle.brand
+        let modelVehicle = vehicle.model
+        let dateCreated = vehicle.dateCreated
         
-        let numberVehicle = vehicle.value(forKey: "number") as? String
-        let brandVehicle = vehicle.value(forKey: "brand") as? String
-        let modelVehicle = vehicle.value(forKey: "model") as? String
-        let dateCreated = vehicle.value(forKey: "dateCreated") as? Date
-        
-        cell.vehicleInformation.text = "\(numberVehicle!)', \(brandVehicle!), \(modelVehicle!)"
+        cell.vehicleInformation.text = "\(numberVehicle ?? "Номер не указан"), \(brandVehicle ?? "Марка не указана"), \(modelVehicle ?? "Модель не указана")"
         cell.dateAndLocation.text = "\(DateFormatter.standard.string(from: dateCreated!))"
         
         return cell
+
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedVehicle = vehicleEntities[indexPath.row]
+        guard let selectedVehicle = vehicleEntities?[indexPath.row]
+        else {
+            return
+        }
+        
+        guard let vehicleEntryImageSet = selectedVehicle.images else {
+            return
+        }
+    
+        let vehicleEntryImages = Array(vehicleEntryImageSet)
+            .map { (object) -> VehicleEntryImage in
+                object as! VehicleEntryImage
+            }
+            .sorted(by: { $0.position < $1.position })
+            .map { (image) -> UIImage? in
+                guard let data = image.data else {
+                    return nil
+                }
+
+                return orientImage(UIImage(data: data))
+            }
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "VehicleEntryViewController") as! VehicleEntryViewController
-        navigationController?.pushViewController(controller, animated: true)
-        
-        var vehiclePhotoList: [UIImage] = []
-        let selectedCarImageSet = vehicleEntities[indexPath.row].image
-        var selectedCarImageArray = selectedCarImageSet?.allObjects
-        selectedCarImageArray!.sort {
-            guard let firstObject = $0 as? NSManagedObject,
-                  let secondObject = $1 as? NSManagedObject,
-                  let firstPosition = firstObject.value(forKey: "position") as? Int16,
-                  let secondPosition = secondObject.value(forKey: "position") as? Int16
-            else {
-                return false
-            }
-            return firstPosition < secondPosition
-        }
-        
-        for entityData in selectedCarImageArray! {
-            guard let entityDataObject = entityData as? NSManagedObject,
-                  let entityImageData = entityDataObject.value(forKey: "data") as? Data,
-                  let image = UIImage(data: entityImageData)
-            else {
-                return
-            }
-            let orientedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
-            vehiclePhotoList.append(orientedImage)
-        }
-        
         controller.selectedVehicle = selectedVehicle
         controller.screenMode = .view
-        controller.vehiclePhotoList = vehiclePhotoList
+        controller.vehiclePhotoList = vehicleEntryImages
+        
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
+extension RequestsListViewController {
+    func orientImage(_ image: UIImage?) -> UIImage? {
+        guard let image = image else {
+            return nil
+        }
+
+        let reverseImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right )
+        
+        return reverseImage
+    }
+}

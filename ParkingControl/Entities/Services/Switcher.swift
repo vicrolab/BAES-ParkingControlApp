@@ -11,26 +11,22 @@ import UIKit
 class Switcher {
     
     static func updateRootViewController() {
-
         let status = UserDefaults.standard.bool(forKey: "status")
         let rootViewController: UIViewController?
         let appWindow = UIApplication.shared.windows.first
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         print(status)
-        
         guard let window = appWindow else {
             return
         }
-        
         if (status == true) {
-            rootViewController = UIStoryboard(name: "Main",
-                                  bundle: nil).instantiateViewController(withIdentifier: "tabbarvc") as! TabBarViewController
+            rootViewController = storyboard.instantiateViewController(withIdentifier: "tabbarvc") as! TabBarViewController
             window.rootViewController = rootViewController
             window.makeKeyAndVisible()
             
         } else {
-            rootViewController = UIStoryboard(name: "Main",
-                                  bundle: nil).instantiateViewController(withIdentifier: "loginvc") as! LoginViewController
+            rootViewController = storyboard.instantiateViewController(withIdentifier: "loginvc") as! LoginViewController
             window.rootViewController = rootViewController
             window.makeKeyAndVisible()
         }

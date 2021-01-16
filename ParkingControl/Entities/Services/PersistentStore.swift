@@ -40,7 +40,7 @@ class PersistentStore {
                             dateCreated: Date,
                             modelVehicle: String,
                             numberVehicle: String,
-                            photoList: [UIImage],
+                            photoList: [UIImage?],
                             longitude: Double,
                             latitude: Double) {
         let managedContext = PersistentContainer.shared.viewContext
@@ -57,14 +57,14 @@ class PersistentStore {
         for photo in photoList {
             let entity = NSEntityDescription.entity(forEntityName: "VehicleEntryImage", in: managedContext)!
             let image = NSManagedObject(entity: entity, insertInto: managedContext) as! VehicleEntryImage
-            image.data = photo.pngData()
+            image.data = photo?.pngData()
             guard let imageIndex = photoList.firstIndex(of: photo)
             else {
                 return
             }
             let imageIndexInInt = Int16(imageIndex)
             image.position = imageIndexInInt
-            vehicle.addToImage(image)
+            vehicle.addToImages(image)
         }
         
         commit()
@@ -88,7 +88,10 @@ class PersistentStore {
     func commit() {
         let context = PersistentContainer.shared.viewContext
         
-        guard context.hasChanges else { return }
+        guard context.hasChanges else
+        {
+            return
+        }
 
         do {
             try context.save()

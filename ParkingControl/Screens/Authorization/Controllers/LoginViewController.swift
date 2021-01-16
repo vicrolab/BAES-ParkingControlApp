@@ -9,10 +9,10 @@ import UIKit
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var loginTextField: UITextField!
-    @IBOutlet weak var passwordTextFeild: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     
     @IBAction func logInAction(_ sender: UIButton) {
-        if loginTextField.text == "test" && passwordTextFeild.text == "test" {
+        if loginTextField.text == "test" && passwordTextField.text == "test" {
             UserDefaults.standard.setValue(true, forKey: "status")
             
             Switcher.updateRootViewController()

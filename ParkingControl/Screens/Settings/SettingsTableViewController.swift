@@ -16,5 +16,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.allowsSelection = false
+        tableView.tableFooterView = UIView()
     }
 }

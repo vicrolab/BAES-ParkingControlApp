@@ -14,7 +14,7 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
 
     // MARK: Properties
     var screenMode: VehicleEntryViewController.ScreenMode?
-    var vehiclePhotoList: [UIImage]? {
+    var vehiclePhotoList: [UIImage?]? {
         didSet {
             collectionView?.reloadData()
         }
@@ -46,20 +46,16 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
 // MARK: - UICollectionViewDataSourceDelegate
 extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if screenMode == .view {
+        switch screenMode {
+        case .view:
+            return vehiclePhotoList?.count ?? 0
+        case .edit:
             guard let vehiclePhotoList = vehiclePhotoList
             else {
-                return 0
-            }
-            return vehiclePhotoList.count
-        }
-        if screenMode == .edit {
-            guard let vehiclePhotoList = vehiclePhotoList
-            else {
-                return 0
+                return 1
             }
             return vehiclePhotoList.count + 1
-        } else {
+        default:
             return 0
         }
     }
@@ -73,13 +69,14 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
             return cell
         }
         
-        if screenMode == .view {
+        switch screenMode {
+        case .view:
             let photo = vehiclePhotoList[indexPath.item]
             cell.imageView.image = photo
             cell.imageView.contentMode = .scaleToFill
             
             return cell
-        } else {
+        case .edit:
             if indexPath.item == 0 {
                 cell.backgroundColor = UIColor.gray
                 cell.imageView.image = UIImage(systemName: "plus.circle",
@@ -96,15 +93,24 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
             cell.layer.borderColor = UIColor.lightGray.cgColor
             
             return cell
+        default:
+            return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if screenMode == .edit {
+        switch screenMode {
+        case .edit:
+            guard indexPath.item == 0
+            else {
+                return
+            }
             let cell = collectionView.cellForItem(at: indexPath) as! VehicleEntryCollectionViewCell
             cell.isSelected = true
             tappedCamera()
             print("pressed")
+        default:
+            break
         }
     }
 }

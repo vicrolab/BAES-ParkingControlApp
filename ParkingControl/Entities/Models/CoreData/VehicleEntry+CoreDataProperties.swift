@@ -2,7 +2,7 @@
 //  VehicleEntry+CoreDataProperties.swift
 //  ParkingControl
 //
-//  Created by Mikalaj Shuhno on 5.01.21.
+//  Created by Mikalaj Shuhno on 16.01.21.
 //
 //
 
@@ -18,29 +18,28 @@ extension VehicleEntry {
 
     @NSManaged public var brand: String?
     @NSManaged public var dateCreated: Date?
-    @NSManaged public var location: NSObject?
-    @NSManaged public var model: String?
-    @NSManaged public var number: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var image: NSSet?
+    @NSManaged public var model: String?
+    @NSManaged public var number: String?
+    @NSManaged public var images: NSSet?
 
 }
 
-// MARK: Generated accessors for image
+// MARK: Generated accessors for images
 extension VehicleEntry {
 
-    @objc(addImageObject:)
-    @NSManaged public func addToImage(_ value: VehicleEntryImage)
+    @objc(addImagesObject:)
+    @NSManaged public func addToImages(_ value: VehicleEntryImage)
 
-    @objc(removeImageObject:)
-    @NSManaged public func removeFromImage(_ value: VehicleEntryImage)
+    @objc(removeImagesObject:)
+    @NSManaged public func removeFromImages(_ value: VehicleEntryImage)
 
-    @objc(addImage:)
-    @NSManaged public func addToImage(_ values: NSSet)
+    @objc(addImages:)
+    @NSManaged public func addToImages(_ values: NSSet)
 
-    @objc(removeImage:)
-    @NSManaged public func removeFromImage(_ values: NSSet)
+    @objc(removeImages:)
+    @NSManaged public func removeFromImages(_ values: NSSet)
 
 }
 
