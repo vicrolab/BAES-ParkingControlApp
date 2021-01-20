@@ -27,17 +27,18 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func createRequestAction(_ sender: UIBarButtonItem) {
         let title: String = "Не заполнены поля"
         var message: String = "Заявка не зафиксирована.\nВведите значения для:"
-        var validationTag = 0
+        
+        var validationErrorCount = 0
         [("\nномер ТС", numberVehicleTextField.text),
          ("\nмарка ТС", brandVehicleTextField.text),
          ("\nмодель ТС", modelVehicleTextField.text)].forEach { (String, textFieldString) in
             if textFieldString?.isEmpty == true {
                 message += String
-                validationTag += 1
+                validationErrorCount += 1
             }
         }
         
-        guard validationTag == 0 else {
+        guard validationErrorCount == 0 else {
             displayAlert(title: title, message: message)
             return
         }

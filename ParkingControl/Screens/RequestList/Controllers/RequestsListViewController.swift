@@ -29,11 +29,34 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
         
         fetchVehicleEntries()
     }
+
+    // MARK: - Private interface
+    private func orientImage(_ image: UIImage?) -> UIImage? {
+        guard let image = image else {
+            return nil
+        }
+        let reverseImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
+        
+        return reverseImage
+    }
     
-    // MARK: TableView
+    // MARK: - Public interface
+    func fetchVehicleEntries() {
+        persistentStore.fetchVehicleEntries { (result) in
+            switch result {
+            case let .success(vehicleEntries):
+                self.vehicleEntities = vehicleEntries
+                self.tableView.reloadData()
+            case let .failure(error):
+                print("Error occured: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+extension RequestsListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let vehicleEntries = vehicleEntities
-        else {
+        guard let vehicleEntries = vehicleEntities else {
             return 0
         }
         return vehicleEntries.count
@@ -41,8 +64,7 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RequestListCell
-        guard let vehicle = vehicleEntities?[indexPath.row]
-        else {
+        guard let vehicle = vehicleEntities?[indexPath.row] else {
             return cell
         }
         let numberVehicle = vehicle.number
@@ -85,30 +107,6 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
         controller.vehiclePhotoList = vehicleEntryImages
         
         navigationController?.pushViewController(controller, animated: true)
-    }
-
-    // MARK: - Private interface
-    private func orientImage(_ image: UIImage?) -> UIImage? {
-        guard let image = image else {
-            return nil
-        }
-        let reverseImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
-        
-        return reverseImage
-    }
-}
-
-extension RequestsListViewController {
-    func fetchVehicleEntries() {
-        persistentStore.fetchVehicleEntries { (result) in
-            switch result {
-            case let .success(vehicleEntries):
-                self.vehicleEntities = vehicleEntries
-                self.tableView.reloadData()
-            case let .failure(error):
-                print("Error occured: \(error.localizedDescription)")
-            }
-        }
     }
 }
 

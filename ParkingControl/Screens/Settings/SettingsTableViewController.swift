@@ -11,7 +11,7 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBAction func logOutAction(_ sender: UIButton) {
         let manager = AuthorizationManager()
-        manager.logOutUser()
+        manager.logOut()
     }
     
     override func viewDidLoad() {

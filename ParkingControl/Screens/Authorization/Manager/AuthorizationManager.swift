@@ -8,29 +8,29 @@
 import UIKit
 
 class AuthorizationManager {
-    var delegate: LoginViewControllerDelegate?
     let key = AppSettings.isUserAuthorized.rawValue
-    let credentials = "test"
+    var delegate: LoginViewControllerDelegate?
     
-    func validationUser(loginTextField: String, passwordTextField: String) {
-        if loginTextField == credentials && passwordTextField == credentials {
-            UserDefaults.standard.setValue(true, forKey: key)
-            Switcher.updateRootViewController()
+    enum credentials: String {
+        case username, password
+    }
+    
+    func validateCredentials(loginValue: String, passwordValue: String) {
+        if loginValue == credentials.username.rawValue && passwordValue == credentials.password.rawValue {
+            logIn()
         } else {
             UserDefaults.standard.setValue(false, forKey: key)
-            guard let delegate = delegate else {
-                print("Invalid delegate method")
-                return
-            }
-            delegate.displayAlert(
-                title: "Ошибка авторизации",
-                message: "Неверное имя или пароль"
-            )
+            delegate?.displayAlert(title: "Ошибка авторизации", message: "Неверное имя или пароль")
             print("Invalid credentials")
         }
     }
     
-    func logOutUser() {
+    private func logIn() {
+        UserDefaults.standard.setValue(true, forKey: key)
+        Switcher.updateRootViewController()
+    }
+    
+    func logOut() {
         UserDefaults.standard.setValue(false, forKey: key)
         Switcher.updateRootViewController()
     }

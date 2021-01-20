@@ -23,6 +23,6 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate {
         }
         let manager = AuthorizationManager()
         manager.delegate = self
-        manager.validationUser(loginTextField: login, passwordTextField: password)
+        manager.validateCredentials(loginValue: login, passwordValue: password)
     }
 }
