@@ -7,21 +7,22 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+protocol LoginViewControllerDelegate {
+    func displayAlert(title: String, message: String)
+}
+
+class LoginViewController: UIViewController, LoginViewControllerDelegate {
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
     @IBAction func logInAction(_ sender: UIButton) {
-        if loginTextField.text == "test" && passwordTextField.text == "test" {
-            UserDefaults.standard.setValue(true, forKey: "status")
-            
-            Switcher.updateRootViewController()
-        } else {
-            UserDefaults.standard.setValue(false, forKey: "status")
-            displayAlert(title: "Ошибка авторизации",
-                         message: "Неверное имя или пароль")
-            
-            print("Invalid credentials")
+        guard let login = loginTextField.text,
+              let password = passwordTextField.text
+        else {
+            return
         }
+        let manager = AuthorizationManager()
+        manager.delegate = self
+        manager.validationUser(loginTextField: login, passwordTextField: password)
     }
 }

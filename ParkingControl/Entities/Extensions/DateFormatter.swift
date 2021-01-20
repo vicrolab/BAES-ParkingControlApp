@@ -13,6 +13,7 @@ extension DateFormatter {
         formatter.dateStyle = .medium
         formatter.timeStyle = .medium
         formatter.locale = Locale(identifier: "ru_RU")
+        
         return formatter
     }()
 }

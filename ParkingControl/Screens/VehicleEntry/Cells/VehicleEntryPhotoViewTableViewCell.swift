@@ -19,12 +19,12 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
             collectionView?.reloadData()
         }
     }
-    var selectedVehicle: NSManagedObject?
     var delegate: VehicleEntryViewControllerDelegate?
     
     // MARK: Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
+
         screenMode = .edit
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -34,11 +34,13 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    // MARK: Setup
-    // MARK: - Public interface
     // MARK: - Private interface
     private func tappedCamera() {
-        delegate?.tappedCamera()
+        guard let delegate = delegate else {
+            print("Delegate VehicleEntryPhotoViewTableViewCell error")
+            return
+        }
+        delegate.tappedCamera()
     }
 }
 
@@ -50,11 +52,7 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
         case .view:
             return vehiclePhotoList?.count ?? 0
         case .edit:
-            guard let vehiclePhotoList = vehiclePhotoList
-            else {
-                return 1
-            }
-            return vehiclePhotoList.count + 1
+            return (vehiclePhotoList?.count ?? 0) + 1
         default:
             return 0
         }
@@ -64,8 +62,7 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
         let identifier = "PhotoCell"
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
                                                       for: indexPath) as! VehicleEntryCollectionViewCell
-        guard let vehiclePhotoList = vehiclePhotoList
-        else {
+        guard let vehiclePhotoList = vehiclePhotoList else {
             return cell
         }
         
@@ -86,6 +83,7 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
                 
                 return cell
             }
+
             let photo = vehiclePhotoList[indexPath.item - 1]
             cell.imageView.image = photo
             cell.imageView.contentMode = .scaleToFill
@@ -101,8 +99,7 @@ extension VehicleEntryPhotoViewTableViewCell: UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch screenMode {
         case .edit:
-            guard indexPath.item == 0
-            else {
+            guard indexPath.item == 0 else {
                 return
             }
             let cell = collectionView.cellForItem(at: indexPath) as! VehicleEntryCollectionViewCell

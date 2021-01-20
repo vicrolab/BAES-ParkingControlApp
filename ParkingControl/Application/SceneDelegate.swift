@@ -55,7 +55,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let persistentStore = PersistentStore()
         persistentStore.commit()
     }
-
-
 }
 

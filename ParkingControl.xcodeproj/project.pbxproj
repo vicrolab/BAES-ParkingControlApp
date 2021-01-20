@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2098225525B3079E008E977F /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2098225425B3079E008E977F /* AppSettings.swift */; };
 		B80A27F225862D8C00F11206 /* RequestsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80A27F125862D8C00F11206 /* RequestsListViewController.swift */; };
 		B80A27FB2586344600F11206 /* RequestListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80A27FA2586344600F11206 /* RequestListCell.swift */; };
 		B81556B225B23B4B00029ED0 /* VehicleEntry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81556AE25B23B4B00029ED0 /* VehicleEntry+CoreDataClass.swift */; };
@@ -19,6 +20,7 @@
 		B85231E925AF38EE009E9CBE /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85231E825AF38EE009E9CBE /* DateFormatter.swift */; };
 		B85231EE25B03EF1009E9CBE /* CarInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85231ED25B03EF1009E9CBE /* CarInfoStore.swift */; };
 		B867CCE025AC7C5A00FB3396 /* VehicleEntryMapViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B867CCDF25AC7C5A00FB3396 /* VehicleEntryMapViewTableViewCell.swift */; };
+		B88D271025B5CF960088A6FC /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D270F25B5CF960088A6FC /* AuthorizationManager.swift */; };
 		B8996977259A45D4009108A6 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8996976259A45D4009108A6 /* UIViewController+Extensions.swift */; };
 		B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B53F5C257795F9008FD4E3 /* PickerView.swift */; };
 		B8DCD5E0257551590003B4D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5DF257551590003B4D6 /* AppDelegate.swift */; };
@@ -54,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2098225425B3079E008E977F /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		B80A27F125862D8C00F11206 /* RequestsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsListViewController.swift; sourceTree = "<group>"; };
 		B80A27FA2586344600F11206 /* RequestListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestListCell.swift; sourceTree = "<group>"; };
 		B81556AE25B23B4B00029ED0 /* VehicleEntry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VehicleEntry+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -66,6 +69,7 @@
 		B85231E825AF38EE009E9CBE /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		B85231ED25B03EF1009E9CBE /* CarInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoStore.swift; sourceTree = "<group>"; };
 		B867CCDF25AC7C5A00FB3396 /* VehicleEntryMapViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VehicleEntryMapViewTableViewCell.swift; path = ParkingControl/Screens/VehicleEntry/Cells/VehicleEntryMapViewTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		B88D270F25B5CF960088A6FC /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
 		B8996976259A45D4009108A6 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		B8B53F5C257795F9008FD4E3 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		B8DCD5DC257551590003B4D6 /* ParkingControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkingControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +118,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2098225325B30793008E977F /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				2098225425B3079E008E977F /* AppSettings.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		20AEE9932599D3500053041C /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +154,7 @@
 		20AEE99C2599D4FE0053041C /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				B88D270E25B5CF820088A6FC /* Manager */,
 				20AEE99D2599D50A0053041C /* Controllers */,
 			);
 			path = Authorization;
@@ -186,6 +199,14 @@
 				B85231ED25B03EF1009E9CBE /* CarInfoStore.swift */,
 			);
 			path = InfoStore;
+			sourceTree = "<group>";
+		};
+		B88D270E25B5CF820088A6FC /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B88D270F25B5CF960088A6FC /* AuthorizationManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		B8996975259A457D009108A6 /* Extensions */ = {
@@ -325,6 +346,7 @@
 		B8E09765257A63D000A380D9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				2098225325B30793008E977F /* Enums */,
 				B8996975259A457D009108A6 /* Extensions */,
 				B8E09766257A63DB00A380D9 /* Models */,
 				20AEE9932599D3500053041C /* Services */,
@@ -494,6 +516,7 @@
 				B8FAFCF12583B169005480C8 /* TabBarViewController.swift in Sources */,
 				B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */,
 				B85231EE25B03EF1009E9CBE /* CarInfoStore.swift in Sources */,
+				B88D271025B5CF960088A6FC /* AuthorizationManager.swift in Sources */,
 				B8996977259A45D4009108A6 /* UIViewController+Extensions.swift in Sources */,
 				B85231E925AF38EE009E9CBE /* DateFormatter.swift in Sources */,
 				B8DCD62125757FF50003B4D6 /* VehicleEntryViewController.swift in Sources */,
@@ -502,6 +525,7 @@
 				B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */,
 				B81556B325B23B4B00029ED0 /* VehicleEntry+CoreDataProperties.swift in Sources */,
 				B81556B425B23B4B00029ED0 /* VehicleEntryImage+CoreDataClass.swift in Sources */,
+				2098225525B3079E008E977F /* AppSettings.swift in Sources */,
 				B81556B225B23B4B00029ED0 /* VehicleEntry+CoreDataClass.swift in Sources */,
 				B8432D9B25792FD8008E8518 /* VehicleEntryPhotoViewTableViewCell.swift in Sources */,
 				B80A27FB2586344600F11206 /* RequestListCell.swift in Sources */,

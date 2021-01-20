@@ -11,31 +11,23 @@ import CoreData
 class RequestsListViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: Properties
-    let persistentStore = PersistentStore()
+    private let persistentStore = PersistentStore()
     
     var vehicleEntities: [VehicleEntry]?
     var selectedVehicle: NSManagedObject?
-    
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.rowHeight = 65
+        fetchVehicleEntries()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        persistentStore.fetchVehicleEntries { (result) in
-            switch result {
-            case let .success(vehicleEntries):
-                self.vehicleEntities = vehicleEntries
-                self.tableView.reloadData()
-            case let .failure(error):
-                print("Error occured: \(error.localizedDescription)")
-            }
-        }
+        fetchVehicleEntries()
     }
     
     // MARK: TableView
@@ -66,15 +58,12 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedVehicle = vehicleEntities?[indexPath.row]
+        guard let vehicle = vehicleEntities?[indexPath.row],
+              let vehicleEntryImageSet = vehicle.images
         else {
             return
         }
         
-        guard let vehicleEntryImageSet = selectedVehicle.images else {
-            return
-        }
-    
         let vehicleEntryImages = Array(vehicleEntryImageSet)
             .map { (object) -> VehicleEntryImage in
                 object as! VehicleEntryImage
@@ -90,22 +79,36 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "VehicleEntryViewController") as! VehicleEntryViewController
-        controller.selectedVehicle = selectedVehicle
+        
+        controller.vehicle = vehicle
         controller.screenMode = .view
         controller.vehiclePhotoList = vehicleEntryImages
         
         navigationController?.pushViewController(controller, animated: true)
     }
-}
 
-extension RequestsListViewController {
-    func orientImage(_ image: UIImage?) -> UIImage? {
+    // MARK: - Private interface
+    private func orientImage(_ image: UIImage?) -> UIImage? {
         guard let image = image else {
             return nil
         }
-
-        let reverseImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right )
+        let reverseImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
         
         return reverseImage
     }
 }
+
+extension RequestsListViewController {
+    func fetchVehicleEntries() {
+        persistentStore.fetchVehicleEntries { (result) in
+            switch result {
+            case let .success(vehicleEntries):
+                self.vehicleEntities = vehicleEntries
+                self.tableView.reloadData()
+            case let .failure(error):
+                print("Error occured: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+

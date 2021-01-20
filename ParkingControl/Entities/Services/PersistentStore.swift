@@ -17,6 +17,7 @@ class PersistentContainer {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+
         return container
     }()
 
@@ -58,10 +59,11 @@ class PersistentStore {
             let entity = NSEntityDescription.entity(forEntityName: "VehicleEntryImage", in: managedContext)!
             let image = NSManagedObject(entity: entity, insertInto: managedContext) as! VehicleEntryImage
             image.data = photo?.pngData()
-            guard let imageIndex = photoList.firstIndex(of: photo)
-            else {
+            
+            guard let imageIndex = photoList.firstIndex(of: photo) else {
                 return
             }
+
             let imageIndexInInt = Int16(imageIndex)
             image.position = imageIndexInInt
             vehicle.addToImages(image)
@@ -88,8 +90,7 @@ class PersistentStore {
     func commit() {
         let context = PersistentContainer.shared.viewContext
         
-        guard context.hasChanges else
-        {
+        guard context.hasChanges else {
             return
         }
 
