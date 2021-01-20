@@ -16,4 +16,8 @@ extension UIViewController {
         
         present(alert, animated: true)
     }
+    
+    func someFunc() {
+        
+    }
 }
