@@ -10,3 +10,8 @@ import Foundation
 enum AppSettings: String {
     case isUserAuthorized
 }
+
+enum Credentials: String {
+    case username, password
+}
+

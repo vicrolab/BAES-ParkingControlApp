@@ -11,12 +11,8 @@ class AuthorizationManager {
     let key = AppSettings.isUserAuthorized.rawValue
     var delegate: LoginViewControllerDelegate?
     
-    enum credentials: String {
-        case username, password
-    }
-    
     func validateCredentials(loginValue: String, passwordValue: String) {
-        if loginValue == credentials.username.rawValue && passwordValue == credentials.password.rawValue {
+        if loginValue == Credentials.username.rawValue && passwordValue == Credentials.password.rawValue {
             logIn()
         } else {
             UserDefaults.standard.setValue(false, forKey: key)
