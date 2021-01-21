@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AMPopTip
 
 protocol LoginViewControllerDelegate {
     func displayAlert(title: String, message: String)
@@ -25,4 +26,7 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate {
         manager.delegate = self
         manager.validateCredentials(loginValue: login, passwordValue: password)
     }
+    
+    let popTip = PopTip()
+
 }
