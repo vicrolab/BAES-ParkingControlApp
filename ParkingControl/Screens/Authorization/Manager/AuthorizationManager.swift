@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AMPopTip
 
 class AuthorizationManager {
     let key = AppSettings.isUserAuthorized.rawValue
@@ -16,6 +17,7 @@ class AuthorizationManager {
             logIn()
         } else {
             UserDefaults.standard.setValue(false, forKey: key)
+            delegate?.showPopTip(with: "Ошибка авторизации", frame: CGRect(x: 57, y: 186, width: 200, height: 10))
             delegate?.displayAlert(title: "Ошибка авторизации", message: "Неверное имя или пароль")
             print("Invalid credentials")
         }
@@ -30,4 +32,8 @@ class AuthorizationManager {
         UserDefaults.standard.setValue(false, forKey: key)
         Switcher.updateRootViewController()
     }
+
+    
+    
+
 }

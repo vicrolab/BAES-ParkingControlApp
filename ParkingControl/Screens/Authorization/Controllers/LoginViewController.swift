@@ -10,6 +10,7 @@ import AMPopTip
 
 protocol LoginViewControllerDelegate {
     func displayAlert(title: String, message: String)
+    func showPopTip(with text: String, frame: CGRect)
 }
 
 class LoginViewController: UIViewController, LoginViewControllerDelegate {
@@ -26,7 +27,15 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate {
         manager.delegate = self
         manager.validateCredentials(loginValue: login, passwordValue: password)
     }
-    
-    let popTip = PopTip()
+}
 
+extension LoginViewController {
+    func showPopTip(with text: String, frame: CGRect) {
+        let popTip = PopTip()
+        
+        popTip.shouldDismissOnTap = true
+        popTip.actionAnimation = .bounce(10)
+        
+        popTip.show(text: text, direction: .none, maxWidth: 200, in: view, from: frame)
+    }
 }
