@@ -7,9 +7,7 @@
 
 import UIKit
 
-protocol LoginViewControllerDelegate {
-    func displayAlert(title: String, message: String)
-}
+
 
 class LoginViewController: UIViewController, LoginViewControllerDelegate {
     @IBOutlet weak var loginTextField: UITextField!
