@@ -491,9 +491,6 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="Войти"/>
-                                <connections>
-                                    <action selector="logInAction:" destination="zXB-e4-YvX" eventType="touchUpInside" id="QhH-fL-fQT"/>
-                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hdk-O4-eyY"/>
@@ -507,10 +504,6 @@
                             <constraint firstItem="dxU-I1-Cw3" firstAttribute="centerX" secondItem="rhp-yP-7tS" secondAttribute="centerX" id="tVy-Cq-Afg"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="loginTextField" destination="NRH-C4-fEG" id="Rei-Ft-AdU"/>
-                        <outlet property="passwordTextField" destination="4q4-gE-n7p" id="aO2-gg-vYc"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKC-uf-pWn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
