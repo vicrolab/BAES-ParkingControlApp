@@ -142,8 +142,6 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         manager.delegate = self
         manager.validateCredentials(loginValue: login, passwordValue: password)
     }
-    
-    // MARK: Properties
     // MARK: Lifecycle
     
     override func viewDidLoad() {
@@ -162,7 +160,6 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
     }
-    // MARK: - Public interface
     // MARK: - Private interface
     
     private func overlayFirstLayer() {
@@ -227,26 +224,5 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         stackView.addArrangedSubview(loginStackView)
         stackView.addArrangedSubview(passwordStackView)
     }
-    
-    
-    
-
-    
-    
-    
-    
-//    @IBOutlet weak var loginTextField: UITextField!
-//    @IBOutlet weak var passwordTextField: UITextField!
-//
-//    @IBAction func logInAction(_ sender: UIButton) {
-//        guard let login = loginTextField.text,
-//              let password = passwordTextField.text
-//        else {
-//            return
-//        }
-//        let manager = AuthorizationManager()
-//        manager.delegate = self
-//        manager.validateCredentials(loginValue: login, passwordValue: password)
-//    }
 }
 
