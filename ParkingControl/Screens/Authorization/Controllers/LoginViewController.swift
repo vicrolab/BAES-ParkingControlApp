@@ -11,12 +11,6 @@ protocol LoginViewControllerDelegate {
     func displayAlert(title: String, message: String)
 }
 
-struct Constants {
-    static let labelHeight: CGFloat = 13
-    static let labelWidth: CGFloat = 39
-    static let textFieldHeight: CGFloat = 34
-}
-
 class LoginViewController: UIViewController, LoginViewControllerDelegate, UITextFieldDelegate {
     
     // MARK: Outlets
@@ -143,9 +137,8 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         manager.validateCredentials(loginValue: login, passwordValue: password)
     }
     // MARK: Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         
         overlayFirstLayer()
         overlaySecondLayer()
