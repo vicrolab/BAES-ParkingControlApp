@@ -20,6 +20,7 @@
 		B8432D9B25792FD8008E8518 /* VehicleEntryPhotoViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8432D9A25792FD8008E8518 /* VehicleEntryPhotoViewTableViewCell.swift */; };
 		B84759CF25FA3C3F002143B9 /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84759CE25FA3C3F002143B9 /* LoginViewControllerDelegate.swift */; };
 		B84759D725FA560E002143B9 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84759D625FA560E002143B9 /* Builder.swift */; };
+		B84759DC25FA5850002143B9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84759DB25FA5850002143B9 /* LoginViewController.swift */; };
 		B851112125923B47006C4506 /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851112025923B47006C4506 /* PersistentStore.swift */; };
 		B85231E925AF38EE009E9CBE /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85231E825AF38EE009E9CBE /* DateFormatter.swift */; };
 		B85231EE25B03EF1009E9CBE /* CarInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85231ED25B03EF1009E9CBE /* CarInfoStore.swift */; };
@@ -38,7 +39,7 @@
 		B8DCD5FA2575515C0003B4D6 /* ParkingControlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD5F92575515C0003B4D6 /* ParkingControlTests.swift */; };
 		B8DCD6052575515C0003B4D6 /* ParkingControlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD6042575515C0003B4D6 /* ParkingControlUITests.swift */; };
 		B8DCD62125757FF50003B4D6 /* VehicleEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCD62025757FF50003B4D6 /* VehicleEntryViewController.swift */; };
-		B8FAFCD52583A56D005480C8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCD42583A56D005480C8 /* LoginViewController.swift */; };
+		B8FAFCD52583A56D005480C8 /* LoginViewControllerAutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCD42583A56D005480C8 /* LoginViewControllerAutoLayout.swift */; };
 		B8FAFCDA2583A62E005480C8 /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCD92583A62E005480C8 /* Switcher.swift */; };
 		B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCEB2583ADC1005480C8 /* SettingsTableViewController.swift */; };
 		B8FAFCF12583B169005480C8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FAFCF02583B169005480C8 /* TabBarViewController.swift */; };
@@ -80,6 +81,7 @@
 		B8432D9A25792FD8008E8518 /* VehicleEntryPhotoViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEntryPhotoViewTableViewCell.swift; sourceTree = "<group>"; };
 		B84759CE25FA3C3F002143B9 /* LoginViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerDelegate.swift; sourceTree = "<group>"; };
 		B84759D625FA560E002143B9 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		B84759DB25FA5850002143B9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B851112025923B47006C4506 /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 		B85231E825AF38EE009E9CBE /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		B85231ED25B03EF1009E9CBE /* CarInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoStore.swift; sourceTree = "<group>"; };
@@ -104,7 +106,7 @@
 		B8DCD6042575515C0003B4D6 /* ParkingControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingControlUITests.swift; sourceTree = "<group>"; };
 		B8DCD6062575515C0003B4D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8DCD62025757FF50003B4D6 /* VehicleEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEntryViewController.swift; sourceTree = "<group>"; };
-		B8FAFCD42583A56D005480C8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B8FAFCD42583A56D005480C8 /* LoginViewControllerAutoLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewControllerAutoLayout.swift; sourceTree = "<group>"; };
 		B8FAFCD92583A62E005480C8 /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 		B8FAFCEB2583ADC1005480C8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		B8FAFCF02583B169005480C8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -199,11 +201,12 @@
 		20AEE99D2599D50A0053041C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B8FAFCD42583A56D005480C8 /* LoginViewController.swift */,
-				B86A767825FA167800E389E3 /* LoginViewControllerPureLayout.swift */,
-				B84759CE25FA3C3F002143B9 /* LoginViewControllerDelegate.swift */,
-				B86A767325FA156700E389E3 /* Constants.swift */,
 				B84759D625FA560E002143B9 /* Builder.swift */,
+				B86A767325FA156700E389E3 /* Constants.swift */,
+				B84759DB25FA5850002143B9 /* LoginViewController.swift */,
+				B8FAFCD42583A56D005480C8 /* LoginViewControllerAutoLayout.swift */,
+				B84759CE25FA3C3F002143B9 /* LoginViewControllerDelegate.swift */,
+				B86A767825FA167800E389E3 /* LoginViewControllerPureLayout.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -678,11 +681,12 @@
 				B8FAFCEC2583ADC1005480C8 /* SettingsTableViewController.swift in Sources */,
 				B85231EE25B03EF1009E9CBE /* CarInfoStore.swift in Sources */,
 				B88D271025B5CF960088A6FC /* AuthorizationManager.swift in Sources */,
+				B84759DC25FA5850002143B9 /* LoginViewController.swift in Sources */,
 				B8996977259A45D4009108A6 /* UIViewController+Extensions.swift in Sources */,
 				B85231E925AF38EE009E9CBE /* DateFormatter.swift in Sources */,
 				B8DCD62125757FF50003B4D6 /* VehicleEntryViewController.swift in Sources */,
 				B851112125923B47006C4506 /* PersistentStore.swift in Sources */,
-				B8FAFCD52583A56D005480C8 /* LoginViewController.swift in Sources */,
+				B8FAFCD52583A56D005480C8 /* LoginViewControllerAutoLayout.swift in Sources */,
 				B8B53F5D257795F9008FD4E3 /* PickerView.swift in Sources */,
 				B81556B325B23B4B00029ED0 /* VehicleEntry+CoreDataProperties.swift in Sources */,
 				B81556B425B23B4B00029ED0 /* VehicleEntryImage+CoreDataClass.swift in Sources */,

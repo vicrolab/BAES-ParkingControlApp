@@ -58,6 +58,7 @@ protocol BuilderProtocol {
     func createLabel(text: String) -> UILabel
     func createHeader() -> UILabel
     func createButton() -> UIButton
+    func createSegmentedControl() -> UISegmentedControl
 }
 
 class Builder: BuilderProtocol {
@@ -65,7 +66,7 @@ class Builder: BuilderProtocol {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.spacing = 20
+        stackView.spacing = 30
         stackView.alignment = .leading
         stackView.contentMode = .scaleToFill
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,6 +89,7 @@ class Builder: BuilderProtocol {
     func createTextField(placeholder: String) -> UITextField {
         let textField = UITextField()
         textField.placeholder = placeholder
+        textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocorrectionType = .no
         textField.keyboardType = .default
@@ -101,6 +103,7 @@ class Builder: BuilderProtocol {
     func createLabel(text: String) -> UILabel {
         let label = UILabel()
         label.font = UIFont(name: "Apple Symbols", size: 14)
+        label.textColor = .secondaryLabel
         label.numberOfLines = 0
         label.text = text
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -121,9 +124,18 @@ class Builder: BuilderProtocol {
         let button = UIButton()
         button.setTitle("Войти", for: .normal)
         button.setTitleColor(.link, for: .normal)
-        button.addTarget(self, action: #selector(LoginViewController.logInButton(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
+    }
+    
+    func createSegmentedControl() -> UISegmentedControl {
+        let items = ["Storyboard", "AutoLayout", "PureLayout"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.layer.cornerRadius = 5.0
+        segmentedControl.backgroundColor = #colorLiteral(red: 0.02135290019, green: 0.4575462937, blue: 1, alpha: 1)
+        
+        return segmentedControl
     }
 }

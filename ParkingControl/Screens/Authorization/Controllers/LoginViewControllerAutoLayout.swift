@@ -1,20 +1,19 @@
 //
-//  LoginViewControllerPureLayout.swift
+//  LoginViewControllerAutoLayout.swift
 //  ParkingControl
 //
-//  Created by Mikalaj Shuhno on 11.03.21.
+//  Created by Mikalaj Shuhno on 11.12.20.
 //
 
 import UIKit
-import PureLayout
 
-class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, LoginViewControllerDelegate {
-
+class LoginViewControllerAutoLayout: UIViewController, LoginViewControllerDelegate, UITextFieldDelegate {
+    
     // MARK: Outlets
     private lazy var builder = Builder()
     private lazy var firstView: UIView = {
         let view = UIView()
-//        view.backgroundColor = .green
+//        view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -33,7 +32,6 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
     private lazy var loginTextField: UITextField = {
         let textfield = builder.createTextField(placeholder: "Введите логин")
         textfield.delegate = self
-        
         return textfield
     }()
     
@@ -45,7 +43,6 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
     private lazy var passwordTextField: UITextField = {
         let textfield = builder.createTextField(placeholder: "Введите пароль")
         textfield.delegate = self
-        
         return textfield
     }()
     
@@ -66,18 +63,17 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
     
     private lazy var button: UIButton = {
         let button = builder.createButton()
-        button.addTarget(self, action: #selector(logInButton(_:)), for: .touchUpInside)
-        
         return button
     }()
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = builder.createSegmentedControl()
-        segmentedControl.selectedSegmentIndex = 2
+        segmentedControl.selectedSegmentIndex = 1
         segmentedControl.addTarget(self, action: #selector(changeLayout(sender:)), for: .valueChanged)
         
         return segmentedControl
     }()
+    
     
     // MARK: Actions
     @objc func logInButton(_ sender: UIButton!) {
@@ -90,10 +86,7 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
         manager.delegate = self
         manager.validateCredentials(loginValue: login, passwordValue: password)
     }
-    
-    // MARK: Properties
     // MARK: Lifecycle
-    
     override func loadView() {
         super.loadView()
         
@@ -103,10 +96,10 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupUI()
     }
-    // MARK: TableView
+    
     // MARK: Setup
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -118,6 +111,7 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
     }
     
     // MARK: - Public interface
+    
     @objc func changeLayout(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -139,10 +133,12 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
     private func overlayFirstLayer() {
         self.view.addSubview(firstView)
         
-        firstView.autoPinEdge(toSuperviewSafeArea: .top)
-        firstView.autoPinEdge(toSuperviewSafeArea: .bottom)
-        firstView.autoPinEdge(toSuperviewSafeArea: .leading)
-        firstView.autoPinEdge(toSuperviewSafeArea: .trailing)
+        NSLayoutConstraint.activate([
+            firstView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            firstView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            firstView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            firstView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
     
     private func overlaySecondLayer() {
@@ -152,37 +148,42 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
         firstView.addSubview(stackView)
         firstView.addSubview(button)
         
-        header.autoAlignAxis(.vertical, toSameAxisOf: firstView)
-        header.autoPinEdge(.top, to: .top, of: firstView, withOffset: 66)
-        segmentedControl.autoPinEdge(.top, to: .bottom, of: header, withOffset: 10)
-        segmentedControl.autoAlignAxis(.vertical, toSameAxisOf: firstView)
-        stackView.autoAlignAxis(.vertical, toSameAxisOf: firstView)
-        stackView.autoPinEdge(.top, to: .bottom, of: segmentedControl, withOffset: 40)
-        button.autoPinEdge(.top, to: .bottom, of: stackView, withOffset: 62)
-        button.autoAlignAxis(.vertical, toSameAxisOf: firstView)
-        button.autoSetDimension(.height, toSize: Constants.buttonHeight)
-        button.autoSetDimension(.width, toSize: Constants.buttonWidth)
-        
+        NSLayoutConstraint.activate([
+            header.topAnchor.constraint(equalTo: firstView.topAnchor, constant: 66),
+            header.centerXAnchor.constraint(equalTo: firstView.centerXAnchor),
+            segmentedControl.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 10),
+            segmentedControl.centerXAnchor.constraint(equalTo: firstView.centerXAnchor),
+            stackView.centerXAnchor.constraint(equalTo: segmentedControl.centerXAnchor),
+            stackView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 40),
+            button.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 62),
+            button.centerXAnchor.constraint(equalTo: firstView.centerXAnchor),
+            button.heightAnchor.constraint(equalToConstant: Constants.buttonHeight),
+            button.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.buttonWidth)
+        ])
     }
     
-    private func overlayLoginStackView(){
+    private func overlayLoginStackView() {
         loginStackView.addArrangedSubview(loginLabel)
         loginStackView.addArrangedSubview(loginTextField)
         
-        loginLabel.autoSetDimension(.height, toSize: Constants.labelHeight)
-        loginLabel.autoSetDimension(.width, toSize: Constants.labelWidth)
-        loginTextField.autoSetDimension(.height, toSize: Constants.textFieldHeight)
-        loginTextField.autoSetDimension(.width, toSize: Constants.textFieldWidth)
+        NSLayoutConstraint.activate([
+            loginLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
+            loginLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelWidth),
+            loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            loginTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.textFieldWidth)
+        ])
     }
     
     private func overlayPasswordStackView() {
         passwordStackView.addArrangedSubview(passwordLabel)
         passwordStackView.addArrangedSubview(passwordTextField)
         
-        passwordLabel.autoSetDimension(.height, toSize: Constants.labelHeight)
-        passwordLabel.autoSetDimension(.width, toSize: Constants.labelWidth, relation: .greaterThanOrEqual)
-        passwordTextField.autoSetDimension(.height, toSize: Constants.textFieldHeight)
-        passwordTextField.autoSetDimension(.width, toSize: Constants.textFieldWidth)
+        NSLayoutConstraint.activate([
+            passwordLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
+            passwordLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelWidth),
+            passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
+            passwordTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.textFieldWidth)
+        ])
     }
     
     private func overlayStackView() {
@@ -193,3 +194,4 @@ class LoginViewControllerPureLayout: UIViewController, UITextFieldDelegate, Logi
         stackView.addArrangedSubview(passwordStackView)
     }
 }
+

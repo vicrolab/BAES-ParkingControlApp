@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -430,8 +431,32 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fPe-NA-Rym">
+                                <rect key="frame" x="72.5" y="156" width="269" height="32"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <segments>
+                                    <segment title="Storyboard"/>
+                                    <segment title="AutoLayout"/>
+                                    <segment title="PureLayout"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControlAction:" destination="zXB-e4-YvX" eventType="valueChanged" id="SgJ-H4-oTV"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LuS-qm-PZE">
+                                <rect key="frame" x="80" y="421" width="254" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="254" id="0hr-qj-V2q"/>
+                                    <constraint firstAttribute="height" constant="44" id="yZ8-bl-y30"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Войти"/>
+                                <connections>
+                                    <action selector="logInAction:" destination="zXB-e4-YvX" eventType="touchUpInside" id="JII-Y0-CRC"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="dxU-I1-Cw3">
-                                <rect key="frame" x="57" y="186" width="300" height="132"/>
+                                <rect key="frame" x="57" y="227" width="300" height="132"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="llZ-6l-jVP">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="51"/>
@@ -483,27 +508,26 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LuS-qm-PZE">
-                                <rect key="frame" x="80" y="380" width="254" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="254" id="0hr-qj-V2q"/>
-                                    <constraint firstAttribute="height" constant="44" id="yZ8-bl-y30"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <state key="normal" title="Войти"/>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hdk-O4-eyY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="fPe-NA-Rym" firstAttribute="centerX" secondItem="hdk-O4-eyY" secondAttribute="centerX" id="8Kd-Aq-cxk"/>
                             <constraint firstItem="GAj-lc-iV7" firstAttribute="centerX" secondItem="rhp-yP-7tS" secondAttribute="centerX" id="AEK-TA-IYS"/>
                             <constraint firstItem="LuS-qm-PZE" firstAttribute="top" secondItem="dxU-I1-Cw3" secondAttribute="bottom" constant="62" id="NW3-ot-Tgl"/>
                             <constraint firstItem="GAj-lc-iV7" firstAttribute="top" secondItem="hdk-O4-eyY" secondAttribute="top" constant="66" id="Nh9-Dh-tsN"/>
-                            <constraint firstItem="dxU-I1-Cw3" firstAttribute="top" secondItem="GAj-lc-iV7" secondAttribute="bottom" constant="40" id="ill-ar-LX9"/>
+                            <constraint firstItem="fPe-NA-Rym" firstAttribute="top" secondItem="GAj-lc-iV7" secondAttribute="bottom" constant="10" id="TWv-rE-nin"/>
+                            <constraint firstItem="dxU-I1-Cw3" firstAttribute="top" secondItem="fPe-NA-Rym" secondAttribute="bottom" constant="40" id="ZED-9u-te8"/>
                             <constraint firstItem="LuS-qm-PZE" firstAttribute="centerX" secondItem="rhp-yP-7tS" secondAttribute="centerX" id="nkv-71-wN6"/>
                             <constraint firstItem="dxU-I1-Cw3" firstAttribute="centerX" secondItem="rhp-yP-7tS" secondAttribute="centerX" id="tVy-Cq-Afg"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="header" destination="GAj-lc-iV7" id="mjt-8V-9Lb"/>
+                        <outlet property="loginTextField" destination="NRH-C4-fEG" id="QP6-e5-DeH"/>
+                        <outlet property="passwordTextField" destination="4q4-gE-n7p" id="q5V-iD-6Pf"/>
+                        <outlet property="segmentedControl" destination="fPe-NA-Rym" id="Qu3-Hu-YHh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKC-uf-pWn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -572,6 +596,9 @@
         <image name="chevron.right.circle.fill" catalog="system" width="128" height="121"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

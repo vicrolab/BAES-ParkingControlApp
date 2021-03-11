@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         window = UIWindow(windowScene: windowScene)
         window?.overrideUserInterfaceStyle = .light
-        window?.rootViewController = LoginViewController()
+        window?.rootViewController = LoginViewControllerAutoLayout()
         window?.makeKeyAndVisible()
         Switcher.updateRootViewController()
     }
