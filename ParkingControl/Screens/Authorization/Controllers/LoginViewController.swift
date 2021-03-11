@@ -7,13 +7,10 @@
 
 import UIKit
 
-protocol LoginViewControllerDelegate {
-    func displayAlert(title: String, message: String)
-}
-
 class LoginViewController: UIViewController, LoginViewControllerDelegate, UITextFieldDelegate {
     
     // MARK: Outlets
+    private lazy var builder = Builder()
     private lazy var firstView: UIView = {
         let view = UIView()
         view.backgroundColor = .red
@@ -22,105 +19,50 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         return view
     }()
     
-    private lazy var stackView: UIStackView! = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 20
-        stackView.alignment = .leading
-        stackView.contentMode = .scaleToFill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+    private lazy var header: UILabel = {
+        let label = builder.createHeader()
+        return label
+    }()
+    
+    private lazy var loginLabel: UILabel = {
+        let label = builder.createLabel(text: "Логин")
+        return label
+    }()
+    
+    private lazy var loginTextField: UITextField = {
+        let textfield = builder.createTextField(placeholder: "Введите логин")
+        textfield.delegate = self
+        return textfield
+    }()
+    
+    private lazy var passwordLabel: UILabel = {
+        let label = builder.createLabel(text: "Пароль")
+        return label
+    }()
+    
+    private lazy var passwordTextField: UITextField = {
+        let textfield = builder.createTextField(placeholder: "Введите пароль")
+        textfield.delegate = self
+        return textfield
+    }()
+    
+    private lazy var loginStackView: UIStackView = {
+        let stackView = builder.createStackView()
         return stackView
     }()
     
-    private lazy var loginStackView: UIStackView! = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 4
-        stackView.alignment = .leading
-        stackView.contentMode = .scaleToFill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+    private lazy var passwordStackView: UIStackView = {
+        let stackView = builder.createStackView()
         return stackView
     }()
     
-    private lazy var passwordStackView: UIStackView! = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 4
-        stackView.alignment = .leading
-        stackView.contentMode = .scaleToFill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+    private lazy var stackView: UIStackView = {
+        let stackView = builder.createCommonStackView()
         return stackView
     }()
     
-    private lazy var loginTextField: UITextField! = {
-        let textField = UITextField()
-        textField.placeholder = "Введите логин"
-        textField.borderStyle = .roundedRect
-        textField.autocorrectionType = .no
-        textField.keyboardType = .default
-        textField.returnKeyType = .done
-        textField.clearButtonMode = .whileEditing
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-
-        return textField
-    }()
-
-    private lazy var loginLabel: UILabel! = {
-        let label = UILabel()
-        label.font = UIFont(name: "Apple Symbols", size: 14)
-        label.numberOfLines = 0
-        label.text = "Логин"
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    private lazy var passwordTextField: UITextField! = {
-        let textField = UITextField()
-        textField.placeholder = "Введите пароль"
-        textField.borderStyle = .roundedRect
-        textField.keyboardType = .default
-        textField.isSecureTextEntry = true
-        textField.returnKeyType = .done
-        textField.clearButtonMode = .whileEditing
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-
-        return textField
-    }()
-
-    private lazy var passwordLabel: UILabel! = {
-        let label = UILabel()
-        label.font = UIFont(name: "Apple Symbols", size: 14)
-        label.text = "Пароль"
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    private lazy var header: UILabel! = {
-        let label = UILabel()
-        label.font = UIFont(name: "Apple SD Gothic Neo Regular", size: 30)
-        label.text = "Parkouka.by"
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-
-    private lazy var button: UIButton! = {
-        let button = UIButton()
-        button.setTitle("Войти", for: .normal)
-        button.setTitleColor(.link, for: .normal)
-        button.addTarget(self, action: #selector(LoginViewController.logInButton(_:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
+    private lazy var button: UIButton = {
+        let button = builder.createButton()
         return button
     }()
     
@@ -144,6 +86,12 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         overlaySecondLayer()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+    }
+    
     // MARK: Setup
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -154,6 +102,10 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
         textField.autocorrectionType = .no
     }
     // MARK: - Private interface
+    
+    private func setupUI() {
+        self.view.backgroundColor = .white
+    }
     
     private func overlayFirstLayer() {
         self.view.addSubview(firstView)
@@ -179,8 +131,8 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
             stackView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 40),
             button.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 62),
             button.centerXAnchor.constraint(equalTo: firstView.centerXAnchor),
-            button.heightAnchor.constraint(equalToConstant: 44),
-            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 254)
+            button.heightAnchor.constraint(equalToConstant: Constants.buttonHeight),
+            button.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.buttonWidth)
         ])
     }
     
@@ -192,10 +144,8 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
             loginLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             loginLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelWidth),
             loginTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-            loginTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 300)
+            loginTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.textFieldWidth)
         ])
-        
-        
     }
     
     private func overlayPasswordStackView() {
@@ -206,7 +156,7 @@ class LoginViewController: UIViewController, LoginViewControllerDelegate, UIText
             passwordLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             passwordLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.labelWidth),
             passwordTextField.heightAnchor.constraint(equalToConstant: Constants.textFieldHeight),
-            passwordTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 300)
+            passwordTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: Constants.textFieldWidth)
         ])
     }
     

@@ -15,6 +15,10 @@ class Switcher {
         let appWindow = UIApplication.shared.windows.first
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        
+        let loginViewControllerPureLayout = LoginViewControllerPureLayout()
+        let loginViewController = LoginViewController()
+        
         print(isUserAuthorized)
 
         guard let window = appWindow else {
@@ -23,7 +27,8 @@ class Switcher {
         if isUserAuthorized {
             rootViewController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
         } else {
-            rootViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+//            rootViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+            rootViewController = loginViewController
         }
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
