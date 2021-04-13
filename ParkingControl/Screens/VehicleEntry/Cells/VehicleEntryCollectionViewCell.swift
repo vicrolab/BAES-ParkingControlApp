@@ -14,7 +14,7 @@ class VehicleEntryCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        self.backgroundColor = .clear
-        self.imageView.image = .remove
+        backgroundColor = .clear
+        imageView.image = .remove
     }
 }

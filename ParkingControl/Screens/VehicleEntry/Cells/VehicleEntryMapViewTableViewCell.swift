@@ -17,7 +17,7 @@ class VehicleEntryMapViewTableViewCell: UITableViewCell {
     // MARK: Properties
     var screenMode: VehicleEntryViewController.ScreenMode?
     var locationManager: CLLocationManager?
-    var delegate: VehicleEntryViewControllerDelegate?
+    weak var delegate: VehicleEntryViewControllerDelegate?
     var vehicle: VehicleEntry? {
         didSet {
             setupMapView()

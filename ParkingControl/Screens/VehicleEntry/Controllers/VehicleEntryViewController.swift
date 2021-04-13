@@ -10,7 +10,7 @@ import MapKit
 import CoreData
 import CoreLocation
 
-protocol VehicleEntryViewControllerDelegate {
+protocol VehicleEntryViewControllerDelegate: AnyObject {
     func tappedCamera()
     func displayAlert(title: String, message: String)
 }

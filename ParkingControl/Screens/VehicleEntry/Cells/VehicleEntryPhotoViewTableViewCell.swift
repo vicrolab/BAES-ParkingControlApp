@@ -19,7 +19,7 @@ class VehicleEntryPhotoViewTableViewCell: UITableViewCell {
             collectionView?.reloadData()
         }
     }
-    var delegate: VehicleEntryViewControllerDelegate?
+    weak var delegate: VehicleEntryViewControllerDelegate?
     
     // MARK: Lifecycle
     override func awakeFromNib() {
