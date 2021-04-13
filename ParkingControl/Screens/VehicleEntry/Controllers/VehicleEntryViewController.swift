@@ -100,6 +100,7 @@ class VehicleEntryViewController: UITableViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         
         view.endEditing(true)
+        print("vehicle entry view controller disappear")
     }
     
     // MARK: TableView

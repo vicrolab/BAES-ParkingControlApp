@@ -16,7 +16,7 @@ class VehicleEntryMapViewTableViewCell: UITableViewCell {
     
     // MARK: Properties
     var screenMode: VehicleEntryViewController.ScreenMode?
-    var locationManager = CLLocationManager()
+    var locationManager: CLLocationManager?
     var delegate: VehicleEntryViewControllerDelegate?
     var vehicle: VehicleEntry? {
         didSet {
@@ -27,6 +27,7 @@ class VehicleEntryMapViewTableViewCell: UITableViewCell {
     // MARK: Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         screenMode = .edit
         mapView.delegate = self
         setupMapView()
@@ -48,6 +49,10 @@ class VehicleEntryMapViewTableViewCell: UITableViewCell {
 extension VehicleEntryMapViewTableViewCell: MKMapViewDelegate, CLLocationManagerDelegate {
     
     private func setupMapView() {
+        locationManager = CLLocationManager()
+        guard let locationManager = locationManager else {
+            return
+        }
         mapView.delegate = self
         mapView.mapType = .standard
         mapView.isZoomEnabled = true
@@ -94,6 +99,9 @@ extension VehicleEntryMapViewTableViewCell: MKMapViewDelegate, CLLocationManager
     }
     
     private func checkAuthorizationStatus() {
+        guard let locationManager = locationManager else {
+            return
+        }
         switch locationManager.authorizationStatus {
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true

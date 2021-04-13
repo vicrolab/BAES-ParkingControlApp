@@ -10,9 +10,6 @@ import UIKit
 class VehicleEntryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 
     override func prepareForReuse() {
         super.prepareForReuse()

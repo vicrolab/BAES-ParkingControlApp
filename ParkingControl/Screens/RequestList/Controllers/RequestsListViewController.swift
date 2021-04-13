@@ -42,11 +42,11 @@ class RequestsListViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - Public interface
     func fetchVehicleEntries() {
-        persistentStore.fetchVehicleEntries { (result) in
+        persistentStore.fetchVehicleEntries { [weak self] (result) in
             switch result {
             case let .success(vehicleEntries):
-                self.vehicleEntities = vehicleEntries
-                self.tableView.reloadData()
+                self?.vehicleEntities = vehicleEntries
+                self?.tableView.reloadData()
             case let .failure(error):
                 print("Error occured: \(error.localizedDescription)")
             }
